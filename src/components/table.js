@@ -20,6 +20,17 @@ const useStyles = makeStyles((theme) => ({
     button: {
         margin: "0.5rem 0",
         color: theme.palette.common.white
+    },
+    kgCell: {
+        [theme.breakpoints.down('sm')]: {
+            maxWidth: "2.8rem",
+            fontSize: "0.8rem"
+        }
+    },
+    item: {
+        [theme.breakpoints.down('sm')]: {
+            maxWidth: "4rem",
+        }
     }   
 }));
 
@@ -68,8 +79,8 @@ const MyTable = () => {
                 <Table className={classes.table} aria-label="customized table">
                     <TableHead>
                         <TableRow>
-                            <StyledTableCell>Frutas y verduras</StyledTableCell>
-                            <StyledTableCell align="right">Precio x Kg</StyledTableCell>
+                            <StyledTableCell className={classes.item}>Frutas y verduras</StyledTableCell>
+                            <StyledTableCell align="right" className={classes.kgCell}>Precio x Kg</StyledTableCell>
                             <StyledTableCell align="right">Unidades</StyledTableCell>
                             <StyledTableCell align="right">Kg</StyledTableCell>
                         </TableRow>
@@ -77,10 +88,10 @@ const MyTable = () => {
                     <TableBody>
                         {listItem.map((item, index) => (
                             <StyledTableRow key={item.name}>
-                                <StyledTableCell component="th" scope="row">
+                                <StyledTableCell component="th" scope="row" className={classes.item}>
                                     {item.name}
                                 </StyledTableCell>
-                                <StyledTableCell align="right">$ {item.price}</StyledTableCell>
+                                <StyledTableCell align="right" className={classes.kgCell}>$ {item.price}</StyledTableCell>
                                 <StyledTableCell align="right"><TextField placeholder={"0"} name='units' disabled={listItem[index].kg > 0} className={classes.input} onChange={(e) => handleChange(e, item)} /></StyledTableCell>
                                 <StyledTableCell align="right"><TextField placeholder={"0"} name='kg' disabled={listItem[index].units > 0} className={classes.input} onChange={(e) => handleChange(e, item)} /></StyledTableCell>
                             </StyledTableRow>
@@ -88,7 +99,7 @@ const MyTable = () => {
                     </TableBody>
                 </Table>
             </TableContainer>
-            <Button fullWidth variant="contained" color="primary" className={classes.button} onClick={onSubmit}>Guardar en el carrito</Button>
+            <Button fullWidth variant="contained" color="primary" className={classes.button} onClick={onSubmit}>Agregar al carrito</Button>
             </div>
         </>
     );

@@ -1,4 +1,4 @@
-import { useContext, useState, useEffect } from "react";
+import { useContext, useState } from "react";
 import { ListItemContext } from "../context/listItemContext";
 
 const useListItem = () => {
@@ -8,10 +8,6 @@ const useListItem = () => {
     priceList.map(item => listItemInit.push({...item, units: 0, kg: 0}))
 
     const [ listItem, setListItems ] = useState(listItemInit);
-    
-    useEffect(() => {
-        console.log(listItem)
-    }, [listItem])
 
     return {
         priceList,
