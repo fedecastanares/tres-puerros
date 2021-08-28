@@ -66,29 +66,31 @@ const MyTable = () => {
     return (
         <>
         <div  className="animate__animated animate__fadeIn">
-            <TableContainer component={Paper}>
-                <Table className={classes.table} aria-label="customized table">
-                    <TableHead>
-                        <TableRow>
-                            <StyledTableCell className={classes.item}>Frutas y verduras</StyledTableCell>
-                            <StyledTableCell className={classes.smallCell} >Unidades</StyledTableCell>
-                            <StyledTableCell className={classes.smallCell}>Kg</StyledTableCell>
-                        </TableRow>
-                    </TableHead>
-                    <TableBody>
-                        {listItem.map((item, index) => (
-                            <StyledTableRow key={item.name}>
-                                <StyledTableCell component="th" scope="row" className={classes.item}>
-                                    {item.name} $ {item.price} <span className={classes.kgCell}>kg</span>
-                                </StyledTableCell>
-                                <StyledTableCell className={classes.smallCell} ><TextField placeholder={"0"} type='number' name='units' disabled={listItem[index].kg > 0} className={classes.input} onChange={(e) => handleChange(e, item)} /></StyledTableCell>
-                                <StyledTableCell className={classes.smallCell} ><TextField placeholder={"0"} type='number' name='kg' disabled={listItem[index].units > 0} className={classes.input} onChange={(e) => handleChange(e, item)} /></StyledTableCell>
-                            </StyledTableRow>
-                        ))}
-                    </TableBody>
-                </Table>
-            </TableContainer>
-            <Button fullWidth variant="contained" color="primary" className={classes.button} onClick={onSubmit}>Agregar al carrito</Button>
+            <form noValidate onSubmit={onSubmit}>
+                <TableContainer component={Paper}>
+                    <Table className={classes.table} aria-label="customized table">
+                        <TableHead>
+                            <TableRow>
+                                <StyledTableCell className={classes.item}>Frutas y verduras</StyledTableCell>
+                                <StyledTableCell className={classes.smallCell} >Unidades</StyledTableCell>
+                                <StyledTableCell className={classes.smallCell}>Kg</StyledTableCell>
+                            </TableRow>
+                        </TableHead>
+                        <TableBody>
+                            {listItem.map((item, index) => (
+                                <StyledTableRow key={item.name}>
+                                    <StyledTableCell component="th" scope="row" className={classes.item}>
+                                        {item.name} $ {item.price} <span className={classes.kgCell}>kg</span>
+                                    </StyledTableCell>
+                                    <StyledTableCell className={classes.smallCell} ><TextField placeholder={"0"} type='number' name='units' disabled={listItem[index].kg > 0} className={classes.input} onChange={(e) => handleChange(e, item)} /></StyledTableCell>
+                                    <StyledTableCell className={classes.smallCell} ><TextField placeholder={"0"} type='number' name='kg' disabled={listItem[index].units > 0} className={classes.input} onChange={(e) => handleChange(e, item)} /></StyledTableCell>
+                                </StyledTableRow>
+                            ))}
+                        </TableBody>
+                    </Table>
+                </TableContainer>
+                <Button fullWidth variant="contained" color="primary" className={classes.button} onClick={onSubmit}>Agregar al carrito</Button>
+                </form>
             </div>
         </>
     );
