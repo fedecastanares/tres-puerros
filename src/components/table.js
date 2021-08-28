@@ -11,11 +11,8 @@ import { TextField, Button } from '@material-ui/core';
 import useListItem from '../hooks/useListItem'
 
 const useStyles = makeStyles((theme) => ({
-    table: {
-        minWidth: 500,
-    },
     input: {
-        maxWidth: "2rem"
+        maxWidth: "3rem"
     },
     button: {
         margin: "0.5rem 0",
@@ -23,15 +20,9 @@ const useStyles = makeStyles((theme) => ({
     },
     kgCell: {
         [theme.breakpoints.down('sm')]: {
-            maxWidth: "2.8rem",
             fontSize: "0.8rem"
         }
-    },
-    item: {
-        [theme.breakpoints.down('sm')]: {
-            maxWidth: "4rem",
-        }
-    }   
+    }
 }));
 
 const StyledTableCell = withStyles((theme) => ({
@@ -80,20 +71,18 @@ const MyTable = () => {
                     <TableHead>
                         <TableRow>
                             <StyledTableCell className={classes.item}>Frutas y verduras</StyledTableCell>
-                            <StyledTableCell align="right" className={classes.kgCell}>Precio x Kg</StyledTableCell>
-                            <StyledTableCell align="right">Unidades</StyledTableCell>
-                            <StyledTableCell align="right">Kg</StyledTableCell>
+                            <StyledTableCell className={classes.smallCell} >Unidades</StyledTableCell>
+                            <StyledTableCell className={classes.smallCell}>Kg</StyledTableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
                         {listItem.map((item, index) => (
                             <StyledTableRow key={item.name}>
                                 <StyledTableCell component="th" scope="row" className={classes.item}>
-                                    {item.name}
+                                    {item.name} $ {item.price} <span className={classes.kgCell}>kg</span>
                                 </StyledTableCell>
-                                <StyledTableCell align="right" className={classes.kgCell}>$ {item.price}</StyledTableCell>
-                                <StyledTableCell align="right"><TextField placeholder={"0"} name='units' disabled={listItem[index].kg > 0} className={classes.input} onChange={(e) => handleChange(e, item)} /></StyledTableCell>
-                                <StyledTableCell align="right"><TextField placeholder={"0"} name='kg' disabled={listItem[index].units > 0} className={classes.input} onChange={(e) => handleChange(e, item)} /></StyledTableCell>
+                                <StyledTableCell className={classes.smallCell} ><TextField placeholder={"0"} type='number' name='units' disabled={listItem[index].kg > 0} className={classes.input} onChange={(e) => handleChange(e, item)} /></StyledTableCell>
+                                <StyledTableCell className={classes.smallCell} ><TextField placeholder={"0"} type='number' name='kg' disabled={listItem[index].units > 0} className={classes.input} onChange={(e) => handleChange(e, item)} /></StyledTableCell>
                             </StyledTableRow>
                         ))}
                     </TableBody>
