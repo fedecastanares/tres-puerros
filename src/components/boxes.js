@@ -1,7 +1,7 @@
-import { useState } from 'react'
+import React, { useState } from 'react'
 import { makeStyles } from '@material-ui/core/styles';
 
-import { Accordion, AccordionSummary, AccordionDetails, Typography, Grid, Button, IconButton } from '@material-ui/core';
+import { Accordion, AccordionSummary, AccordionDetails, Typography, Grid, Button, IconButton, TextField } from '@material-ui/core';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import CloseIcon from '@material-ui/icons/Close';
 import useBoxes from '../hooks/useBoxes';
@@ -58,6 +58,7 @@ const Boxes = () => {
     const classes = useStyles();
 
     const { boxesListState, setBoxesListState } = useBoxes();
+    console.log("boxesListState");
     console.log(boxesListState);
 
     const [expanded, setExpanded] = useState(false);
@@ -70,10 +71,19 @@ const Boxes = () => {
         if (boxesListState[indexOfBox].activeItems < 3 || (boxesListState[indexOfBox].activeItems === 3 && !item.active)) {
             let newState = [...boxesListState];
             newState[indexOfBox].items[indexOfItem].active = !item.active;
-            !item.active ? ++newState[indexOfBox].activeItems : --newState[indexOfBox].activeItems
+            !item.active ? ++newState[indexOfBox].activeItems : --newState[indexOfBox].activeItems;
+            if (newState[indexOfBox].activeItems < newState[indexOfBox].aggregates.length){ 
+                newState[indexOfBox].aggregates.length = newState[indexOfBox].aggregates.length - 1;
+            }
             setBoxesListState(newState);
         }
     }
+
+    const onInputChange = (e, index, indexAggregates) => {
+        let newBoxesList = [...boxesListState];
+        newBoxesList[index].aggregates[indexAggregates] = {...newBoxesList[index].aggregates[indexAggregates], [e.target.name]: e.target.value};
+        setBoxesListState(newBoxesList);
+    };
 
 
     return (
@@ -89,7 +99,6 @@ const Boxes = () => {
                                         expandIcon={<ExpandMoreIcon />}
                                         aria-controls="panel1a-content"
                                         id="panel1a-header"
-                                        className={classes.accordion}
                                     >
                                         <Grid container justifyContent='space-between'>
                                             <Grid item>
@@ -100,7 +109,7 @@ const Boxes = () => {
                                             </Grid>
                                         </Grid>
                                     </AccordionSummary>
-                                    <AccordionDetails>
+                                    <AccordionDetails className={classes.accordionBody}>
                                         <Grid container direction='column'>
                                             <Grid container direction='column' className={classes.gridContainer} >
                                                 {box.items.map((item, indexOfItem) => (
@@ -144,6 +153,42 @@ const Boxes = () => {
                                                         </Grid>
                                                     </div>
                                                 ))}
+                                                {
+                                                    box.activeItems > 0 &&
+                                                    [...Array(box.activeItems)].map((value,indexAggregates) =>
+                                                        React.Children.toArray(
+                                                            <div className="animate__animated animate__slideInDown">
+                                                                <Grid container spacing={2} alignItems='center'>
+                                                                    <Grid item xs={6}>
+                                                                        <Grid container >
+                                                                            <Grid item xs={8}>
+                                                                                <TextField className={classes.details} name="product" placeholder='producto' onChange={(e) => onInputChange(e,index, indexAggregates)} />
+                                                                            </Grid>
+                                                                            <Grid item xs={4}>
+                                                                                {/*
+                                                                                <Typography className={classes.details}>
+                                                                                    $ precio <span className={classes.decorator}>kg</span>
+                                                                                </Typography>
+                                                                                 */}
+                                                                                
+                                                                            </Grid>
+                                                                        </Grid>
+                                                                    </Grid>
+                                                                    <Grid item xs={2}>
+                                                                        <TextField className={classes.details} type='number' name='units' placeholder='unidades' disabled={boxesListState[index].aggregates[indexAggregates] !== undefined && boxesListState[index].aggregates[indexAggregates].hasOwnProperty("kg")}    onChange={(e) => onInputChange(e,index, indexAggregates)} />
+                                                                    </Grid>
+                                                                    <Grid item xs={2}>
+                                                                        <TextField className={classes.details} type='number' name='kg' placeholder='kg'          disabled={boxesListState[index].aggregates[indexAggregates] !== undefined && boxesListState[index].aggregates[indexAggregates].hasOwnProperty("units")} onChange={(e) => onInputChange(e,index, indexAggregates)} />
+                                                                    </Grid>
+                                                                    <Grid item xs={2}>
+                                                                        {/*<IconButton size='medium' color='secondary'>
+                                                                            <DeleteIcon />
+                                                                                </IconButton> */}
+                                                                    </Grid>
+                                                                </Grid>
+                                                            </div>
+                                                        ))
+                                                }
                                             </Grid>
                                             <Button fullWidth variant="contained" color="primary" className={classes.button}>Agregar al carrito</Button>
                                         </Grid>

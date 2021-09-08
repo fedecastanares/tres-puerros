@@ -13,7 +13,7 @@ const useBoxes = () => {
                 newItems.push({...item, active: true});
                 return null;
             })
-            newArray.push({...element, items: newItems, activeItems: 0});
+            newArray.push({...element, items: newItems, activeItems: 0, aggregates: []});
             return null;
         })
         return newArray
