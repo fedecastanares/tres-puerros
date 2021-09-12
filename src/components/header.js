@@ -1,12 +1,15 @@
-import { AppBar, Toolbar, Typography, IconButton, Grid } from "@material-ui/core";
+import { AppBar, Toolbar, Typography, IconButton, Grid, Badge } from "@material-ui/core";
 import { makeStyles } from '@material-ui/core/styles';
 import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
 
 import TresPuerrosIMG from '../assets/img/logo-tres-puerros.png'
 
+import { Link } from 'react-router-dom';
+import useCart from "../hooks/useCart";
+
 const useStyles = makeStyles((theme) => ({
     root: {
-        flexGrow: 1,
+        paddingBottom: '5rem',
     },
     menuButton: {
         marginRight: theme.spacing(2),
@@ -28,36 +31,44 @@ const useStyles = makeStyles((theme) => ({
 const Header = () => {
 
     const classes = useStyles();
+    const { cart } = useCart();
 
     return (
         <>
+        <div className={classes.root}>
             <AppBar position="fixed">
                 <Toolbar>
                     <Grid container justifyContent='center'>
                         <Grid item xs={11} sm={9}  md={7}>
                             <Grid container alignItems='center' justifyContent='space-between'>
                                 <Grid item>
-                                    <Grid container>
-                                        <img className={classes.logoTresPuerros} src={TresPuerrosIMG} alt='logo tres puerros' />
-                                        <Typography variant="h6" className={classes.title}>
-                                            Tres puerros
-                                        </Typography>
-                                    </Grid>
+                                    <Link to='/' style={{textDecoration: 'none',color: 'inherit'}}>
+                                        <Grid container>
+                                            <img className={classes.logoTresPuerros} src={TresPuerrosIMG} alt='logo tres puerros' />
+                                            <Typography variant="h6" className={classes.title}>
+                                                Tres puerros
+                                            </Typography>
+                                        </Grid>
+                                    </Link>
                                 </Grid>
                                 <Grid item>
-                                    <IconButton
-                                        aria-label="account of current user"
-                                        aria-controls="menu-appbar"
-                                        aria-haspopup="true"
-                                    >
-                                        <ShoppingCartIcon className={classes.icon} />
-                                    </IconButton>
+                                    <Link to='/carrito'>
+                                        <IconButton
+                                            aria-label="account of current user"
+                                            aria-controls="menu-appbar"
+                                            aria-haspopup="true"
+                                        >   <Badge color="secondary" badgeContent={cart.length}>
+                                                <ShoppingCartIcon className={classes.icon} />
+                                            </Badge>
+                                        </IconButton>
+                                    </Link>
                                 </Grid>
                             </Grid>
                         </Grid>
                     </Grid>
                 </Toolbar>
             </AppBar>
+        </div>
         </>
     );
 }

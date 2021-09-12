@@ -1,27 +1,27 @@
 import Theme from './theme/config'
+import Layout from './components/layout'
 
-import Boxes from './components/boxes'
-import Table from './components/table'
-import Header from './components/header'
 
 import ContextBundle from './context/ContextBundle'
+import {BrowserRouter as Router, Switch, Route} from 'react-router-dom';
 
-import { Grid } from "@material-ui/core"
+import Index from './pages/index'
+import Cart from './pages/Cart'
+
 
 function App() {
   return (
     <>
       <ContextBundle>
         <Theme>
-          <Header />
-          <Grid container justifyContent='center'>
-            <Grid item xs={11} sm={9} md={7} >
-              <Boxes />
-            </Grid>
-            <Grid item xs={11} sm={9} md={7}>
-              <Table />
-            </Grid>
-          </Grid>
+          <Router>
+            <Switch>
+              <Layout >
+                <Route exact path='/' component={Index} />
+                <Route exact path='/carrito' component={Cart} />
+              </Layout>
+            </Switch>
+        </Router>
         </Theme>
       </ContextBundle>
     </>

@@ -6,11 +6,11 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import CloseIcon from '@material-ui/icons/Close';
 import useBoxes from '../hooks/useBoxes';
 import CheckIcon from '@material-ui/icons/Check';
+import useCart from '../hooks/useCart';
 
 const useStyles = makeStyles((theme) => ({
     root: {
         width: '100%',
-        marginTop: '5rem',
         marginBottom: '2rem'
     },
     heading: {
@@ -50,6 +50,9 @@ const useStyles = makeStyles((theme) => ({
     },
     lineThrough: {
         textDecoration: 'line-through'
+    }, 
+    input: {
+        margin: 7
     }
 }));
 
@@ -58,8 +61,7 @@ const Boxes = () => {
     const classes = useStyles();
 
     const { boxesListState, setBoxesListState } = useBoxes();
-    console.log("boxesListState");
-    console.log(boxesListState);
+    const { cart, setCart } = useCart();
 
     const [expanded, setExpanded] = useState(false);
 
@@ -84,6 +86,10 @@ const Boxes = () => {
         newBoxesList[index].aggregates[indexAggregates] = {...newBoxesList[index].aggregates[indexAggregates], [e.target.name]: e.target.value};
         setBoxesListState(newBoxesList);
     };
+
+    const onAddToCart = (index) => {
+        setCart([...cart, boxesListState[index]])
+    }
 
 
     return (
@@ -162,7 +168,7 @@ const Boxes = () => {
                                                                     <Grid item xs={6}>
                                                                         <Grid container >
                                                                             <Grid item xs={8}>
-                                                                                <TextField className={classes.details} name="product" placeholder='producto' onChange={(e) => onInputChange(e,index, indexAggregates)} />
+                                                                                <TextField className={`${classes.details} ${classes.input}`} name="product" placeholder='producto' onChange={(e) => onInputChange(e,index, indexAggregates)} />
                                                                             </Grid>
                                                                             <Grid item xs={4}>
                                                                                 {/*
@@ -190,7 +196,7 @@ const Boxes = () => {
                                                         ))
                                                 }
                                             </Grid>
-                                            <Button fullWidth variant="contained" color="primary" className={classes.button}>Agregar al carrito</Button>
+                                            <Button fullWidth variant="contained" color="primary" className={classes.button} onClick={() => onAddToCart(index)}>Agregar al carrito</Button>
                                         </Grid>
                                     </AccordionDetails>
                                 </Accordion>

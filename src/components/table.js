@@ -9,6 +9,7 @@ import Paper from '@material-ui/core/Paper';
 import { TextField, Button } from '@material-ui/core';
 
 import useListItem from '../hooks/useListItem'
+import useCart from '../hooks/useCart';
 
 const useStyles = makeStyles((theme) => ({
     input: {
@@ -49,6 +50,7 @@ const StyledTableRow = withStyles((theme) => ({
 const MyTable = () => {
     const classes = useStyles();
     const { listItem, setListItems } = useListItem();
+    const { cart, setCart } = useCart();
     
 
     const handleChange = (e, item) => {
@@ -60,7 +62,10 @@ const MyTable = () => {
     }
 
     const onSubmit = () => {
-        console.log(listItem)
+        const addItem = [...listItem].filter(product => product.units > 0 || product.kg > 0 );
+        let newItemsCart = [...cart];
+        addItem.forEach(item => newItemsCart.push(item));
+        setCart(newItemsCart);
     }
 
     return (
