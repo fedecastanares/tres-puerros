@@ -53,6 +53,11 @@ const useStyles = makeStyles((theme) => ({
     }, 
     input: {
         margin: 7
+    },
+    canChange: {
+        [theme.breakpoints.down('sm')]: {
+            fontSize: '0.8rem'
+        }
     }
 }));
 
@@ -197,6 +202,7 @@ const Boxes = () => {
                                                 }
                                             </Grid>
                                             <Button fullWidth variant="contained" color="primary" className={classes.button} onClick={() => onAddToCart(index)}>Agregar al carrito</Button>
+                                            <Typography className={classes.canChange} variant="body1" component="p" color="secondary" align="right">Puedes cambiar hasta 3 productos</Typography>
                                         </Grid>
                                     </AccordionDetails>
                                 </Accordion>

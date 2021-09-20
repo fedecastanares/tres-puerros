@@ -7,6 +7,7 @@ import {BrowserRouter as Router, Switch, Route} from 'react-router-dom';
 
 import Index from './pages/index'
 import Cart from './pages/Cart'
+import ThankYou from './pages/ThankYou';
 
 
 function App() {
@@ -19,6 +20,7 @@ function App() {
               <Layout >
                 <Route exact path='/' component={Index} />
                 <Route exact path='/carrito' component={Cart} />
+                <Route exact path='/thankyou' component={ThankYou} />
               </Layout>
             </Switch>
         </Router>

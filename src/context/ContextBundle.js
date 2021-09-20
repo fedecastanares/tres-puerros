@@ -1,6 +1,7 @@
 import ListItemProvider from "./listItemContext"
 import BoxesProvider from "./boxesContext"
 import CartProvider from "./cartContext"
+import PersonalDataProvider from "./personalDataContext"
 
 const ContextBundle = ({children}) => {
     return ( 
@@ -8,7 +9,9 @@ const ContextBundle = ({children}) => {
             <ListItemProvider>
                 <BoxesProvider>
                     <CartProvider>
-                        {children}
+                        <PersonalDataProvider>
+                            {children}
+                        </PersonalDataProvider>
                     </CartProvider>
                 </BoxesProvider>
             </ListItemProvider>
