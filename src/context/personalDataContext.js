@@ -7,7 +7,10 @@ const PersonalDataProvider = ({children}) => {
     const [data, setData ] = useState({
         name: "",
         phone: "",
-        location: ""
+        location: "",
+        aclaraciones: "",
+        zone:"B",
+        paymentMethod: "cash"
     });
 
     return ( 

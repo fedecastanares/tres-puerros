@@ -58,6 +58,17 @@ const useStyles = makeStyles((theme) => ({
         [theme.breakpoints.down('sm')]: {
             fontSize: '0.8rem'
         }
+    },
+    boxesTitle: {
+        backgroundColor: theme.palette.primary.main,
+        padding: "1rem",
+        color: theme.palette.common.white,
+        border: `0 solid #808080`,
+        outlineColor: "rgba(0, 0, 0, 0.87)",
+        "-webkit-font-smoothing": "antialiased",
+        borderRadius: "0.3rem 0.3rem 0 0",
+        fontSize: 14,
+        fontWeight: 500
     }
 }));
 
@@ -101,6 +112,7 @@ const Boxes = () => {
         <>
             <div className="animate__animated animate__fadeIn">
                 <div className={classes.root}>
+                    {boxesListState && <Typography className={classes.boxesTitle}>Cajas estacionales</Typography>}
                     {
 
                         boxesListState && boxesListState.map((box, index) => (
