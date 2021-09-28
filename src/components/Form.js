@@ -46,12 +46,11 @@ const Form = () => {
                                 label="Zona"
                                 onChange={handleChange}
                                 name="zone"
-                                style={{maxWidth: "90%"}}
+                                style={{maxWidth: "40vw"}}
                             >
-                                <MenuItem value={"A"}>La Blanqueada - Malvin - Carrasco - Parque Miramar
-                                </MenuItem>
-                                <MenuItem value={"B"}>Punta Carretas - Pocitos - Villa Dolores - Buceo </MenuItem>
-                                <MenuItem value={"C"}>Parque Rodó - Cordon - Centro - Ciudad Vieja</MenuItem>
+                                <MenuItem value={"A"}>La Blanqueada - Malvin - <br/>Carrasco - Parque Miramar<br/></MenuItem>
+                                <MenuItem value={"B"}>Punta Carretas - Pocitos - <br/>Villa Dolores - Buceo </MenuItem>
+                                <MenuItem value={"C"}>Parque Rodó - Cordon - Centro - <br/>Ciudad Vieja</MenuItem>
                             </Select>
                         </Grid>
                         <Grid item xs={6}>
