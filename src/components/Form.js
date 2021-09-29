@@ -1,6 +1,9 @@
 import { TextField, Grid, Typography, Radio, FormControlLabel, RadioGroup, InputLabel, Select, MenuItem } from "@material-ui/core";
 import { makeStyles } from '@material-ui/core/styles';
 
+import AccountBalanceIcon from '@material-ui/icons/AccountBalance';
+import MoneyIcon from '@material-ui/icons//Money';
+
 import usePersonalData from '../hooks/usePersonalData';
 
 const useStyles = makeStyles((theme) => ({
@@ -58,9 +61,9 @@ const Form = () => {
                                 name="zone"
                                 className={classes.select}
                             >
-                                <MenuItem value={"A"}>La Blanqueada - Malvin - <br/>Carrasco - Parque Miramar</MenuItem>
-                                <MenuItem value={"B"}>Punta Carretas - Pocitos - <br/>Villa Dolores - Buceo </MenuItem>
-                                <MenuItem value={"C"}>Parque Rodó - Cordon - Centro - <br/>Ciudad Vieja</MenuItem>
+                                <MenuItem value={"A"}>La Blanqueada - Malvin - <br />Carrasco - Parque Miramar</MenuItem>
+                                <MenuItem value={"B"}>Punta Carretas - Pocitos - <br />Villa Dolores - Buceo </MenuItem>
+                                <MenuItem value={"C"}>Parque Rodó - Cordon - Centro - <br />Ciudad Vieja</MenuItem>
                             </Select>
                         </Grid>
                         <Grid item xs={6}>
@@ -68,24 +71,24 @@ const Form = () => {
                                 aria-label="day"
                                 defaultValue={"martes"}
                                 name="day-radio-buttons-group"
-                                style={{flexDirection: "row", marginLeft: "1rem", marginTop:"0.8rem"}}
+                                style={{ flexDirection: "row", marginLeft: "1rem", marginTop: "0.8rem" }}
                             >
-                                {data.zone === "A" && 
-                                <>
-                                    <FormControlLabel value="martes" control={<Radio color="primary" />} label="Martes" />
-                                </>
+                                {data.zone === "A" &&
+                                    <>
+                                        <FormControlLabel value="martes" control={<Radio color="primary" />} label="Martes" />
+                                    </>
                                 }
-                                {data.zone === "B" && 
-                                <>
-                                    <FormControlLabel value="martes" control={<Radio color="primary" />} label="Martes" />
-                                    <FormControlLabel value="miercoles" control={<Radio color="primary" />} label="Miercoles" />
-                                    <FormControlLabel value="jueves" control={<Radio color="primary" />} label="Jueves" />
-                                </>
+                                {data.zone === "B" &&
+                                    <>
+                                        <FormControlLabel value="martes" control={<Radio color="primary" />} label="Martes" />
+                                        <FormControlLabel value="miercoles" control={<Radio color="primary" />} label="Miercoles" />
+                                        <FormControlLabel value="jueves" control={<Radio color="primary" />} label="Jueves" />
+                                    </>
                                 }
-                                {data.zone === "C" && 
-                                <>
-                                    <FormControlLabel value="jueves" control={<Radio color="primary" />} label="Jueves" />
-                                </>
+                                {data.zone === "C" &&
+                                    <>
+                                        <FormControlLabel value="jueves" control={<Radio color="primary" />} label="Jueves" />
+                                    </>
                                 }
                             </RadioGroup>
                         </Grid>
@@ -94,7 +97,11 @@ const Form = () => {
                 <Grid item className={classes.mb} xs={12}>
                     <Grid container alignItems="center" justifyContent="space-evenly">
                         <Grid item >
-                            <Typography component="p" variant="body1">Medio de pago:</Typography>
+                            <Grid container justifyContent="space-evenly">
+                                <AccountBalanceIcon />
+                                <MoneyIcon />
+                            </Grid>
+                            <Typography component="p" variant="body1" style={{margin: "0.5rem 0", fontWeight: "bold"}}>Medio de pago:</Typography>
                         </Grid>
                         <Grid item >
                             <RadioGroup
