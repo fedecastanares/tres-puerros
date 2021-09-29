@@ -74,13 +74,14 @@ const Form = () => {
                         <Grid item xs={6}>
                             <RadioGroup
                                 aria-label="day"
-                                defaultValue={"martes"}
+                                defaultValue={"local"}
                                 name="day-radio-buttons-group"
                                 style={{ flexDirection: "row", marginLeft: "1rem", marginTop: "0.8rem" }}
                             >
                                 {data.zone === "A" &&
                                     <>
                                         <FormControlLabel value="martes" control={<Radio color="primary" />} label="Martes" />
+                                        <FormControlLabel value="local" control={<Radio color="primary" />} label="Local" />
                                     </>
                                 }
                                 {data.zone === "B" &&
@@ -88,11 +89,13 @@ const Form = () => {
                                         <FormControlLabel value="martes" control={<Radio color="primary" />} label="Martes" />
                                         <FormControlLabel value="miercoles" control={<Radio color="primary" />} label="Miercoles" />
                                         <FormControlLabel value="jueves" control={<Radio color="primary" />} label="Jueves" />
+                                        <FormControlLabel value="local" control={<Radio color="primary" />} label="Local" />
                                     </>
                                 }
                                 {data.zone === "C" &&
                                     <>
                                         <FormControlLabel value="jueves" control={<Radio color="primary" />} label="Jueves" />
+                                        <FormControlLabel value="local" control={<Radio color="primary" />} label="Local" />
                                     </>
                                 }
                             </RadioGroup>
