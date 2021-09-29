@@ -5,8 +5,18 @@ import usePersonalData from '../hooks/usePersonalData';
 
 const useStyles = makeStyles((theme) => ({
     mb: {
-        marginBottom: '1rem',
+        padding: '0.5rem 0',
+        '&:nth-of-type(odd)': {
+            backgroundColor: theme.palette.action.hover,
+        },
+        borderRadius: 5
     },
+    select: {
+        width: "100%",
+        [theme.breakpoints.down('sm')]: {
+            maxWidth: "40vw"
+        }
+    }
 }));
 
 const Form = () => {
@@ -46,9 +56,9 @@ const Form = () => {
                                 label="Zona"
                                 onChange={handleChange}
                                 name="zone"
-                                style={{maxWidth: "40vw"}}
+                                className={classes.select}
                             >
-                                <MenuItem value={"A"}>La Blanqueada - Malvin - <br/>Carrasco - Parque Miramar<br/></MenuItem>
+                                <MenuItem value={"A"}>La Blanqueada - Malvin - <br/>Carrasco - Parque Miramar</MenuItem>
                                 <MenuItem value={"B"}>Punta Carretas - Pocitos - <br/>Villa Dolores - Buceo </MenuItem>
                                 <MenuItem value={"C"}>Parque Rodó - Cordon - Centro - <br/>Ciudad Vieja</MenuItem>
                             </Select>
@@ -56,13 +66,27 @@ const Form = () => {
                         <Grid item xs={6}>
                             <RadioGroup
                                 aria-label="day"
-                                defaultValue="martes"
+                                defaultValue={"martes"}
                                 name="day-radio-buttons-group"
-                                style={{flexDirection: "row", justifyContent: "space-evenly", marginTop:"0.8rem"}}
+                                style={{flexDirection: "row", marginLeft: "1rem", marginTop:"0.8rem"}}
                             >
-                                <FormControlLabel value="martes" control={<Radio color="primary" />} label="Martes" />
-                                <FormControlLabel value="miercoles" control={<Radio color="primary" />} label="Miercoles" />
-                                <FormControlLabel value="jueves" control={<Radio color="primary" />} label="Jueves" />
+                                {data.zone === "A" && 
+                                <>
+                                    <FormControlLabel value="martes" control={<Radio color="primary" />} label="Martes" />
+                                </>
+                                }
+                                {data.zone === "B" && 
+                                <>
+                                    <FormControlLabel value="martes" control={<Radio color="primary" />} label="Martes" />
+                                    <FormControlLabel value="miercoles" control={<Radio color="primary" />} label="Miercoles" />
+                                    <FormControlLabel value="jueves" control={<Radio color="primary" />} label="Jueves" />
+                                </>
+                                }
+                                {data.zone === "C" && 
+                                <>
+                                    <FormControlLabel value="jueves" control={<Radio color="primary" />} label="Jueves" />
+                                </>
+                                }
                             </RadioGroup>
                         </Grid>
                     </Grid>

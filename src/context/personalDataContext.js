@@ -10,7 +10,8 @@ const PersonalDataProvider = ({children}) => {
         location: "",
         aclaraciones: "",
         zone:"B",
-        paymentMethod: "cash"
+        paymentMethod: "cash",
+        day: ""
     });
 
     return ( 
