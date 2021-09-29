@@ -19,6 +19,11 @@ const useStyles = makeStyles((theme) => ({
         [theme.breakpoints.down('sm')]: {
             maxWidth: "40vw"
         }
+    },
+    payment: {
+        [theme.breakpoints.down('sm')]: {
+            flexDirection: "column"
+        }
     }
 }));
 
@@ -95,7 +100,7 @@ const Form = () => {
                     </Grid>
                 </Grid>
                 <Grid item className={classes.mb} xs={12}>
-                    <Grid container alignItems="center" justifyContent="space-evenly">
+                    <Grid container alignItems="center" justifyContent="space-evenly" className={classes.payment}>
                         <Grid item >
                             <Grid container justifyContent="space-evenly">
                                 <AccountBalanceIcon />
