@@ -1,6 +1,7 @@
 import { AppBar, Toolbar, Typography, IconButton, Grid, Badge } from "@material-ui/core";
 import { makeStyles } from '@material-ui/core/styles';
 import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
+import AccountCircleIcon  from '@material-ui/icons/AccountCircle';
 
 import TresPuerrosIMG from '../assets/img/logo-tres-puerros.png'
 
@@ -60,6 +61,15 @@ const Header = () => {
                                         >   <Badge color="secondary" badgeContent={cart.length}>
                                                 <ShoppingCartIcon className={classes.icon} />
                                             </Badge>
+                                        </IconButton>
+                                    </Link>
+                                    <Link to='/admin'>
+                                        <IconButton
+                                            aria-label="account of current user"
+                                            aria-controls="menu-appbar"
+                                            aria-haspopup="true"
+                                        >
+                                            <AccountCircleIcon className={classes.icon} />
                                         </IconButton>
                                     </Link>
                                 </Grid>
