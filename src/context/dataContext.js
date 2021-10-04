@@ -1,5 +1,5 @@
 import React, {createContext, useState} from 'react';
-import {isUserAuthenticated} from '../utils/localstorage'
+
 
 export const DataContext = createContext();
 
