@@ -53,6 +53,15 @@ const Header = () => {
                                     </Link>
                                 </Grid>
                                 <Grid item>
+                                <Link to='/admin'>
+                                        <IconButton
+                                            aria-label="account of current user"
+                                            aria-controls="menu-appbar"
+                                            aria-haspopup="true"
+                                        >
+                                            <AccountCircleIcon className={classes.icon} />
+                                        </IconButton>
+                                    </Link>
                                     <Link to='/carrito'>
                                         <IconButton
                                             aria-label="account of current user"
@@ -61,15 +70,6 @@ const Header = () => {
                                         >   <Badge color="secondary" badgeContent={cart.length}>
                                                 <ShoppingCartIcon className={classes.icon} />
                                             </Badge>
-                                        </IconButton>
-                                    </Link>
-                                    <Link to='/admin'>
-                                        <IconButton
-                                            aria-label="account of current user"
-                                            aria-controls="menu-appbar"
-                                            aria-haspopup="true"
-                                        >
-                                            <AccountCircleIcon className={classes.icon} />
                                         </IconButton>
                                     </Link>
                                 </Grid>
