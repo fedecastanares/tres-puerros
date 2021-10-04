@@ -61,7 +61,7 @@ const Admin = () => {
     useEffect(() => {
         const getItems = async () => {
             const response = await UserService.getItems();
-            setItems(response.data.items);
+            response !== undefined && setItems(response.data.items);
         }
         getItems();
     }, [])
