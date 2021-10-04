@@ -68,6 +68,7 @@ const MyTable = () => {
         setCart(newItemsCart);
     }
 
+
     return (
         <>
         <div  className="animate__animated animate__fadeIn">
