@@ -89,13 +89,13 @@ const Admin = () => {
                                             <TextField placeholder={item.weight} type='number' name='weight' className={classes.input} />
                                         </Grid>
                                         <Grid item xs={2}>
-                                            <IconButton className={classes.checkIcon} size='medium' >
-                                                <SaveIcon />
+                                            <IconButton className={classes.deleteIcon} size='medium' >
+                                                <DeleteIcon />
                                             </IconButton>
                                         </Grid>
                                         <Grid item xs={2}>
-                                            <IconButton className={classes.deleteIcon} size='medium' >
-                                                <DeleteIcon />
+                                            <IconButton className={classes.checkIcon} size='medium' >
+                                                <SaveIcon />
                                             </IconButton>
                                         </Grid>
                                     </Grid>
