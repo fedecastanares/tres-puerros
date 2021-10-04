@@ -1,31 +1,22 @@
-import React, {createContext} from 'react';
+import React, {createContext, useEffect, useState} from 'react';
+
+import Users from '../services/UserService';
 
 export const ListItemContext = createContext();
 
 const ListItemProvider = ({children}) => {
 
-    const priceList = [
-        {
-            name: "Banana",
-            price: 50,
-            unitWeightGR: 200
-        },
-        {
-            name: "Manzana",
-            price: 20,
-            unitWeightGR: 100
-        },
-        {
-            name: "Pera",
-            price: 40,
-            unitWeightGR: 250
-        },
-        {
-            name: "Kiwi",
-            price: 90,
-            unitWeightGR: 200
+    const UserService = new Users();
+
+    const [priceList, setPriceList] = useState([])
+
+    useEffect(() => {
+        const getPriceList = async () => {
+            const response = await UserService.getItems();
+            response !== undefined && setPriceList(response.data.items);
         }
-    ];
+        getPriceList();
+    }, [])
     
 
     return ( 
