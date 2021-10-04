@@ -1,13 +1,16 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { ListItemContext } from "../context/listItemContext";
 
 const useListItem = () => {
     const { priceList } = useContext(ListItemContext);
 
-    let listItemInit = [];
-    priceList.map(item => listItemInit.push({...item, units: 0, kg: 0}))
+    const [ listItem, setListItems ] = useState([]);
 
-    const [ listItem, setListItems ] = useState(listItemInit);
+    useEffect(() => {
+        let newListItem = [];
+        priceList.map(item => newListItem.push({...item, units: 0, kg: 0}) )
+        setListItems(newListItem);
+    },[priceList])
 
     return {
         priceList,

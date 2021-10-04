@@ -13,7 +13,7 @@ const ListItemProvider = ({children}) => {
     useEffect(() => {
         const getPriceList = async () => {
             const response = await UserService.getItems();
-            response !== undefined && setPriceList(response.data.items);
+            setPriceList(response.data.items);
         }
         getPriceList();
     }, [])
