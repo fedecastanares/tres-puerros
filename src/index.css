@@ -11,8 +11,7 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-image: url(/src/assets/img/background.png.png);
-  background-size: contain;
+  background-image: url("/src/assets/img/background 2.png");
   min-height: 91vh;
 }
 
