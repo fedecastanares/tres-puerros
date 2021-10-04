@@ -50,13 +50,6 @@ const Header = () => {
                                             </Typography>
                                         </Grid>
                                     </Link>
-                                    <Link to='/admin' style={{textDecoration: 'none',color: 'inherit'}}>
-                                        <Grid container>
-                                            <Typography variant="h6" className={classes.title}>
-                                                Admin
-                                            </Typography>
-                                        </Grid>
-                                    </Link>
                                 </Grid>
                                 <Grid item>
                                     <Link to='/carrito'>
