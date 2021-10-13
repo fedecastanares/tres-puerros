@@ -26,7 +26,7 @@ axiosApiInstance.interceptors.response.use((response) => {
   console.log(error);
   if ((error.response.status === 403 || error.response.status === 401) && !originalRequest._retry) {
     deauthenticateUser();
-    window.location = "/login";
+    //window.location = "/login";
     return;
   } else if (( error.response.status === 403 || error.response.status === 401) && !originalRequest._retry){
     console.log('no necesitaba actualizar')
@@ -34,7 +34,7 @@ axiosApiInstance.interceptors.response.use((response) => {
   else {
     console.log(error);
   }
-  window.location = "/login";
+  //window.location = "/login";
   return Promise.reject(error);
 });
 

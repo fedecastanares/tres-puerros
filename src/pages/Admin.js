@@ -1,7 +1,7 @@
-import { Grid, Card, TextField, Typography, IconButton, InputLabel, Select, MenuItem } from '@material-ui/core'
+import { Grid, Card, TextField, Typography, IconButton, InputLabel, Select, MenuItem, Button, Modal, Box } from '@material-ui/core'
 import AddIcon from '@material-ui/icons/Add';
-import SaveIcon from '@material-ui/icons/Save';
 import DeleteIcon from '@material-ui/icons/Delete';
+import SaveIcon from '@material-ui/icons/Save';
 
 import { makeStyles } from '@material-ui/core/styles';
 import { useEffect, useState } from 'react';
@@ -35,7 +35,24 @@ const useStyles = makeStyles((theme) => ({
     deleteIcon: {
         color: theme.palette.secondary.main
     },
+    cat: {
+        [theme.breakpoints.down("sm")]: {
+            fontSize: "0.6rem"
+        }
+    }
 }));
+
+const style = {
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    bgcolor: 'background.paper',
+    border: `2px solid #6fc24d`,
+    borderRadius: 5 ,
+    boxShadow: 24,
+    p: 4,
+};
 
 const Admin = () => {
     const classes = useStyles();
@@ -47,16 +64,39 @@ const Admin = () => {
         cat: ""
     }
     const [newItem, setNewItem] = useState(newItemINIT);
+    const [modifyItem, setModifyItem] = useState({});
     const [items, setItems] = useState([]);
+
+    // MODAL 
+    const [open, setOpen] = useState(false);
+    const handleOpen = (name, price, weight, index) => { setOpen(true); setModifyItem({ name, price, weight, index }) }
+    const handleClose = () => setOpen(false);
+    // MODAL
 
     const handleChangeNewItem = e => {
         setNewItem({ ...newItem, [e.target.name]: e.target.value })
     }
 
     const AddNewItem = () => {
-        UserService.addNewItem(newItem); 
+        UserService.addNewItem(newItem);
         setItems([...items, newItem]);
         setNewItem(newItemINIT);
+    }
+
+    const handleModifyItem = (e) => {
+        setModifyItem({ ...modifyItem, [e.target.name]: e.target.value })
+    }
+
+    const handleSubmit = () => {
+        const postSubmit = async () => {
+            await UserService.modifyItem(modifyItem);
+            setOpen(false);
+            let newState = [...items];
+            newState[modifyItem.index] = {...newState[modifyItem.index], price: modifyItem.price, weight: modifyItem.weight}
+            setItems(newState);
+            setModifyItem({});
+        }
+        postSubmit()
     }
 
     useEffect(() => {
@@ -74,33 +114,32 @@ const Admin = () => {
                     <Card className={classes.root}>
                         <Typography component="h1" variant="h5">Listado de productos:</Typography>
                         {
-                            items.length > 0 && items.map(item =>
-                                <>
-                                    <Grid container spacing={1} justifyContent="space-between" alignItems="center">
-                                        <Grid item xs={4}>
-                                            <Typography component="p" variant="body1">{item.name}</Typography>
-                                        </Grid>
-                                        <Grid item xs={2}>
-                                            <Typography component="p" variant="body1">{item.cat}</Typography>
-                                        </Grid>
-                                        <Grid item xs={1}>
-                                            <TextField placeholder={item.price} type='number' name='price' className={classes.input} />
-                                        </Grid>
-                                        <Grid item xs={1}>
-                                            <TextField placeholder={item.weight} type='number' name='weight' className={classes.input} />
-                                        </Grid>
-                                        <Grid item xs={2}>
-                                            <IconButton className={classes.deleteIcon} size='medium' disabled>
-                                                <DeleteIcon />
-                                            </IconButton>
-                                        </Grid>
-                                        <Grid item xs={2}>
-                                            <IconButton className={classes.checkIcon} size='medium' >
-                                                <SaveIcon />
-                                            </IconButton>
-                                        </Grid>
+                            items.length > 0 && items.filter((item, index) => item.cat === "fruta" && (
+                                <Grid container spacing={1} justifyContent="space-between" alignItems="center" key={item.name}>
+                                    <Grid item xs={3}>
+                                        <Typography component="p" variant="body1">{item.name}</Typography>
                                     </Grid>
-                                </>
+                                    <Grid item xs={1}>
+                                        <Typography component="p" variant="body1">{item.price}</Typography>
+                                    </Grid>
+                                    <Grid item xs={1}>
+                                        <Typography component="p" variant="body1">{item.weight}</Typography>
+                                    </Grid>
+                                    <Grid item xs={2}>
+                                        <Typography component="p" variant="body1">{item.cat}</Typography>
+                                    </Grid>
+                                    <Grid item xs={2}>
+                                        <IconButton className={classes.deleteIcon} size='medium' >
+                                            <DeleteIcon />
+                                        </IconButton>
+                                    </Grid>
+                                    <Grid item xs={3}>
+                                        <Button className={classes.checkIcon} size='medium' onClick={() => { handleOpen(item.name, item.price, item.weight, index) }} >
+                                            Modificar
+                                        </Button>
+                                    </Grid>
+                                </Grid>
+                                )
                             )
                         }
 
@@ -140,6 +179,32 @@ const Admin = () => {
                     </Card>
                 </Grid>
             </Grid>
+            <div>
+                <Button onClick={handleOpen}>Open modal</Button>
+                <Modal
+                    open={open}
+                    onClose={handleClose}
+                    aria-labelledby="modal-modal-title"
+                    aria-describedby="modal-modal-description"
+                >
+                    <Box sx={style}>
+                        <Typography id="modal-modal-title" variant="h6" component="h2">
+                            {modifyItem.name}
+                        </Typography>
+                        <br />
+                        <TextField placeholder={modifyItem.price} type='number' name='price' className={classes.input} onChange={handleModifyItem} />
+                        <br />
+                        <br />
+                        <TextField placeholder={modifyItem.weight} type='number' name='weight' className={classes.input} onChange={handleModifyItem} />
+                        <br />
+                        <br />
+                        <Grid container spacing={2} justifyContent="space-between">
+                            <IconButton className={classes.deleteIcon} ><DeleteIcon fontSize="large" /></IconButton>
+                            <IconButton className={classes.checkIcon} onClick={handleSubmit} ><SaveIcon fontSize="large" /></IconButton>
+                        </Grid>
+                    </Box>
+                </Modal>
+            </div>
         </>
     );
 }
