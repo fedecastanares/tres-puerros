@@ -69,7 +69,11 @@ const Admin = () => {
 
     // MODAL 
     const [open, setOpen] = useState(false);
-    const handleOpen = (name, price, weight, index) => { setOpen(true); setModifyItem({ name, price, weight, index }) }
+    const handleOpen = (item) => { 
+        setOpen(true);
+        const { name, price, weight, _id } = item;
+        setModifyItem( {name, price, weight, _id} ) 
+    }
     const handleClose = () => setOpen(false);
     // MODAL
 
@@ -92,7 +96,13 @@ const Admin = () => {
             await UserService.modifyItem(modifyItem);
             setOpen(false);
             let newState = [...items];
-            newState[modifyItem.index] = {...newState[modifyItem.index], price: modifyItem.price, weight: modifyItem.weight}
+            let index = 0;
+            newState.forEach((item, indexInForEach) => {
+                if (item._id === modifyItem._id) {
+                    index = indexInForEach;
+                }
+            });
+            newState[index] = {...newState[index], price: modifyItem.price, weight: modifyItem.weight}
             setItems(newState);
             setModifyItem({});
         }
@@ -102,7 +112,6 @@ const Admin = () => {
     useEffect(() => {
         const getItems = async () => {
             const response = await UserService.getItems();
-            console.log(response.data.items);
             setItems(response.data.items);
         }
         getItems();
@@ -115,7 +124,7 @@ const Admin = () => {
                     <Card className={classes.root}>
                         <Typography component="h1" variant="h5">Listado de productos:</Typography>
                         {
-                            items.length > 0 && items.map((item, index) => (
+                            items.length > 0 && items.map((item) => (
                                 <Grid container spacing={1} justifyContent="space-between" alignItems="center" key={item.name}>
                                     <Grid item xs={3}>
                                         <Typography component="p" variant="body1">{item.name}</Typography>
@@ -135,7 +144,7 @@ const Admin = () => {
                                         </IconButton>
                                     </Grid>
                                     <Grid item xs={3}>
-                                        <Button className={classes.checkIcon} size='medium' onClick={() => { handleOpen(item.name, item.price, item.weight, index) }} >
+                                        <Button className={classes.checkIcon} size='medium' onClick={() => { handleOpen(item) }} >
                                             Modificar
                                         </Button>
                                     </Grid>
