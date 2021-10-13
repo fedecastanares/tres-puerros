@@ -29,6 +29,9 @@ const useStyles = makeStyles((theme) => ({
         width: 'auto'
     },
     checkIcon: {
+        color: theme.palette.common.white
+    },
+    primaryColor: {
         color: theme.palette.primary.main
     },
     deleteIcon: {
@@ -38,6 +41,18 @@ const useStyles = makeStyles((theme) => ({
         [theme.breakpoints.down("sm")]: {
             fontSize: "0.6rem"
         }
+    },
+    frutas: {
+        backgroundColor: "#f9b922",
+        padding: "1rem 0.5rem"
+    },
+    verduras: {
+        backgroundColor: "#b0e341",
+        padding: "1rem 0.5rem"
+    },
+    otros: {
+        backgroundColor: "#228565",
+        padding: "1rem 0.5rem"
     }
 }));
 
@@ -65,6 +80,10 @@ const Admin = () => {
     const [newItem, setNewItem] = useState(newItemINIT);
     const [modifyItem, setModifyItem] = useState({});
     const [items, setItems] = useState([]);
+
+    const [frutas, setFrutas] = useState([]);
+    const [verduras, setVerduras] = useState([]);
+    const [otros, setOtros] = useState([]);
 
     // MODAL 
     const [open, setOpen] = useState(false);
@@ -130,43 +149,86 @@ const Admin = () => {
         // eslint-disable-next-line
     }, [])
 
+
+    useEffect(() => {
+        let frutasState = items.filter(item => item.cat === "fruta");
+        let verdurasState = items.filter(item => item.cat === "verdura");
+        let otrosState = items.filter(item => item.cat === "otro");
+
+        frutasState = frutasState.sort((a, b) => (a.name > b.name) ? 1 : ((b.name > a.name) ? -1 : 0));
+        verdurasState = verdurasState.sort((a, b) => (a.name > b.name) ? 1 : ((b.name > a.name) ? -1 : 0));
+        otrosState = otrosState.sort((a, b) => (a.name > b.name) ? 1 : ((b.name > a.name) ? -1 : 0));
+
+        setFrutas(frutasState);
+        setVerduras(verdurasState);
+        setOtros(otrosState);
+
+    }, [items]);
+
+    const Items = ({ item }) => (
+        <Grid container spacing={1} justifyContent="space-between" alignItems="center" key={item.name}>
+            <Grid item xs={4}>
+                <Typography component="p" variant="body1">{item.name}</Typography>
+            </Grid>
+            <Grid item xs={1}>
+                <Typography component="p" variant="body1">$ {item.price}</Typography>
+            </Grid>
+            <Grid item xs={2}>
+                <Typography component="p" variant="body1">{item.weight} grs</Typography>
+            </Grid>
+            <Grid item xs={2}>
+                <IconButton className={classes.deleteIcon} size='medium' onClick={() => DeleteItem(item._id)}>
+                    <DeleteIcon />
+                </IconButton>
+            </Grid>
+            <Grid item xs={3}>
+                <Button className={classes.checkIcon} variant="contained" color="primary" size='medium' onClick={() => { handleOpen(item) }} >
+                    Modificar
+                </Button>
+            </Grid>
+        </Grid>
+    );
+
     return (
         <>
             <Grid container justifyContent='center' alignItems='center' style={{ minHeight: "90vh" }}>
                 <Grid item xs={11} sm={9} md={7} >
                     <Card className={classes.root}>
                         <Typography component="h1" variant="h5">Listado de productos:</Typography>
-                        {
-                            items.length > 0 && items.map((item) => (
-                                <Grid container spacing={1} justifyContent="space-between" alignItems="center" key={item.name}>
-                                    <Grid item xs={3}>
-                                        <Typography component="p" variant="body1">{item.name}</Typography>
-                                    </Grid>
-                                    <Grid item xs={1}>
-                                        <Typography component="p" variant="body1">{item.price}</Typography>
-                                    </Grid>
-                                    <Grid item xs={1}>
-                                        <Typography component="p" variant="body1">{item.weight}</Typography>
-                                    </Grid>
-                                    <Grid item xs={2}>
-                                        <Typography component="p" variant="body1">{item.cat}</Typography>
-                                    </Grid>
-                                    <Grid item xs={2}>
-                                        <IconButton className={classes.deleteIcon} size='medium' onClick={() => DeleteItem(item._id)}>
-                                            <DeleteIcon />
-                                        </IconButton>
-                                    </Grid>
-                                    <Grid item xs={3}>
-                                        <Button className={classes.checkIcon} size='medium' onClick={() => { handleOpen(item) }} >
-                                            Modificar
-                                        </Button>
-                                    </Grid>
-                                </Grid>
-                            )
-                            )
-                        }
-
-                        <Typography component="h3" variant="h6">Agregar</Typography>
+                        <div className={classes.frutas}>
+                            {
+                                frutas.length > 0 && <Typography component="h5" variant="h5">Frutas:</Typography>
+                            }
+                            {
+                                frutas.length > 0 && frutas.map((item) => (
+                                    <Items item={item} />
+                                )
+                                )
+                            }
+                        </div>
+                        <div className={classes.verduras}>
+                            {
+                                verduras.length > 0 && <Typography component="h5" variant="h5">Verduras:</Typography>
+                            }
+                            {
+                                verduras.length > 0 && verduras.map((item) => (
+                                    <Items item={item} />
+                                )
+                                )
+                            }
+                        </div>
+                        <div className={classes.otros}>
+                            {
+                                otros.length > 0 && <Typography component="h5" variant="h5">Otros:</Typography>
+                            }
+                            {
+                                otros.length > 0 && otros.map((item) => (
+                                    <Items item={item} />
+                                )
+                                )
+                            }
+                        </div>
+                        <Typography style={{ marginTop: "1rem" }} component="h3" variant="h6">Agregar</Typography>
                         <Grid container spacing={2} style={{ margin: "0.5rem 0" }} justifyContent="space-evenly" alignItems="flex-end">
                             <Grid item xs={3}>
                                 <TextField placeholder="Nombre" name='name' className={classes.input} onChange={handleChangeNewItem} value={newItem.name} />
@@ -194,16 +256,18 @@ const Admin = () => {
                                 <TextField placeholder="Peso un" type='number' name='weight' className={classes.input} onChange={handleChangeNewItem} value={newItem.weight} />
                             </Grid>
                             <Grid item xs={3}>
-                                <IconButton className={classes.checkIcon} size='medium' onClick={AddNewItem}>
+                                <IconButton className={classes.primaryColor} size='medium' onClick={AddNewItem}>
                                     <AddIcon />
                                 </IconButton>
                             </Grid>
                         </Grid>
+                        <div style={{ margin: "1rem 0" }}>
+                            <Typography component="h1" variant="h5">Cajas:</Typography>
+                        </div>
                     </Card>
                 </Grid>
             </Grid>
             <div>
-                <Button onClick={handleOpen}>Open modal</Button>
                 <Modal
                     open={open}
                     onClose={handleClose}
