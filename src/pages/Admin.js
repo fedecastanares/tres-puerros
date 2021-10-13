@@ -6,7 +6,6 @@ import SaveIcon from '@material-ui/icons/Save';
 import { makeStyles } from '@material-ui/core/styles';
 import { useEffect, useState } from 'react';
 import Users from '../services/UserService';
-import useListItem from '../hooks/useListItem';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -49,7 +48,7 @@ const style = {
     transform: 'translate(-50%, -50%)',
     bgcolor: 'background.paper',
     border: `2px solid #6fc24d`,
-    borderRadius: 5 ,
+    borderRadius: 5,
     boxShadow: 24,
     p: 4,
 };
@@ -69,10 +68,10 @@ const Admin = () => {
 
     // MODAL 
     const [open, setOpen] = useState(false);
-    const handleOpen = (item) => { 
+    const handleOpen = (item) => {
         setOpen(true);
         const { name, price, weight, _id } = item;
-        setModifyItem( {name, price, weight, _id} ) 
+        setModifyItem({ name, price, weight, _id })
     }
     const handleClose = () => setOpen(false);
     // MODAL
@@ -91,6 +90,19 @@ const Admin = () => {
         setModifyItem({ ...modifyItem, [e.target.name]: e.target.value })
     }
 
+    const DeleteItem = id => {
+        UserService.deleteUserById(id);
+        let newState = [...items];
+        let index = 0;
+        newState.forEach((item, indexInForEach) => {
+            if (item._id === id) {
+                index = indexInForEach;
+            }
+        });
+        newState.splice(index, 1);
+        setItems(newState);
+    }
+
     const handleSubmit = () => {
         const postSubmit = async () => {
             await UserService.modifyItem(modifyItem);
@@ -102,7 +114,7 @@ const Admin = () => {
                     index = indexInForEach;
                 }
             });
-            newState[index] = {...newState[index], price: modifyItem.price, weight: modifyItem.weight}
+            newState[index] = { ...newState[index], price: modifyItem.price, weight: modifyItem.weight }
             setItems(newState);
             setModifyItem({});
         }
@@ -115,6 +127,7 @@ const Admin = () => {
             setItems(response.data.items);
         }
         getItems();
+        // eslint-disable-next-line
     }, [])
 
     return (
@@ -139,7 +152,7 @@ const Admin = () => {
                                         <Typography component="p" variant="body1">{item.cat}</Typography>
                                     </Grid>
                                     <Grid item xs={2}>
-                                        <IconButton className={classes.deleteIcon} size='medium' >
+                                        <IconButton className={classes.deleteIcon} size='medium' onClick={() => DeleteItem(item._id)}>
                                             <DeleteIcon />
                                         </IconButton>
                                     </Grid>
@@ -149,7 +162,7 @@ const Admin = () => {
                                         </Button>
                                     </Grid>
                                 </Grid>
-                                )
+                            )
                             )
                         }
 

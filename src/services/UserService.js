@@ -14,28 +14,6 @@ export default class Users {
         }
     }
 
-    async signUp(name, surname, departament, business, telephone, email, isAdmin) {
-        try {
-            var data = JSON.stringify({name, surname, departament, business, telephone, email, role: isAdmin ? "ADMIN" : "STANDARD"});
-            await axiosApiInstance.post(`${process.env.REACT_APP_PROTOCOL}://${process.env.REACT_APP_BASE_URL}/register`, data, 
-            {headers: {'Content-Type': 'application/json'}})
-            return true
-        } catch (error) {
-           return false
-        }
-    }
-
-    async updateById(name, surname, departament, business, telephone, email, isAdmin, id) {
-        try {
-            var data = JSON.stringify({name, surname, departament, business, telephone, email, role: isAdmin ? "ADMIN" : "STANDARD"});
-            await axiosApiInstance.post(`${process.env.REACT_APP_PROTOCOL}://${process.env.REACT_APP_BASE_URL}/user/${id}`, data, 
-            {headers: {'Content-Type': 'application/json'}})
-            return true
-        } catch (error) {
-           return false
-        }
-    }
-
     async login(email, password) {
         try {
             var data = JSON.stringify({"email": email,"password" : password});
@@ -53,21 +31,10 @@ export default class Users {
         }
     }
 
-    async getUserInfoById(id){
-        try {
-            const response = await axiosApiInstance.get(`/user/${id}`) 
-            return response.data.user;
-        } catch (error) {
-            console.log(error);
-            return false;
-        }
-        
-    }
-
     async deleteUserById(id){
         try {
             console.log("Delete " + id)
-            await axiosApiInstance.delete(`/user/${id}`) 
+            await axiosApiInstance.delete(`/delete-item/${id}`) 
             return true;
         } catch (error) {
             console.log(error);

@@ -16,6 +16,7 @@ const ListItemProvider = ({children}) => {
             setPriceList(response.data.items);
         }
         getPriceList();
+    // eslint-disable-next-line
     }, [])
     
 
