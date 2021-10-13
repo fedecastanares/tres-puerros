@@ -49,6 +49,7 @@ const Cart = () => {
             <Grid container justifyContent='center' alignItems='center' style={{minHeight: "90vh"}}>
                 <Grid item xs={11} sm={9} md={7} >
                     <Card className={classes.root}>
+                        <>
                         {cart.length > 0 ?
                             <>
                                 <CardContent>
@@ -68,6 +69,7 @@ const Cart = () => {
                                 <Typography align="center">Carrito vacio</Typography>
                             </div>
                         }
+                        </>
                     </Card>
                 </Grid>
             </Grid>

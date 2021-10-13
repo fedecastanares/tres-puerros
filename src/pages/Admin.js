@@ -102,7 +102,8 @@ const Admin = () => {
     useEffect(() => {
         const getItems = async () => {
             const response = await UserService.getItems();
-            response !== undefined && setItems(response.data.items);
+            console.log(response.data.items);
+            setItems(response.data.items);
         }
         getItems();
     }, [])
@@ -114,7 +115,7 @@ const Admin = () => {
                     <Card className={classes.root}>
                         <Typography component="h1" variant="h5">Listado de productos:</Typography>
                         {
-                            items.length > 0 && items.filter((item, index) => item.cat === "fruta" && (
+                            items.length > 0 && items.map((item, index) => (
                                 <Grid container spacing={1} justifyContent="space-between" alignItems="center" key={item.name}>
                                     <Grid item xs={3}>
                                         <Typography component="p" variant="body1">{item.name}</Typography>
