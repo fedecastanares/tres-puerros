@@ -1,32 +1,41 @@
-import { useContext, useState } from "react";
+import { useContext, useState, useEffect } from "react";
 import { BoxesContext } from "../context/boxesContext";
 
 const useBoxes = () => {
 
     const { boxesList } = useContext(BoxesContext);
+    const [boxesListState, setBoxesListState] = useState({});
 
     const addActiveAtribute = (array) => {
         let newArray = [];
         array.map(element => {
             let newItems = [];
-            element.items.map(item => {
-                newItems.push({...item, active: true});
-                return null;
-            })
-            newArray.push({...element, items: newItems, activeItems: 0, aggregates: []});
+            if (element.items.length > 0) {
+                element.items.map(item => {
+                    newItems.push({ ...item, active: true });
+                    return null;
+                })
+                newArray.push({ ...element, items: newItems, activeItems: 0, aggregates: [] });
+            } else {
+                newArray.push({ ...element, items: [], activeItems: 0, aggregates: [] })
+            }
             return null;
         })
-        return newArray
+        return newArray;
     }
 
-    const boxesListStateINIT = addActiveAtribute(boxesList);
-
-    const [ boxesListState, setBoxesListState ] = useState(boxesListStateINIT);
+    useEffect(() => {
+        if ( boxesList.length > 0) {
+            const boxesListState = addActiveAtribute(boxesList);
+            setBoxesListState(boxesListState);
+        }
+    }, [boxesList])
 
     return {
+        boxesList,
         boxesListState,
         setBoxesListState
     };
 }
- 
+
 export default useBoxes;

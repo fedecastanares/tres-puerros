@@ -6,6 +6,7 @@ import SaveIcon from '@material-ui/icons/Save';
 import { makeStyles } from '@material-ui/core/styles';
 import { useEffect, useState } from 'react';
 import Users from '../services/UserService';
+import useBoxes from '../hooks/useBoxes';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -53,6 +54,12 @@ const useStyles = makeStyles((theme) => ({
     otros: {
         backgroundColor: "#228565",
         padding: "1rem 0.5rem"
+    },
+    box: {
+        padding: "1rem 0.5rem",
+        margin: "0.5rem 0",
+        backgroundColor: "#ffcc52",
+        borderRadius: 5
     }
 }));
 
@@ -77,9 +84,17 @@ const Admin = () => {
         weight: "",
         cat: ""
     }
+    const newBoxINIT = {
+        name: "",
+        price: ""
+    }
     const [newItem, setNewItem] = useState(newItemINIT);
     const [modifyItem, setModifyItem] = useState({});
     const [items, setItems] = useState([]);
+    const [newBox, setNewBox] = useState(newBoxINIT);
+
+    const { boxesList } = useBoxes();
+    console.log(boxesList);
 
     const [frutas, setFrutas] = useState([]);
     const [verduras, setVerduras] = useState([]);
@@ -97,6 +112,10 @@ const Admin = () => {
 
     const handleChangeNewItem = e => {
         setNewItem({ ...newItem, [e.target.name]: e.target.value })
+    }
+
+    const handleNewBox = e => {
+        setNewBox({ ...newBox, [e.target.name]: e.target.value })
     }
 
     const AddNewItem = () => {
@@ -138,6 +157,19 @@ const Admin = () => {
             setModifyItem({});
         }
         postSubmit()
+    }
+
+    const addNewBox = () => {
+        const postNewBox = async () => {
+            const response = await UserService.newBox(newBox);
+            setNewBox(newBoxINIT)
+            console.log(response);
+        }
+        postNewBox();
+    }
+
+    const removeBox = id => {
+        console.log(`Eliminar box: ${id}`);
     }
 
     useEffect(() => {
@@ -255,14 +287,54 @@ const Admin = () => {
                             <Grid item xs={3}>
                                 <TextField placeholder="Peso un" type='number' name='weight' className={classes.input} onChange={handleChangeNewItem} value={newItem.weight} />
                             </Grid>
-                            <Grid item xs={3}>
+                            <Grid item >
                                 <IconButton className={classes.primaryColor} size='medium' onClick={AddNewItem}>
                                     <AddIcon />
                                 </IconButton>
                             </Grid>
                         </Grid>
                         <div style={{ margin: "1rem 0" }}>
-                            <Typography component="h1" variant="h5">Cajas:</Typography>
+                            <Grid container >
+                                <Grid item xs={12}>
+                                    <Typography component="h1" variant="h5">Cajas:</Typography>
+                                </Grid>
+                                <Typography style={{ marginTop: "1rem" }} component="h3" variant="h6">Agregar</Typography>
+                                <Grid container justifyContent="space-evenly" style={{ marginTop: "1rem" }}>
+                                    <Grid item >
+                                        <TextField placeholder="Nombre" name='name' fullWidth className={classes.input} onChange={handleNewBox} value={newBox.name} />
+                                    </Grid>
+                                    <Grid item >
+                                        <TextField placeholder="Precio" name='price' fullWidth className={classes.input} onChange={handleNewBox} value={newBox.price} />
+                                    </Grid>
+                                    <Grid item >
+                                        <IconButton className={classes.primaryColor} size='medium' onClick={addNewBox}>
+                                            <AddIcon />
+                                        </IconButton>
+                                    </Grid>
+                                </Grid>
+                            </Grid>
+                            <Typography style={{ marginTop: "1rem" }} component="h3" variant="h6">Existentes:</Typography>
+                            {
+                                boxesList.length > 0 && boxesList.map(box => (
+                                    <>
+                                        <div className={classes.box}>
+                                            <Grid container justifyContent="space-between">
+                                                <Grid item>
+                                                    <Typography variant="body1">{box.name}</Typography>
+                                                </Grid>
+                                                <Grid item>
+                                                    <Typography variant="body1">{box.price}</Typography>
+                                                </Grid>
+                                            </Grid>
+                                            {box.items.length === 0 && <Typography variant="body1" align="center" color="secondary">Caja sin productos</Typography>}
+                                            <Typography variant="body1">Agregar producto:</Typography>
+                                            <Button variant="contained" color="secondary" size='medium' fullWidth onClick={() => { removeBox(box._id) }} >
+                                                Eliminar Caja
+                                            </Button>
+                                        </div>
+                                    </>
+                                ))
+                            }
                         </div>
                     </Card>
                 </Grid>

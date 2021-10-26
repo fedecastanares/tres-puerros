@@ -1,3 +1,4 @@
+import { useState, useEffect } from 'react'
 import { withStyles, makeStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -72,9 +73,9 @@ const MyTable = () => {
     }
 
     useEffect(() => {
-        let frutasState = items.filter(item => item.cat === "fruta");
-        let verdurasState = items.filter(item => item.cat === "verdura");
-        let otrosState = items.filter(item => item.cat === "otro");
+        let frutasState = listItem.filter(item => item.cat === "fruta");
+        let verdurasState = listItem.filter(item => item.cat === "verdura");
+        let otrosState = listItem.filter(item => item.cat === "otro");
 
         frutasState = frutasState.sort((a, b) => (a.name > b.name) ? 1 : ((b.name > a.name) ? -1 : 0));
         verdurasState = verdurasState.sort((a, b) => (a.name > b.name) ? 1 : ((b.name > a.name) ? -1 : 0));

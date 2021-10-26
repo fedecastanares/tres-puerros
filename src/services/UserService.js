@@ -127,6 +127,25 @@ export default class Users {
             return false;
         }
     }
+
+    async newBox (newBox) {
+        try {
+            const response = await axiosApiInstance.post("/new-box",  JSON.stringify({name: newBox.name, price: newBox.price}));
+            return response.data.item;
+        } catch (error) {
+            console.log(error);
+            return false;
+        }
+    }
+
+    async getBoxes () {
+        try {
+            const response = await axiosApiInstance.get("/boxes");
+            return response.data.boxes;
+        } catch (error) {
+            return false;
+        }
+    }
     
     isUserAuthenticated() {
         return isUserAuthenticatedAuth();

@@ -50,7 +50,7 @@ const useStyles = makeStyles((theme) => ({
     },
     lineThrough: {
         textDecoration: 'line-through'
-    }, 
+    },
     input: {
         margin: 7
     },
@@ -90,7 +90,7 @@ const Boxes = () => {
             let newState = [...boxesListState];
             newState[indexOfBox].items[indexOfItem].active = !item.active;
             !item.active ? ++newState[indexOfBox].activeItems : --newState[indexOfBox].activeItems;
-            if (newState[indexOfBox].activeItems < newState[indexOfBox].aggregates.length){ 
+            if (newState[indexOfBox].activeItems < newState[indexOfBox].aggregates.length) {
                 newState[indexOfBox].aggregates.length = newState[indexOfBox].aggregates.length - 1;
             }
             setBoxesListState(newState);
@@ -99,7 +99,7 @@ const Boxes = () => {
 
     const onInputChange = (e, index, indexAggregates) => {
         let newBoxesList = [...boxesListState];
-        newBoxesList[index].aggregates[indexAggregates] = {...newBoxesList[index].aggregates[indexAggregates], [e.target.name]: e.target.value};
+        newBoxesList[index].aggregates[indexAggregates] = { ...newBoxesList[index].aggregates[indexAggregates], [e.target.name]: e.target.value };
         setBoxesListState(newBoxesList);
     };
 
@@ -112,10 +112,10 @@ const Boxes = () => {
         <>
             <div className="animate__animated animate__fadeIn">
                 <div className={classes.root}>
-                    {boxesListState && <Typography className={classes.boxesTitle}>Cajas estacionales</Typography>}
+                    {boxesListState.length > 0 && <Typography className={classes.boxesTitle}>Cajas estacionales</Typography>}
                     {
 
-                        boxesListState && boxesListState.map((box, index) => (
+                        boxesListState.length > 0 && boxesListState.map((box, index) => (
                             <div key={index}>
                                 <Accordion expanded={expanded === `panel${index}`} TransitionProps={{ unmountOnExit: true }} onChange={handleChange(`panel${index}`)}>
                                     <AccordionSummary
@@ -178,14 +178,14 @@ const Boxes = () => {
                                                 ))}
                                                 {
                                                     box.activeItems > 0 &&
-                                                    [...Array(box.activeItems)].map((value,indexAggregates) =>
+                                                    [...Array(box.activeItems)].map((value, indexAggregates) =>
                                                         React.Children.toArray(
                                                             <div className="animate__animated animate__slideInDown">
                                                                 <Grid container spacing={2} alignItems='center'>
                                                                     <Grid item xs={6}>
                                                                         <Grid container >
                                                                             <Grid item xs={8}>
-                                                                                <TextField className={`${classes.details} ${classes.input}`} name="product" placeholder='producto' onChange={(e) => onInputChange(e,index, indexAggregates)} />
+                                                                                <TextField className={`${classes.details} ${classes.input}`} name="product" placeholder='producto' onChange={(e) => onInputChange(e, index, indexAggregates)} />
                                                                             </Grid>
                                                                             <Grid item xs={4}>
                                                                                 {/*
@@ -193,15 +193,15 @@ const Boxes = () => {
                                                                                     $ precio <span className={classes.decorator}>kg</span>
                                                                                 </Typography>
                                                                                  */}
-                                                                                
+
                                                                             </Grid>
                                                                         </Grid>
                                                                     </Grid>
                                                                     <Grid item xs={2}>
-                                                                        <TextField className={classes.details} type='number' name='units' placeholder='unidades' disabled={boxesListState[index].aggregates[indexAggregates] !== undefined && boxesListState[index].aggregates[indexAggregates].hasOwnProperty("kg")}    onChange={(e) => onInputChange(e,index, indexAggregates)} />
+                                                                        <TextField className={classes.details} type='number' name='units' placeholder='unidades' disabled={boxesListState[index].aggregates[indexAggregates] !== undefined && boxesListState[index].aggregates[indexAggregates].hasOwnProperty("kg")} onChange={(e) => onInputChange(e, index, indexAggregates)} />
                                                                     </Grid>
                                                                     <Grid item xs={2}>
-                                                                        <TextField className={classes.details} type='number' name='kg' placeholder='kg'          disabled={boxesListState[index].aggregates[indexAggregates] !== undefined && boxesListState[index].aggregates[indexAggregates].hasOwnProperty("units")} onChange={(e) => onInputChange(e,index, indexAggregates)} />
+                                                                        <TextField className={classes.details} type='number' name='kg' placeholder='kg' disabled={boxesListState[index].aggregates[indexAggregates] !== undefined && boxesListState[index].aggregates[indexAggregates].hasOwnProperty("units")} onChange={(e) => onInputChange(e, index, indexAggregates)} />
                                                                     </Grid>
                                                                     <Grid item xs={2}>
                                                                         {/*<IconButton size='medium' color='secondary'>
