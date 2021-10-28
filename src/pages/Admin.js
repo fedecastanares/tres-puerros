@@ -8,6 +8,8 @@ import { useEffect, useState } from 'react';
 import Users from '../services/UserService';
 import useBoxes from '../hooks/useBoxes';
 
+import AddProductInBox from '../components/addProductInBox'
+
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -317,7 +319,7 @@ const Admin = () => {
                             {
                                 boxesList.length > 0 && boxesList.map(box => (
                                     <>
-                                        <div className={classes.box}>
+                                        <div className={classes.box} key={box._id}>
                                             <Grid container justifyContent="space-between">
                                                 <Grid item>
                                                     <Typography variant="body1">{box.name}</Typography>
@@ -328,6 +330,7 @@ const Admin = () => {
                                             </Grid>
                                             {box.items.length === 0 && <Typography variant="body1" align="center" color="secondary">Caja sin productos</Typography>}
                                             <Typography variant="body1">Agregar producto:</Typography>
+                                            <AddProductInBox boxID={box._id} />
                                             <Button variant="contained" color="secondary" size='medium' fullWidth onClick={() => { removeBox(box._id) }} >
                                                 Eliminar Caja
                                             </Button>

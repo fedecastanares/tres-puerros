@@ -128,7 +128,7 @@ export default class Users {
         }
     }
 
-    async newBox (newBox) {
+    async newBox(newBox) {
         try {
             const response = await axiosApiInstance.post("/new-box",  JSON.stringify({name: newBox.name, price: newBox.price}));
             return response.data.item;
@@ -138,13 +138,37 @@ export default class Users {
         }
     }
 
-    async getBoxes () {
+    async getBoxes() {
         try {
-            const response = await axiosApiInstance.get("/boxes");
+            const response = await axios.get(`${process.env.REACT_APP_PROTOCOL}://${process.env.REACT_APP_BASE_URL}/boxes`);
             return response.data.boxes;
         } catch (error) {
             return false;
         }
+    }
+
+    async deleteBox () {
+        try {
+            const response = await axiosApiInstance.delete("/boxes");
+            return response.data.boxes;
+        } catch (error) {
+            return false;
+        }
+    }
+
+    async addItemInnerBox(order) {
+        console.log("metodo")
+        try {
+            var data = JSON.stringify({order});
+            const response = await axiosApiInstance.post("/add-item-inner-box", data);
+            return response.data.boxes;
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    prueba() {
+        console.log("prueba")
     }
     
     isUserAuthenticated() {
