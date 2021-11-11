@@ -3,7 +3,7 @@ import { BoxesContext } from "../context/boxesContext";
 
 const useBoxes = () => {
 
-    const { boxesList } = useContext(BoxesContext);
+    const { boxesList, setBoxesList } = useContext(BoxesContext);
     const [boxesListState, setBoxesListState] = useState({});
 
     const addActiveAtribute = (array) => {
@@ -25,7 +25,7 @@ const useBoxes = () => {
     }
 
     useEffect(() => {
-        if ( boxesList.length > 0) {
+        if ( !!boxesList && boxesList.length > 0) {
             const boxesListState = addActiveAtribute(boxesList);
             setBoxesListState(boxesListState);
         }
@@ -34,7 +34,8 @@ const useBoxes = () => {
     return {
         boxesList,
         boxesListState,
-        setBoxesListState
+        setBoxesListState,
+        setBoxesList
     };
 }
 

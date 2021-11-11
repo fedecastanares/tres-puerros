@@ -2,6 +2,7 @@ import { Grid, Card, TextField, Typography, IconButton, InputLabel, Select, Menu
 import AddIcon from '@material-ui/icons/Add';
 import DeleteIcon from '@material-ui/icons/Delete';
 import SaveIcon from '@material-ui/icons/Save';
+import EditIcon from '@material-ui/icons/Edit';
 
 import { makeStyles } from '@material-ui/core/styles';
 import { useEffect, useState } from 'react';
@@ -95,8 +96,7 @@ const Admin = () => {
     const [items, setItems] = useState([]);
     const [newBox, setNewBox] = useState(newBoxINIT);
 
-    const { boxesList } = useBoxes();
-    console.log(boxesList);
+    const { boxesList, setBoxesList } = useBoxes();
 
     const [frutas, setFrutas] = useState([]);
     const [verduras, setVerduras] = useState([]);
@@ -165,13 +165,34 @@ const Admin = () => {
         const postNewBox = async () => {
             const response = await UserService.newBox(newBox);
             setNewBox(newBoxINIT)
-            console.log(response);
+            setBoxesList([...boxesList, response])
         }
         postNewBox();
     }
 
     const removeBox = id => {
-        console.log(`Eliminar box: ${id}`);
+        const callRemoveBox = async id => {
+            const response = await UserService.deleteBox(id);
+            if (response) {
+                const withOutBox = boxesList.filter(box => box._id !== id)
+                setBoxesList(withOutBox)
+            }
+        }
+        callRemoveBox(id);
+    }
+
+    const removeItemInBox = (boxId, itemId) => {
+        console.log(boxesList);
+        const callRemoveItem = async (boxId, itemId) => {
+            const response = await UserService.removeItemInBox(boxId, itemId)
+            if (response.ok) {
+                let newBoxList = [...boxesList];
+                newBoxList.find(box => box._id === boxId && box.items.filter(item => item._id !== itemId && console.log(item)));
+                //console.log(newBoxList)
+                // newBoxList.items.filter(item => item._id !== itemId);
+            }
+        }
+        callRemoveItem(boxId, itemId)
     }
 
     useEffect(() => {
@@ -204,7 +225,7 @@ const Admin = () => {
             <Grid item xs={4}>
                 <Typography component="p" variant="body1">{item.name}</Typography>
             </Grid>
-            <Grid item xs={1}>
+            <Grid item xs={2}>
                 <Typography component="p" variant="body1">$ {item.price}</Typography>
             </Grid>
             <Grid item xs={2}>
@@ -215,10 +236,10 @@ const Admin = () => {
                     <DeleteIcon />
                 </IconButton>
             </Grid>
-            <Grid item xs={3}>
-                <Button className={classes.checkIcon} variant="contained" color="primary" size='medium' onClick={() => { handleOpen(item) }} >
-                    Modificar
-                </Button>
+            <Grid item xs={2}>
+                <IconButton style={{ color: "#000" }} size='medium' onClick={() => { handleOpen(item) }} >
+                    <EditIcon />
+                </IconButton>
             </Grid>
         </Grid>
     );
@@ -329,6 +350,17 @@ const Admin = () => {
                                                 </Grid>
                                             </Grid>
                                             {box.items.length === 0 && <Typography variant="body1" align="center" color="secondary">Caja sin productos</Typography>}
+                                            {box.items.length > 0 && <><Typography variant="body2">Items:</Typography></>}
+                                            {box.items.length > 0 && box.items.map(item =>
+                                                <Grid container justifyContent="space-between" alignItems="center">
+                                                    <Typography variant="body1">{item.name}</Typography>
+                                                    {item.qty > 0 && <Typography variant="body1">{item.qty} unidades</Typography>}
+                                                    {item.kg > 0 && <Typography variant="body1">{item.kg} kg</Typography>}
+                                                    <IconButton className={classes.deleteIcon} size='small' onClick={() => removeItemInBox(box._id, item._id)}>
+                                                        <DeleteIcon />
+                                                    </IconButton>
+                                                </Grid>
+                                            )}
                                             <Typography variant="body1">Agregar producto:</Typography>
                                             <AddProductInBox boxID={box._id} />
                                             <Button variant="contained" color="secondary" size='medium' fullWidth onClick={() => { removeBox(box._id) }} >
@@ -362,7 +394,7 @@ const Admin = () => {
                         <br />
                         <Grid container spacing={2} justifyContent="space-between">
                             <IconButton className={classes.deleteIcon} ><DeleteIcon fontSize="large" /></IconButton>
-                            <IconButton className={classes.checkIcon} onClick={handleSubmit} ><SaveIcon fontSize="large" /></IconButton>
+                            <IconButton color="primary" onClick={handleSubmit} ><SaveIcon fontSize="large" /></IconButton>
                         </Grid>
                     </Box>
                 </Modal>

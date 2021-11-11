@@ -1,19 +1,24 @@
 import { useEffect, useState } from 'react'
-import { FormControl, InputLabel, Select, MenuItem, TextField, Button } from "@material-ui/core"
+import { FormControl, InputLabel, Select, MenuItem, TextField, Button, ListItemSecondaryAction } from "@material-ui/core"
 import useListItem from '../hooks/useListItem';
 
-import _userService from '../services/UserService';
+import userService from '../services/UserService';
+
+import useBoxes from '../hooks/useBoxes'
 
 const AddProductInBox = ({boxID}) => {
 
+    const { boxesList, setBoxesList } = useBoxes();
+    const qtyINIT = {
+        qty: "",
+        kg: ""
+    };
     const { priceList } = useListItem();
     const [select, setSelect] = useState('');
     const [filter, setFilter] = useState('');
-    const [qty, setQty] = useState({
-        qty: "",
-        kg: ""
-    });
+    const [qty, setQty] = useState(qtyINIT);
     const [products, setProducts] = useState([]);
+    const _userService = new userService();
 
     const ChangeSelect = (event) => {
         setSelect(event.target.value);
@@ -26,22 +31,25 @@ const AddProductInBox = ({boxID}) => {
     }
 
     const addItemInnerBoxFn = () => {
-        const {name, id} = select;
         const order = {
             boxID: boxID,
-            item: {id, name, kg: qty.kg, qty: qty.qty}
+            item: {_id: select, kg: qty.kg, qty: qty.qty}
         }
-        /*
         const addItem = async order => {
-            console.log(order);
-            console.log(select.name);
-            const response = await _userService.prueba();
-            console.log(response);
+            const response = await _userService.addItemInnerBox(order);
+            if (response.ok) {
+                setSelect('');
+                setFilter('');
+                setQty(qtyINIT);
+                let newBoxList = [...boxesList];
+                newBoxList.find(box => box._id === order.boxID && box.items.push(response.item))
+                setBoxesList(newBoxList);
+            }
         }
 
         addItem(order);
-        */
-       _userService.prueba();
+        
+
     }
 
 
@@ -62,12 +70,12 @@ const AddProductInBox = ({boxID}) => {
                 <Select
                     labelId="addProduct-label"
                     id="addProduct"
-                    value={select.name}
+                    value={select}
                     label="Producto"
                     onChange={ChangeSelect}
                 >
                     {products.length > 0 &&
-                        products.map(item => <MenuItem key={item._id} value={{id:item._id, name: item.name}}>{item.name}</MenuItem>)}
+                        products.map(item => <MenuItem key={item._id} value={item._id}>{item.name}</MenuItem>)}
                 </Select>
             </FormControl>
             <TextField fullWidth placeholder="0" name='qty' type="number" label="Cantidad" variant="standard" value={qty.qty} onChange={handleQTY} />

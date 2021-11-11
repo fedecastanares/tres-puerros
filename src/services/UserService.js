@@ -147,25 +147,35 @@ export default class Users {
         }
     }
 
-    async deleteBox () {
+    async deleteBox (id) {
         try {
-            const response = await axiosApiInstance.delete("/boxes");
-            return response.data.boxes;
+            const response = await axiosApiInstance.delete("/delete-box/" + id);
+            return response.data;
         } catch (error) {
             return false;
         }
     }
 
     async addItemInnerBox(order) {
-        console.log("metodo")
         try {
             var data = JSON.stringify({order});
             const response = await axiosApiInstance.post("/add-item-inner-box", data);
-            return response.data.boxes;
+            return response.data;
         } catch (error) {
             console.log(error);
         }
     }
+
+    async removeItemInBox (boxId, itemId) {
+        try {
+            var data = JSON.stringify({boxId, itemId});
+            const response = await axiosApiInstance.post("/remove-item-inner-box", data);
+            return response.data;
+        } catch (error) {
+            
+        }
+    }
+    
 
     prueba() {
         console.log("prueba")

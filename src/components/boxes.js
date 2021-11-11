@@ -138,27 +138,18 @@ const Boxes = () => {
                                                 {box.items.map((item, indexOfItem) => (
                                                     <div key={`${item.name}-row-${indexOfItem}`} id={`${item.name}-row-${indexOfItem}`} className={classes.itemsContainer} >
                                                         <Grid container className={!item.active && classes.lineThrough} alignItems='center'>
-                                                            <Grid item xs={6}>
-                                                                <Grid container >
-                                                                    <Grid item xs={8}>
-                                                                        <Typography className={classes.details}>
-                                                                            {item.name}
-                                                                        </Typography>
-                                                                    </Grid>
-                                                                    <Grid item xs={4}>
-                                                                        <Typography className={classes.details}>
-                                                                            $ {item.price} <span className={classes.decorator}>kg</span>
-                                                                        </Typography>
-                                                                    </Grid>
-                                                                </Grid>
+                                                            <Grid item xs={4}>
+                                                                <Typography className={classes.details}>
+                                                                    {item.name}
+                                                                </Typography>
                                                             </Grid>
-                                                            <Grid item xs={2}>
-                                                                {item.units > 0 && <Typography className={classes.details} align="right">
-                                                                    {item.units} <span className={classes.decorator}>unidades</span>
+                                                            <Grid item xs={3}>
+                                                                {item.qty > 0 && <Typography className={classes.details} align="right">
+                                                                    {item.qty} <span className={classes.decorator}>unidades</span>
                                                                 </Typography>}
                                                             </Grid>
-                                                            <Grid item xs={2}>
-                                                                {item.kg > 0 && <Typography className={classes.details}>
+                                                            <Grid item xs={3}>
+                                                                {item.kg > 0 && <Typography className={classes.details} align="right">
                                                                     {item.kg} <span className={classes.decorator}>kg</span>
                                                                 </Typography>}
                                                             </Grid>
