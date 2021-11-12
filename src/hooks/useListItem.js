@@ -2,7 +2,7 @@ import { useContext, useEffect, useState } from "react";
 import { ListItemContext } from "../context/listItemContext";
 
 const useListItem = () => {
-    const { priceList } = useContext(ListItemContext);
+    const { priceList, setPriceList } = useContext(ListItemContext);
 
     const [ listItem, setListItems ] = useState([]);
 
@@ -15,7 +15,8 @@ const useListItem = () => {
     return {
         priceList,
         listItem,
-        setListItems
+        setListItems,
+        setPriceList
     };
 }
 

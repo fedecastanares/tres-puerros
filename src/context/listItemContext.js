@@ -13,7 +13,9 @@ const ListItemProvider = ({children}) => {
     useEffect(() => {
         const getPriceList = async () => {
             const response = await UserService.getItems();
-            setPriceList(response.data.items);
+            let items = response.data.items;
+            items.sort((a, b) => (a.name > b.name) ? 1 : ((b.name > a.name) ? -1 : 0));
+            setPriceList(items);
         }
         getPriceList();
     // eslint-disable-next-line
@@ -24,7 +26,8 @@ const ListItemProvider = ({children}) => {
         <>
         <ListItemContext.Provider 
             value={{
-                priceList
+                priceList,
+                setPriceList
             }}
         >
             {children}

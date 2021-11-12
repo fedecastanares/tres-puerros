@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { FormControl, InputLabel, Select, MenuItem, TextField, Button, ListItemSecondaryAction } from "@material-ui/core"
+import { FormControl, InputLabel, Select, MenuItem, TextField, Button } from "@material-ui/core"
 import useListItem from '../hooks/useListItem';
 
 import userService from '../services/UserService';
@@ -60,6 +60,7 @@ const AddProductInBox = ({boxID}) => {
             const newState = [...products].filter(item => item.name.startsWith(filter));
             setProducts(newState)
         }
+    // eslint-disable-next-line
     }, [filter, priceList])
 
     return (

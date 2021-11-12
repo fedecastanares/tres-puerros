@@ -10,20 +10,14 @@ const BoxesProvider = ({ children }) => {
 
     const { priceList } = useListItem();
 
-    const getBoxesList = async () => {
-        if (priceList.length > 0) {
-            const userService = new UserService();
-            const boxes = await userService.getBoxes();
-            console.log(boxes);
-            console.log(priceList);
-            // recorrer las cajas
-            // recorrer los items
-            // buscar el precio del item
-            setBoxesList(boxes);
-        }
-    }
-
     useEffect(() => {
+        const getBoxesList = async () => {
+            if (priceList.length > 0) {
+                const userService = new UserService();
+                const boxes = await userService.getBoxes();
+                setBoxesList(boxes);
+            }
+        }
         getBoxesList();
     }, [priceList])
 

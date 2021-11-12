@@ -69,6 +69,7 @@ const Form = () => {
                                 <MenuItem value={"A"}>La Blanqueada - Malvin - <br />Carrasco - Parque Miramar</MenuItem>
                                 <MenuItem value={"B"}>Punta Carretas - Pocitos - <br />Villa Dolores - Buceo </MenuItem>
                                 <MenuItem value={"C"}>Parque Rodó - Cordon - Centro - <br />Ciudad Vieja</MenuItem>
+                                <MenuItem value={"L"}>Local</MenuItem>
                             </Select>
                         </Grid>
                         <Grid item xs={6}>
@@ -81,7 +82,6 @@ const Form = () => {
                                 {data.zone === "A" &&
                                     <>
                                         <FormControlLabel value="martes" control={<Radio color="primary" />} label="Martes" />
-                                        <FormControlLabel value="local" control={<Radio color="primary" />} label="Local" />
                                     </>
                                 }
                                 {data.zone === "B" &&
@@ -89,13 +89,11 @@ const Form = () => {
                                         <FormControlLabel value="martes" control={<Radio color="primary" />} label="Martes" />
                                         <FormControlLabel value="miercoles" control={<Radio color="primary" />} label="Miercoles" />
                                         <FormControlLabel value="jueves" control={<Radio color="primary" />} label="Jueves" />
-                                        <FormControlLabel value="local" control={<Radio color="primary" />} label="Local" />
                                     </>
                                 }
                                 {data.zone === "C" &&
                                     <>
                                         <FormControlLabel value="jueves" control={<Radio color="primary" />} label="Jueves" />
-                                        <FormControlLabel value="local" control={<Radio color="primary" />} label="Local" />
                                     </>
                                 }
                             </RadioGroup>

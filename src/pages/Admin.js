@@ -10,12 +10,14 @@ import Users from '../services/UserService';
 import useBoxes from '../hooks/useBoxes';
 
 import AddProductInBox from '../components/addProductInBox'
+import useListItem from '../hooks/useListItem';
 
 
 const useStyles = makeStyles((theme) => ({
     root: {
         minWidth: 275,
-        padding: "0.5rem"
+        padding: "0.5rem",
+        margin: "1rem 0"
     },
     bullet: {
         display: 'inline-block',
@@ -81,6 +83,8 @@ const style = {
 const Admin = () => {
     const classes = useStyles();
     const UserService = new Users();
+    const {priceList, setPriceList} = useListItem();
+
     const newItemINIT = {
         name: "",
         price: "",
@@ -122,7 +126,7 @@ const Admin = () => {
 
     const AddNewItem = () => {
         UserService.addNewItem(newItem);
-        setItems([...items, newItem]);
+        setPriceList([...items, newItem]);
         setNewItem(newItemINIT);
     }
 
@@ -155,7 +159,7 @@ const Admin = () => {
                 }
             });
             newState[index] = { ...newState[index], price: modifyItem.price, weight: modifyItem.weight }
-            setItems(newState);
+            setPriceList(newState);
             setModifyItem({});
         }
         postSubmit()
@@ -198,23 +202,15 @@ const Admin = () => {
     }
 
     useEffect(() => {
-        const getItems = async () => {
-            const response = await UserService.getItems();
-            setItems(response.data.items);
-        }
-        getItems();
+        setItems(priceList);
         // eslint-disable-next-line
-    }, [])
+    }, [priceList])
 
 
     useEffect(() => {
         let frutasState = items.filter(item => item.cat === "fruta");
         let verdurasState = items.filter(item => item.cat === "verdura");
         let otrosState = items.filter(item => item.cat === "otro");
-
-        frutasState = frutasState.sort((a, b) => (a.name > b.name) ? 1 : ((b.name > a.name) ? -1 : 0));
-        verdurasState = verdurasState.sort((a, b) => (a.name > b.name) ? 1 : ((b.name > a.name) ? -1 : 0));
-        otrosState = otrosState.sort((a, b) => (a.name > b.name) ? 1 : ((b.name > a.name) ? -1 : 0));
 
         setFrutas(frutasState);
         setVerduras(verdurasState);
@@ -324,14 +320,14 @@ const Admin = () => {
                                     <Typography component="h1" variant="h5">Cajas:</Typography>
                                 </Grid>
                                 <Typography style={{ marginTop: "1rem" }} component="h3" variant="h6">Agregar</Typography>
-                                <Grid container justifyContent="space-evenly" style={{ marginTop: "1rem" }}>
-                                    <Grid item >
+                                <Grid container justifyContent="space-evenly" spacing={1} style={{ marginTop: "1rem" }}>
+                                    <Grid item xs={4}>
                                         <TextField placeholder="Nombre" name='name' fullWidth className={classes.input} onChange={handleNewBox} value={newBox.name} />
                                     </Grid>
-                                    <Grid item >
+                                    <Grid item xs={4}>
                                         <TextField placeholder="Precio" name='price' fullWidth className={classes.input} onChange={handleNewBox} value={newBox.price} />
                                     </Grid>
-                                    <Grid item >
+                                    <Grid item xs={2}>
                                         <IconButton className={classes.primaryColor} size='medium' onClick={addNewBox}>
                                             <AddIcon />
                                         </IconButton>
