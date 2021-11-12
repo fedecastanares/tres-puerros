@@ -182,14 +182,16 @@ const Admin = () => {
     }
 
     const removeItemInBox = (boxId, itemId) => {
-        console.log(boxesList);
         const callRemoveItem = async (boxId, itemId) => {
             const response = await UserService.removeItemInBox(boxId, itemId)
             if (response.ok) {
                 let newBoxList = [...boxesList];
-                newBoxList.find(box => box._id === boxId && box.items.filter(item => item._id !== itemId && console.log(item)));
-                //console.log(newBoxList)
-                // newBoxList.items.filter(item => item._id !== itemId);
+                const box = newBoxList.find((box) => box._id === boxId );
+                const index = newBoxList.indexOf(box);
+                const newItemsList = newBoxList[index].items.filter(item => item._id !== itemId)
+                delete newBoxList[index].items ;
+                newBoxList[index].items = newItemsList;
+                setBoxesList(newBoxList)
             }
         }
         callRemoveItem(boxId, itemId)
