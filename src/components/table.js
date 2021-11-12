@@ -12,6 +12,8 @@ import { TextField, Button } from '@material-ui/core';
 import useListItem from '../hooks/useListItem'
 import useCart from '../hooks/useCart';
 
+import SearchBar from './searchBar';
+
 const useStyles = makeStyles((theme) => ({
     input: {
         maxWidth: "3rem"
@@ -90,12 +92,13 @@ const MyTable = () => {
     return (
         <>
         <div  className="animate__animated animate__fadeIn">
+            <SearchBar />
             <form noValidate onSubmit={onSubmit}>
                 <TableContainer component={Paper}>
                     <Table className={classes.table} aria-label="customized table">
                         <TableHead>
                             <TableRow>
-                                <StyledTableCell className={classes.item}>Frutas y verduras</StyledTableCell>
+                                <StyledTableCell className={classes.item}>Productos</StyledTableCell>
                                 <StyledTableCell className={classes.smallCell} >Unidades</StyledTableCell>
                                 <StyledTableCell className={classes.smallCell}>Kg</StyledTableCell>
                             </TableRow>
