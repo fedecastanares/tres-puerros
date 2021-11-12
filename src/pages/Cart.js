@@ -55,7 +55,7 @@ const Cart = () => {
                                 <CardContent>
                                     <Form /><br/>
                                     <Typography variant="h5" component="h5">Productos:</Typography>
-                                    {cart.map((item, index) => <ItemCart item={item} index={index} />)}
+                                    {cart.map((item, index) => <ItemCart key={item._id} item={item} index={index} />)}
                                 </CardContent>
                                 <CardActions>
                                     <Button disabled={hasValidData()} fullWidth variant="contained" color="primary" onClick={onSubmit} style={{color:'white'}}>{hasValidData() ? "Faltan datos personales" : "Confirmar"}</Button>
