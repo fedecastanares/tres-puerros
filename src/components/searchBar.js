@@ -50,7 +50,7 @@ const useStyles = makeStyles((theme) => ({
 
 const SearchBar = () => {
     const classes = useStyles();
-    const { users, setRenderUsers } = useContext(DataContext);
+    // const { users, setRenderUsers } = useContext(DataContext);
     const [ input, setInput ] = useState('');
 
     const handleChange = e => {

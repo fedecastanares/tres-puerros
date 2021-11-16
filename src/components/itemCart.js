@@ -1,4 +1,4 @@
-import { Typography, Grid, IconButton } from "@material-ui/core";
+import { Typography, Grid, IconButton } from '@mui/material';
 import { makeStyles } from '@material-ui/core/styles';
 import CloseIcon from '@material-ui/icons/Close';
 

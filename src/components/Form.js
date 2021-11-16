@@ -1,8 +1,8 @@
-import { TextField, Grid, Typography, Radio, FormControlLabel, RadioGroup, InputLabel, Select, MenuItem } from "@material-ui/core";
+import { TextField, Grid, Typography, Radio, FormControlLabel, RadioGroup, InputLabel, Select, MenuItem } from '@mui/material';
 import { makeStyles } from '@material-ui/core/styles';
 
 import AccountBalanceIcon from '@material-ui/icons/AccountBalance';
-import MoneyIcon from '@material-ui/icons//Money';
+import MoneyIcon from '@material-ui/icons/Money';
 
 import usePersonalData from '../hooks/usePersonalData';
 

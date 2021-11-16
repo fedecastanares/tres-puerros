@@ -1,12 +1,13 @@
 import React, { useState } from 'react'
 import { makeStyles } from '@material-ui/core/styles';
 
-import { Accordion, AccordionSummary, AccordionDetails, Typography, Grid, Button, IconButton, TextField } from '@material-ui/core';
+import { Accordion, AccordionSummary, AccordionDetails, Typography, Grid, Button, IconButton, TextField } from '@mui/material';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import CloseIcon from '@material-ui/icons/Close';
 import useBoxes from '../hooks/useBoxes';
 import CheckIcon from '@material-ui/icons/Check';
 import useCart from '../hooks/useCart';
+// import MyAutocomplete from './autocompleteProduct';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -134,7 +135,7 @@ const Boxes = () => {
                                     </AccordionSummary>
                                     <AccordionDetails className={classes.accordionBody}>
                                         <Grid container direction='column'>
-                                            <Grid container direction='column' className={classes.gridContainer} >
+                                            <Grid container direction='column' className={classes.gridContainer}>
                                                 {box.items.map((item, indexOfItem) => (
                                                     <div key={`${item.name}-row-${indexOfItem}`} id={`${item.name}-row-${indexOfItem}`} className={classes.itemsContainer} >
                                                         <Grid container className={!item.active && classes.lineThrough} alignItems='center'>
@@ -154,15 +155,17 @@ const Boxes = () => {
                                                                 </Typography>}
                                                             </Grid>
                                                             <Grid item xs={2}>
+                                                                <Grid container justifyContent="center">
                                                                 {item.active ?
-                                                                    <IconButton className={classes.checkIcon} size='medium' onClick={() => handleClick(item, indexOfItem, index)}>
+                                                                    <IconButton  color="primary" size='medium' onClick={() => handleClick(item, indexOfItem, index)}>
                                                                         <CheckIcon />
                                                                     </IconButton>
                                                                     :
-                                                                    <IconButton color='secondary' size='medium' onClick={() => handleClick(item, indexOfItem, index)}>
+                                                                    <IconButton color='secondary' size='medium' align="center" onClick={() => handleClick(item, indexOfItem, index)}>
                                                                         <CloseIcon />
                                                                     </IconButton>
                                                                 }
+                                                                </Grid>
                                                             </Grid>
                                                         </Grid>
                                                     </div>
@@ -175,8 +178,8 @@ const Boxes = () => {
                                                                 <Grid container spacing={2} alignItems='center'>
                                                                     <Grid item xs={6}>
                                                                         <Grid container >
-                                                                            <Grid item xs={8}>
-                                                                                <TextField className={`${classes.details} ${classes.input}`} name="product" placeholder='producto' onChange={(e) => onInputChange(e, index, indexAggregates)} />
+                                                                            <Grid item xs={8} style={{margin: "1rem 0"}}>
+                                                                                <TextField className={`${classes.details} ${classes.input}`} variant="standard" name="product" placeholder='Producto' onChange={(e) => onInputChange(e, index, indexAggregates)} />
                                                                             </Grid>
                                                                             <Grid item xs={4}>
                                                                                 {/*
@@ -189,10 +192,10 @@ const Boxes = () => {
                                                                         </Grid>
                                                                     </Grid>
                                                                     <Grid item xs={2}>
-                                                                        <TextField className={classes.details} type='number' name='units' placeholder='unidades' disabled={boxesListState[index].aggregates[indexAggregates] !== undefined && boxesListState[index].aggregates[indexAggregates].hasOwnProperty("kg")} onChange={(e) => onInputChange(e, index, indexAggregates)} />
+                                                                        <TextField className={classes.details} variant="standard" type='number' name='units' placeholder='unidades' disabled={boxesListState[index].aggregates[indexAggregates] !== undefined && boxesListState[index].aggregates[indexAggregates].hasOwnProperty("kg")} onChange={(e) => onInputChange(e, index, indexAggregates)} />
                                                                     </Grid>
                                                                     <Grid item xs={2}>
-                                                                        <TextField className={classes.details} type='number' name='kg' placeholder='kg' disabled={boxesListState[index].aggregates[indexAggregates] !== undefined && boxesListState[index].aggregates[indexAggregates].hasOwnProperty("units")} onChange={(e) => onInputChange(e, index, indexAggregates)} />
+                                                                        <TextField className={classes.details} variant="standard" type='number' name='kg' placeholder='kg' disabled={boxesListState[index].aggregates[indexAggregates] !== undefined && boxesListState[index].aggregates[indexAggregates].hasOwnProperty("units")} onChange={(e) => onInputChange(e, index, indexAggregates)} />
                                                                     </Grid>
                                                                     <Grid item xs={2}>
                                                                         {/*<IconButton size='medium' color='secondary'>

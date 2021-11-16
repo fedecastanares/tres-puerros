@@ -1,22 +1,14 @@
 import { useState, useEffect } from 'react'
 import { withStyles, makeStyles } from '@material-ui/core/styles';
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableContainer from '@material-ui/core/TableContainer';
-import TableHead from '@material-ui/core/TableHead';
-import TableRow from '@material-ui/core/TableRow';
-import Paper from '@material-ui/core/Paper';
-import { TextField, Button } from '@material-ui/core';
+import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, TextField, Button } from '@mui/material';
 
 import useListItem from '../hooks/useListItem'
 import useCart from '../hooks/useCart';
 
-import SearchBar from './searchBar';
 
 const useStyles = makeStyles((theme) => ({
     input: {
-        maxWidth: "3rem"
+        maxWidth: "6rem"
     },
     button: {
         margin: "0.5rem 0",
@@ -26,6 +18,9 @@ const useStyles = makeStyles((theme) => ({
         [theme.breakpoints.down('sm')]: {
             fontSize: "0.8rem"
         }
+    },
+    tableRoot: {
+        margin: "1rem 0"
     }
 }));
 
@@ -58,17 +53,16 @@ const MyTable = () => {
     const [frutas, setFrutas] = useState([]);
     const [verduras, setVerduras] = useState([]);
     const [otros, setOtros] = useState([]);
-    
-    const handleChange = (e, item) => {
-        const indexToModify = listItem.findIndex((element) => element.name === item.name );
-        const newListItem = [...listItem];
-        newListItem.splice(indexToModify, 1, {...item, [e.target.name]: parseInt(e.target.value)});
-        setListItems(newListItem);
 
+    const handleChange = (e, item) => {
+        const indexToModify = listItem.findIndex((element) => element._id === item._id);
+        const newListItem = [...listItem];
+        newListItem.splice(indexToModify, 1, { ...item, [e.target.name]: parseInt(e.target.value) });
+        setListItems(newListItem);
     }
 
     const onSubmit = () => {
-        const addItem = [...listItem].filter(product => product.units > 0 || product.kg > 0 );
+        const addItem = [...listItem].filter(product => product.units > 0 || product.kg > 0);
         let newItemsCart = [...cart];
         addItem.forEach(item => newItemsCart.push(item));
         setCart(newItemsCart);
@@ -89,34 +83,63 @@ const MyTable = () => {
 
     }, [listItem]);
 
+    const MyTable = ({ title, children }) => (
+        <TableContainer className={classes.tableRoot}  component={Paper}>
+            <Table aria-label="customized table">
+                <TableHead>
+                    <TableRow>
+                        <StyledTableCell className={classes.item}>{title}</StyledTableCell>
+                        <StyledTableCell className={classes.smallCell} >Unidades</StyledTableCell>
+                        <StyledTableCell className={classes.smallCell}>Kg</StyledTableCell>
+                    </TableRow>
+                </TableHead>
+                <TableBody>
+                    {children}
+                </TableBody>
+            </Table>
+        </TableContainer>
+    );
+
+    const MyTableItems = ({ renderList }) => {
+        return (
+            <>
+                {renderList.map((item, index) => (
+                    <StyledTableRow key={item.name}>
+                        <StyledTableCell component="th" scope="row" className={classes.item}>
+                            {item.name} $ {item.price} <span className={classes.kgCell}>kg</span>
+                        </StyledTableCell>
+                        <StyledTableCell className={classes.smallCell} ><TextField variant="standard" placeholder={"0"} type='number' name='units' disabled={renderList[index].kg > 0} className={classes.input} value={item.units > 0 && item.units} onChange={(e) => handleChange(e, item)} /></StyledTableCell>
+                        <StyledTableCell className={classes.smallCell} ><TextField variant="standard" placeholder={"0"} type='number' name='kg' disabled={renderList[index].units > 0} className={classes.input} value={item.kg > 0 && item.kg} onChange={(e) => handleChange(e, item)} /></StyledTableCell>
+                    </StyledTableRow>
+                ))}
+            </>
+        )
+    }
+
     return (
         <>
-        <div  className="animate__animated animate__fadeIn">
-            <SearchBar />
-            <form noValidate onSubmit={onSubmit}>
-                <TableContainer component={Paper}>
-                    <Table className={classes.table} aria-label="customized table">
-                        <TableHead>
-                            <TableRow>
-                                <StyledTableCell className={classes.item}>Productos</StyledTableCell>
-                                <StyledTableCell className={classes.smallCell} >Unidades</StyledTableCell>
-                                <StyledTableCell className={classes.smallCell}>Kg</StyledTableCell>
-                            </TableRow>
-                        </TableHead>
-                        <TableBody>
-                            {listItem.map((item, index) => (
-                                <StyledTableRow key={item.name}>
-                                    <StyledTableCell component="th" scope="row" className={classes.item}>
-                                        {item.name} $ {item.price} <span className={classes.kgCell}>kg</span>
-                                    </StyledTableCell>
-                                    <StyledTableCell className={classes.smallCell} ><TextField placeholder={"0"} type='number' name='units' disabled={listItem[index].kg > 0} className={classes.input} onChange={(e) => handleChange(e, item)} /></StyledTableCell>
-                                    <StyledTableCell className={classes.smallCell} ><TextField placeholder={"0"} type='number' name='kg' disabled={listItem[index].units > 0} className={classes.input} onChange={(e) => handleChange(e, item)} /></StyledTableCell>
-                                </StyledTableRow>
-                            ))}
-                        </TableBody>
-                    </Table>
-                </TableContainer>
-                <Button fullWidth variant="contained" color="primary" className={classes.button} onClick={onSubmit}>Agregar al carrito</Button>
+            <div className="animate__animated animate__fadeIn">
+                <form noValidate onSubmit={onSubmit}>
+
+                    {frutas.length > 0 &&
+                        <MyTable title={"Frutas"}>
+                            <MyTableItems renderList={frutas} />
+                        </MyTable>
+                    }
+
+                    {verduras.length > 0 &&
+                        <MyTable title={"Verduras"}>
+                            <MyTableItems renderList={verduras} />
+                        </MyTable>
+                    }
+
+                    {otros.length > 0 &&
+                        <MyTable title={"Otros"}>
+                            <MyTableItems renderList={otros} />
+                        </MyTable>
+                    }
+
+                    <Button fullWidth variant="contained" color="primary" className={classes.button} onClick={onSubmit}>Agregar al carrito</Button>
                 </form>
             </div>
         </>
