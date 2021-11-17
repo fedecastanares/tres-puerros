@@ -58,7 +58,7 @@ const AddProductInBox = ({boxID}) => {
 
     return (
         <>
-            <MyAutocomplete fnSetState={setSelect} />
+            <MyAutocomplete onChange={(e, value) => value !== null ? setSelect(value) : setSelect("")} />
 
             <TextField fullWidth placeholder="0" name='qty' type="number" label="Cantidad" variant="standard" value={qty.qty} onChange={handleQTY} />
             <TextField fullWidth placeholder="0" name='kg'  type="number" label="Kg" variant="standard" value={qty.kg} onChange={handleQTY} />

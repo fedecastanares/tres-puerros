@@ -7,7 +7,7 @@ import CloseIcon from '@material-ui/icons/Close';
 import useBoxes from '../hooks/useBoxes';
 import CheckIcon from '@material-ui/icons/Check';
 import useCart from '../hooks/useCart';
-// import MyAutocomplete from './autocompleteProduct';
+import MyAutocomplete from './autocompleteProduct';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -43,7 +43,7 @@ const useStyles = makeStyles((theme) => ({
         }
     },
     button: {
-        margin: "0.5rem 0",
+        margin: "1rem 0",
         color: theme.palette.common.white
     },
     checkIcon: {
@@ -98,9 +98,14 @@ const Boxes = () => {
         }
     }
 
-    const onInputChange = (e, index, indexAggregates) => {
+    const onInputChange = (e, index, indexAggregates, value) => {
         let newBoxesList = [...boxesListState];
-        newBoxesList[index].aggregates[indexAggregates] = { ...newBoxesList[index].aggregates[indexAggregates], [e.target.name]: e.target.value };
+        if (e.target.id.startsWith("select-product")){
+            newBoxesList[index].aggregates[indexAggregates] = { ...newBoxesList[index].aggregates[indexAggregates], name: value.name, _id: value._id };
+        } else {
+            newBoxesList[index].aggregates[indexAggregates] = { ...newBoxesList[index].aggregates[indexAggregates], [e.target.name]: e.target.value };
+        }
+        console.log(newBoxesList)
         setBoxesListState(newBoxesList);
     };
 
@@ -175,21 +180,9 @@ const Boxes = () => {
                                                     [...Array(box.activeItems)].map((value, indexAggregates) =>
                                                         React.Children.toArray(
                                                             <div className="animate__animated animate__slideInDown">
-                                                                <Grid container spacing={2} alignItems='center'>
+                                                                <Grid container spacing={2} alignItems='center' style={{padding: "0 0.5rem"}}>
                                                                     <Grid item xs={6}>
-                                                                        <Grid container >
-                                                                            <Grid item xs={8} style={{margin: "1rem 0"}}>
-                                                                                <TextField className={`${classes.details} ${classes.input}`} variant="standard" name="product" placeholder='Producto' onChange={(e) => onInputChange(e, index, indexAggregates)} />
-                                                                            </Grid>
-                                                                            <Grid item xs={4}>
-                                                                                {/*
-                                                                                <Typography className={classes.details}>
-                                                                                    $ precio <span className={classes.decorator}>kg</span>
-                                                                                </Typography>
-                                                                                 */}
-
-                                                                            </Grid>
-                                                                        </Grid>
+                                                                        <MyAutocomplete onChange={(e, value) => onInputChange(e, index, indexAggregates, value)} />
                                                                     </Grid>
                                                                     <Grid item xs={2}>
                                                                         <TextField className={classes.details} variant="standard" type='number' name='units' placeholder='unidades' disabled={boxesListState[index].aggregates[indexAggregates] !== undefined && boxesListState[index].aggregates[indexAggregates].hasOwnProperty("kg")} onChange={(e) => onInputChange(e, index, indexAggregates)} />
@@ -198,16 +191,13 @@ const Boxes = () => {
                                                                         <TextField className={classes.details} variant="standard" type='number' name='kg' placeholder='kg' disabled={boxesListState[index].aggregates[indexAggregates] !== undefined && boxesListState[index].aggregates[indexAggregates].hasOwnProperty("units")} onChange={(e) => onInputChange(e, index, indexAggregates)} />
                                                                     </Grid>
                                                                     <Grid item xs={2}>
-                                                                        {/*<IconButton size='medium' color='secondary'>
-                                                                            <DeleteIcon />
-                                                                                </IconButton> */}
                                                                     </Grid>
                                                                 </Grid>
                                                             </div>
                                                         ))
                                                 }
                                             </Grid>
-                                            <Button fullWidth variant="contained" color="primary" className={classes.button} onClick={() => onAddToCart(index)}>Agregar al carrito</Button>
+                                            <Button fullWidth variant="contained" color="primary" style={{margin: "1rem 0"}} onClick={() => onAddToCart(index)}>Agregar al carrito</Button>
                                             <Typography className={classes.canChange} variant="body1" component="p" color="secondary" align="right">Puedes cambiar hasta 3 productos</Typography>
                                         </Grid>
                                     </AccordionDetails>

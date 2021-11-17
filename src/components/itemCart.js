@@ -45,7 +45,7 @@ const ItemCart = ({ item, index }) => {
                             {item.items.map(itemV => itemV.active && <Typography variant="body1" component="p">• {itemV.name}</Typography>)}
                             <br />
                             <Typography className={classes.subtitle} variant="h5" component="h5">Agregados:</Typography>
-                            {item.aggregates.map(itemV => <Typography className={classes.text} variant="body1" component="p">• {itemV.product}</Typography>)}
+                            {item.aggregates.map(itemV => <Typography className={classes.text} variant="body1" component="p">• {itemV.name}</Typography>)}
                         </div>
                     </Grid>
                     <IconButton color='secondary' size='medium' onClick={() => handleClick(index)}>
