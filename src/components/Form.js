@@ -78,22 +78,23 @@ const Form = () => {
                                 defaultValue={"local"}
                                 name="day-radio-buttons-group"
                                 style={{ flexDirection: "row", marginLeft: "1rem", marginTop: "0.8rem" }}
+                                onChange={(e) => setData({...data, day: e.target.value})}
                             >
                                 {data.zone === "A" &&
                                     <>
-                                        <FormControlLabel value="martes" control={<Radio color="primary" />} label="Martes" />
+                                        <FormControlLabel value="Martes" control={<Radio color="primary" />} label="Martes" />
                                     </>
                                 }
                                 {data.zone === "B" &&
                                     <>
-                                        <FormControlLabel value="martes" control={<Radio color="primary" />} label="Martes" />
-                                        <FormControlLabel value="miercoles" control={<Radio color="primary" />} label="Miercoles" />
-                                        <FormControlLabel value="jueves" control={<Radio color="primary" />} label="Jueves" />
+                                        <FormControlLabel value="Martes" control={<Radio color="primary" />} label="Martes" />
+                                        <FormControlLabel value="Miercoles" control={<Radio color="primary" />} label="Miercoles" />
+                                        <FormControlLabel value="Jueves" control={<Radio color="primary" />} label="Jueves" />
                                     </>
                                 }
                                 {data.zone === "C" &&
                                     <>
-                                        <FormControlLabel value="jueves" control={<Radio color="primary" />} label="Jueves" />
+                                        <FormControlLabel value="Jueves" control={<Radio color="primary" />} label="Jueves" />
                                     </>
                                 }
                             </RadioGroup>

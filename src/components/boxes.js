@@ -105,7 +105,6 @@ const Boxes = () => {
         } else {
             newBoxesList[index].aggregates[indexAggregates] = { ...newBoxesList[index].aggregates[indexAggregates], [e.target.name]: e.target.value };
         }
-        console.log(newBoxesList)
         setBoxesListState(newBoxesList);
     };
 

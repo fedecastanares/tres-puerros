@@ -34,12 +34,13 @@ const useStyles = makeStyles({
 const Cart = () => {
     const classes = useStyles();
     const { cart, setCart } = useCart();
-    const {data} = usePersonalData();
+    const { data } = usePersonalData();
     const history = useHistory();
 
     const hasValidData = () => {return data.name === "" && data.phone === "" && data.location === ""};
 
     const onSubmit = () => {
+        console.log({ personalData: data, cart});
         setCart([]);
         history.push("/thankyou");
     }
