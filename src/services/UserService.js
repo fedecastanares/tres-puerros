@@ -172,7 +172,20 @@ export default class Users {
             const response = await axiosApiInstance.post("/remove-item-inner-box", data);
             return response.data;
         } catch (error) {
-            
+            console.error(error);
+        }
+    }
+
+    async submitOrder(order) {
+        console.log("Service")
+        console.log(order);
+        try {
+            var data = JSON.stringify(order);
+            const response = await axios.post(`${process.env.REACT_APP_PROTOCOL}://${process.env.REACT_APP_BASE_URL}/add-order`, data, 
+            {headers: {'Content-Type': 'application/json'}});
+            return response.data;
+        } catch (error) {
+            console.error(error);
         }
     }
     

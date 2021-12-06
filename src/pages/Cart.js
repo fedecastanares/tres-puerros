@@ -8,7 +8,7 @@ import emptyCart from '../assets/img/carritoVacio.png';
 
 import { useHistory } from "react-router-dom";
 
-
+import Users from '../services/UserService';
 
 const useStyles = makeStyles({
     root: {
@@ -36,13 +36,19 @@ const Cart = () => {
     const { cart, setCart } = useCart();
     const { data } = usePersonalData();
     const history = useHistory();
+    const _userService = new Users();
 
     const hasValidData = () => {return data.name === "" && data.phone === "" && data.location === ""};
 
     const onSubmit = () => {
-        console.log({ personalData: data, cart});
-        setCart([]);
-        history.push("/thankyou");
+        const submitOrder = async () => {
+            const order = { personalData: data, cart};
+            const response = await _userService.submitOrder(order);
+            console.log(response)
+            setCart([]);
+            history.push("/thankyou");
+        }
+        submitOrder();
     }
 
     return (
