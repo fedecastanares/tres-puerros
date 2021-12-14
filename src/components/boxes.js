@@ -149,8 +149,8 @@ const Boxes = () => {
                                                                 </Typography>
                                                             </Grid>
                                                             <Grid item xs={3}>
-                                                                {item.qty > 0 && <Typography className={classes.details} align="right">
-                                                                    {item.qty} <span className={classes.decorator}>unidades</span>
+                                                                {item.units > 0 && <Typography className={classes.details} align="right">
+                                                                    {item.units} <span className={classes.decorator}>unidades</span>
                                                                 </Typography>}
                                                             </Grid>
                                                             <Grid item xs={3}>

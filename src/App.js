@@ -11,6 +11,7 @@ import ThankYou from './pages/ThankYou';
 import Login from './pages/Login';
 import PrivateRoute from './components/privateRoute';
 import Admin from "./pages/Admin"
+import Orders from "./pages/Orders"
 
 
 function App() {
@@ -26,6 +27,7 @@ function App() {
                 <Route exact path='/thankyou' component={ThankYou} />
                 <Route exact path='/login' component={Login} />
                 <PrivateRoute exact path="/admin" component={Admin} />
+                <PrivateRoute exact path="/orders" component={Orders} />
               </Layout>
             </Switch>
         </Router>

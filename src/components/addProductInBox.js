@@ -28,8 +28,9 @@ const AddProductInBox = ({boxID}) => {
     const addItemInnerBoxFn = () => {
         const order = {
             boxID: boxID,
-            item: {_id: select._id, kg: qty.kg, qty: qty.qty}
+            item: {_id: select._id, kg: qty.kg, units: qty.units}
         }
+        console.log(order);
         const addItem = async order => {
             const response = await _userService.addItemInnerBox(order);
             if (response.ok) {
@@ -60,7 +61,7 @@ const AddProductInBox = ({boxID}) => {
         <>
             <MyAutocomplete onChange={(e, value) => value !== null ? setSelect(value) : setSelect("")} />
 
-            <TextField fullWidth placeholder="0" name='qty' type="number" label="Cantidad" variant="standard" value={qty.qty} onChange={handleQTY} />
+            <TextField fullWidth placeholder="0" name='units' type="number" label="Cantidad" variant="standard" value={qty.units} onChange={handleQTY} />
             <TextField fullWidth placeholder="0" name='kg'  type="number" label="Kg" variant="standard" value={qty.kg} onChange={handleQTY} />
             <Button variant="contained" color="primary" size='medium' fullWidth style={{color:"#fff"}} onClick={addItemInnerBoxFn}>
                 Agregar

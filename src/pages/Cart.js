@@ -44,7 +44,6 @@ const Cart = () => {
         const submitOrder = async () => {
             const order = { personalData: data, cart};
             const response = await _userService.submitOrder(order);
-            console.log(response)
             setCart([]);
             history.push("/thankyou");
         }

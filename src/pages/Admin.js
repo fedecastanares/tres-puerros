@@ -12,6 +12,8 @@ import useBoxes from '../hooks/useBoxes';
 import AddProductInBox from '../components/addProductInBox'
 import useListItem from '../hooks/useListItem';
 
+import { useHistory } from "react-router-dom";
+
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -83,7 +85,8 @@ const style = {
 const Admin = () => {
     const classes = useStyles();
     const UserService = new Users();
-    const {priceList, setPriceList} = useListItem();
+    const { priceList, setPriceList } = useListItem();
+    const history = useHistory();
 
     const newItemINIT = {
         name: "",
@@ -190,10 +193,10 @@ const Admin = () => {
             const response = await UserService.removeItemInBox(boxId, itemId)
             if (response.ok) {
                 let newBoxList = [...boxesList];
-                const box = newBoxList.find((box) => box._id === boxId );
+                const box = newBoxList.find((box) => box._id === boxId);
                 const index = newBoxList.indexOf(box);
                 const newItemsList = newBoxList[index].items.filter(item => item._id !== itemId)
-                delete newBoxList[index].items ;
+                delete newBoxList[index].items;
                 newBoxList[index].items = newItemsList;
                 setBoxesList(newBoxList)
             }
@@ -246,6 +249,9 @@ const Admin = () => {
         <>
             <Grid container justifyContent='center' alignItems='center' style={{ minHeight: "90vh" }}>
                 <Grid item xs={11} sm={9} md={7} >
+                    <Button variant="contained" color="primary" size='medium' fullWidth style={{color: "#fff"}} onClick={() => history.push('/orders')} >
+                        Pedidos
+                    </Button>
                     <Card className={classes.root}>
                         <Typography component="h1" variant="h5">Listado de productos:</Typography>
                         <div className={classes.frutas}>
@@ -352,7 +358,7 @@ const Admin = () => {
                                             {box.items.length > 0 && box.items.map(item =>
                                                 <Grid container justifyContent="space-between" alignItems="center">
                                                     <Typography variant="body1">{item.name}</Typography>
-                                                    {item.qty > 0 && <Typography variant="body1">{item.qty} unidades</Typography>}
+                                                    {item.units > 0 && <Typography variant="body1">{item.units} unidades</Typography>}
                                                     {item.kg > 0 && <Typography variant="body1">{item.kg} kg</Typography>}
                                                     <IconButton className={classes.deleteIcon} size='small' onClick={() => removeItemInBox(box._id, item._id)}>
                                                         <DeleteIcon />
