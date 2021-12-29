@@ -43,7 +43,7 @@ const Cart = () => {
     const onSubmit = () => {
         const submitOrder = async () => {
             const order = { personalData: data, cart};
-            const response = await _userService.submitOrder(order);
+            await _userService.submitOrder(order);
             setCart([]);
             history.push("/thankyou");
         }
