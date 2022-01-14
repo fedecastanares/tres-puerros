@@ -5,7 +5,6 @@ import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper
 import TableItem from "./tableItem"
 
 import useListItem from '../hooks/useListItem'
-import useCart from '../hooks/useCart';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -42,27 +41,11 @@ const StyledTableCell = withStyles((theme) => ({
 const MyTable = () => {
     const classes = useStyles();
     const { listItem } = useListItem();
-    const { cart, setCart } = useCart();
 
     const [frutas, setFrutas] = useState([]);
     const [verduras, setVerduras] = useState([]);
     const [otros, setOtros] = useState([]);
 
-    /*
-    const handleChange = (e, item) => {
-        const indexToModify = listItem.findIndex((element) => element._id === item._id);
-        const newListItem = [...listItem];
-        newListItem.splice(indexToModify, 1, { ...item, [e.target.name]: parseInt(e.target.value) });
-        setListItems(newListItem);
-    }
-    */
-
-    const onSubmit = () => {
-        const addItem = [...listItem].filter(product => product.units > 0 || product.kg > 0);
-        let newItemsCart = [...cart];
-        addItem.forEach(item => newItemsCart.push(item));
-        setCart(newItemsCart);
-    }
 
     useEffect(() => {
         let frutasState = listItem.filter(item => item.cat === "fruta");
@@ -110,7 +93,7 @@ const MyTable = () => {
     return (
         <>
             <div className="animate__animated animate__fadeIn">
-                <form noValidate onSubmit={onSubmit}>
+                <form noValidate>
 
                     {frutas.length > 0 &&
                         <MyTable title={"Frutas"}>

@@ -49,10 +49,15 @@ const Orders = () => {
     const history = useHistory();
     const { priceList } = useListItem()
     const [orders, setOrders] = useState([])
-    const [zoneA, setZoneA] = useState([])
-    const [zoneB, setZoneB] = useState([])
-    const [zoneC, setZoneC] = useState([])
-    const [zoneL, setZoneL] = useState([])
+    const zoneInit = {
+        orders: [],
+        totalValues: []
+    }
+
+    const [zoneA, setZoneA] = useState(zoneInit)
+    const [zoneB, setZoneB] = useState(zoneInit)
+    const [zoneC, setZoneC] = useState(zoneInit)
+    const [zoneL, setZoneL] = useState(zoneInit)
     const classes = useStyles();
 
     useEffect(() => {
@@ -85,12 +90,87 @@ const Orders = () => {
                 }
                 return null;
             })
-            setZoneA(zonaAState)
-            setZoneB(zonaBState)
-            setZoneC(zonaCState)
-            setZoneL(zonaLState)
+
+            let zoneTotalValues = getTotalValues();
+
+            setZoneA({ ...zoneA, orders: zonaAState, totalValues: zoneTotalValues.totalValuesA })
+            setZoneB({ ...zoneB, orders: zonaBState, totalValues: zoneTotalValues.totalValuesB })
+            setZoneC({ ...zoneC, orders: zonaCState, totalValues: zoneTotalValues.totalValuesC })
+            setZoneL({ ...zoneL, orders: zonaLState, totalValues: zoneTotalValues.totalValuesL })
         }
+        // eslint-disable-next-line
     }, [orders])
+
+    const getTotalValues = () => {
+        let totalValues = {};
+        orders.map(order => {
+            priceList.map((product) => {
+
+                const addValueItem = (item) => {
+                    if (item.name === product.name) {
+                        if (item.kg !== undefined && parseInt(item.kg) > 0) {
+                            addTotalValue(item, "kg")
+                        } else if (item.units !== undefined && parseInt(item.units) > 0) {
+                            addTotalValue(item, "units")
+                        }
+                    }
+                }
+
+                const addTotalValue = (item, type) => {
+
+                    const getPreviousValue = (key) => {
+                        if ({ ...totalValues[key] }.hasOwnProperty(item.name)) {
+                            if ({ ...totalValues[key][item.name] }.hasOwnProperty(type)) {
+                                return totalValues[key][item.name][type]
+                            }
+                        }
+                        return 0;
+                    }
+
+
+                    const updateTotalValues = (key) => {
+
+                        if ({ ...totalValues[key] }.hasOwnProperty(item.name)) {
+                            if (!{ ...totalValues[key][item.name] }.hasOwnProperty(type)) {
+                                totalValues = { ...totalValues, [key]: { ...totalValues[key], [item.name]: { ...totalValues[key][item.name], [type]: getPreviousValue(key) + parseInt(item[type]) } } }
+                                return null;
+                            }
+                        }
+                        totalValues = { ...totalValues, [key]: { ...totalValues[key], [item.name]: { [type]: getPreviousValue(key) + parseInt(item[type]) } } };
+                    }
+
+
+                    if (order.personalData.zone === "A") {
+                        updateTotalValues("totalValuesA")
+                    }
+                    if (order.personalData.zone === "B") {
+                        updateTotalValues("totalValuesB")
+                    }
+                    if (order.personalData.zone === "C") {
+                        updateTotalValues("totalValuesC")
+                    }
+                    if (order.personalData.zone === "L") {
+                        updateTotalValues("totalValuesL")
+                    }
+                }
+
+
+                order.cart.map(itemInCart => {
+                    // ES UN ITEM NORMAL
+                    if (itemInCart.items.length === 0) {
+                        addValueItem(itemInCart);
+                    } else {
+                        itemInCart.items.map(itemInBox => itemInBox.active === true && addValueItem(itemInBox));
+                        itemInCart.aggregates.map(itemInBox => addValueItem(itemInBox));
+                    }
+                    return null;
+                })
+                return null;
+            })
+            return null;
+        })
+        return totalValues;
+    }
 
 
     const MyTable = ({ children }) => (
@@ -109,20 +189,21 @@ const Orders = () => {
                         }
                     </TableRow>
                 </TableHead>
-                <TableBody>
-                    {children}
-                </TableBody>
+                {children}
             </Table>
         </TableContainer>
     );
 
 
-    const MyTableItems = ({ orders }) => {
+    const MyTableItems = ({ zone }) => {
         return (
             <>
-                {orders.map((item, index) => (
-                    <TableItem key={index} order={item} index={index} />
-                ))}
+                <TableBody>
+                    {zone.orders.map((order, index) => (
+                        <TableItem key={index} order={order} index={index} />
+                    ))}
+                </TableBody>
+                <ZoneTotals totalValues={zone.totalValues} />
             </>
         )
     }
@@ -146,10 +227,9 @@ const Orders = () => {
         return (
             <>
                 {
-                    priceList.map(product => {
+                    priceList.map((product) => {
                         let kg = 0;
                         let units = 0;
-
 
                         const addValueItem = (item) => {
                             if (item.name === product.name) {
@@ -169,9 +249,8 @@ const Orders = () => {
                                 itemInCart.items.map(itemInBox => itemInBox.active === true && addValueItem(itemInBox));
                                 itemInCart.aggregates.map(itemInBox => addValueItem(itemInBox));
                             }
+                            return null;
                         })
-
-
                         return (
                             <StyledTableCell key={product.name} component="th" scope="row" >{kg > 0 ? `${kg} kg` : ""} {kg > 0 && units > 0 && " y "} {units > 0 ? `${units} un` : ""}{kg === 0 && units === 0 && 0}</StyledTableCell>
                         )
@@ -180,6 +259,35 @@ const Orders = () => {
             </>
         )
     }
+
+    const ZoneTotals = ({ totalValues }) => {
+
+        return (
+            <>
+                <TableHead>
+                    <TableRow>
+                        <StyledTableCell component="th" scope="row" ></StyledTableCell>
+                        <StyledTableCell component="th" scope="row" ></StyledTableCell>
+                        <StyledTableCell component="th" scope="row" ></StyledTableCell>
+                        <StyledTableCell component="th" scope="row" >Total: </StyledTableCell>
+                        {
+                            priceList.map((product) => {
+                                if (totalValues[product.name] === undefined) {
+                                    return (<StyledTableCell key={product.name} component="th" scope="row" >0</StyledTableCell>)
+                                }
+                                return (
+                                    <StyledTableCell key={product.name} component="th" scope="row" >
+                                        {totalValues[product.name].kg !== undefined ? `${totalValues[product.name].kg} kgs` : ""}{' '}
+                                        {totalValues[product.name].units !== undefined ? `${totalValues[product.name].units} un` : ""}
+                                    </StyledTableCell>)
+                            })
+                        }
+                    </TableRow>
+                </TableHead>
+            </>
+        )
+    }
+
 
     const textStyle = {
         color: "#fff",
@@ -191,55 +299,55 @@ const Orders = () => {
 
     return (
         <>
-            <Grid container justifyContent='center' style={{ minHeight: "90vh" }}>
+            <Grid container justifyContent='center' style={{ minHeight: "90vh", marginBottom: "5rem" }}>
                 <Grid item xs={11} sm={11} md={11} >
                     <Button variant="contained" color="primary" size='medium' fullWidth style={{ color: "#fff", margin: "1rem 0" }} onClick={() => history.goBack()} >
                         Atras
                     </Button>
-                    {zoneA.length > 0 &&
+                    {zoneA.orders.length > 0 &&
                         <>
                             <Box sx={textStyle} >
                                 <Typography variant="h5" component="h3" style={{ padding: "0 0.5rem" }}>Zona A</Typography>
                             </Box>
                             <Card >
                                 <MyTable>
-                                    <MyTableItems orders={zoneA} />
+                                    <MyTableItems zone={zoneA} />
                                 </MyTable>
                             </Card>
                         </>
                     }
-                    {zoneB.length > 0 &&
+                    {zoneB.orders.length > 0 &&
                         <>
                             <Box sx={textStyle} >
                                 <Typography variant="h5" component="h3" style={{ padding: "0 0.5rem" }}>Zona B</Typography>
                             </Box>
                             <Card >
                                 <MyTable>
-                                    <MyTableItems orders={zoneB} />
+                                    <MyTableItems zone={zoneB} />
                                 </MyTable>
                             </Card>
                         </>
                     }
-                    {zoneC.length > 0 &&
+                    {zoneC.orders.length > 0 &&
                         <>
                             <Box sx={textStyle} >
                                 <Typography variant="h5" component="h3" style={{ padding: "0 0.5rem" }}>Zona C</Typography>
                             </Box>
                             <Card >
                                 <MyTable>
-                                    <MyTableItems orders={zoneC} />
+                                    <MyTableItems zone={zoneC} />
                                 </MyTable>
                             </Card>
                         </>
                     }
-                    {zoneL.length > 0 &&
+                    {zoneL.orders.length > 0 &&
                         <>
                             <Box sx={textStyle} >
                                 <Typography variant="h5" component="h3" style={{ padding: "0 0.5rem" }}>Local</Typography>
                             </Box>
                             <Card >
                                 <MyTable>
-                                    <MyTableItems orders={zoneL} />
+                                    <MyTableItems zone={zoneL} />
                                 </MyTable>
                             </Card>
                         </>
