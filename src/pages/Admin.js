@@ -58,6 +58,10 @@ const useStyles = makeStyles((theme) => ({
         backgroundColor: "#b0e341",
         padding: "1rem 0.5rem"
     },
+    verdesYAromaticas: {
+        backgroundColor: "#78e341",
+        padding: "1rem 0.5rem"
+    },
     otros: {
         backgroundColor: "#228565",
         padding: "1rem 0.5rem"
@@ -107,6 +111,7 @@ const Admin = () => {
 
     const [frutas, setFrutas] = useState([]);
     const [verduras, setVerduras] = useState([]);
+    const [verdesYAromaticas, setVerdesYAromaticas] = useState([]);
     const [otros, setOtros] = useState([]);
 
     // MODAL 
@@ -213,10 +218,12 @@ const Admin = () => {
     useEffect(() => {
         let frutasState = items.filter(item => item.cat === "fruta");
         let verdurasState = items.filter(item => item.cat === "verdura");
+        let verdesYAromaticasState = items.filter(item => item.cat === "verdesYAromaticas");
         let otrosState = items.filter(item => item.cat === "otro");
 
         setFrutas(frutasState);
         setVerduras(verdurasState);
+        setVerdesYAromaticas(verdesYAromaticasState);
         setOtros(otrosState);
 
     }, [items]);
@@ -276,6 +283,17 @@ const Admin = () => {
                                 )
                             }
                         </div>
+                        <div className={classes.verdesYAromaticas}>
+                            {
+                                verdesYAromaticas.length > 0 && <Typography component="h5" variant="h5">Verdes y Aromaticas:</Typography>
+                            }
+                            {
+                                verdesYAromaticas.length > 0 && verdesYAromaticas.map((item) => (
+                                    <Items item={item} />
+                                )
+                                )
+                            }
+                        </div>
                         <div className={classes.otros}>
                             {
                                 otros.length > 0 && <Typography component="h5" variant="h5">Otros:</Typography>
@@ -305,6 +323,7 @@ const Admin = () => {
                                 >
                                     <MenuItem value={"fruta"}>Fruta</MenuItem>
                                     <MenuItem value={"verdura"}>Verdura</MenuItem>
+                                    <MenuItem value={"verdesYAromaticas"}>Verdes y Aromaticas</MenuItem>
                                     <MenuItem value={"otro"}>Otro</MenuItem>
                                 </Select>
                             </Grid>
@@ -312,7 +331,7 @@ const Admin = () => {
                                 <TextField placeholder="Precio kg" type='number' name='price' className={classes.input} onChange={handleChangeNewItem} value={newItem.price} />
                             </Grid>
                             <Grid item xs={3}>
-                                <TextField placeholder="Peso un" type='number' name='weight' className={classes.input} onChange={handleChangeNewItem} value={newItem.weight} />
+                                <TextField placeholder="Peso un (gr)" type='number' name='weight' className={classes.input} onChange={handleChangeNewItem} value={newItem.weight} />
                             </Grid>
                             <Grid item >
                                 <IconButton className={classes.primaryColor} size='medium' onClick={AddNewItem}>

@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { TextField, Grid, Typography, Radio, FormControlLabel, RadioGroup, InputLabel, Select, MenuItem } from '@mui/material';
 import { makeStyles } from '@material-ui/core/styles';
 
@@ -30,6 +31,11 @@ const useStyles = makeStyles((theme) => ({
 const Form = () => {
     const classes = useStyles();
     const { data, setData } = usePersonalData();
+
+    useEffect(() => {
+        data.zone === "A" || data.zone === "B" || data.zone === "L" ? setData({...data, day: "Martes"}) : setData({...data, day: "Jueves"}) ;
+    // eslint-disable-next-line
+    }, [data.zone])
 
     const handleChange = (e) => {
         setData({ ...data, [e.target.name]: e.target.value });
@@ -69,15 +75,16 @@ const Form = () => {
                                 <MenuItem value={"A"}>La Blanqueada - Malvin - <br />Carrasco - Parque Miramar</MenuItem>
                                 <MenuItem value={"B"}>Punta Carretas - Pocitos - <br />Villa Dolores - Buceo </MenuItem>
                                 <MenuItem value={"C"}>Parque Rodó - Cordon - Centro - <br />Ciudad Vieja</MenuItem>
-                                <MenuItem value={"L"}>Local</MenuItem>
+                                <MenuItem value={"L"}>Local (take away)</MenuItem>
                             </Select>
                         </Grid>
                         <Grid item xs={6}>
                             <RadioGroup
                                 aria-label="day"
-                                defaultValue={"local"}
+                                defaultValue={"Martes"}
                                 name="day-radio-buttons-group"
                                 style={{ flexDirection: "row", marginLeft: "1rem", marginTop: "0.8rem" }}
+                                value={data.day}
                                 onChange={(e) => setData({...data, day: e.target.value})}
                             >
                                 {data.zone === "A" &&
@@ -94,6 +101,13 @@ const Form = () => {
                                 }
                                 {data.zone === "C" &&
                                     <>
+                                        <FormControlLabel value="Jueves" control={<Radio color="primary" />} label="Jueves" />
+                                    </>
+                                }
+                                {data.zone === "L" &&
+                                    <>
+                                        <FormControlLabel value="Martes" control={<Radio color="primary" />} label="Martes" />
+                                        <FormControlLabel value="Miercoles" control={<Radio color="primary" />} label="Miercoles" />
                                         <FormControlLabel value="Jueves" control={<Radio color="primary" />} label="Jueves" />
                                     </>
                                 }

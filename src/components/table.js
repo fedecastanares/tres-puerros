@@ -44,20 +44,24 @@ const MyTable = () => {
 
     const [frutas, setFrutas] = useState([]);
     const [verduras, setVerduras] = useState([]);
+    const [verdesYAromaticas, setVerdesYAromaticas] = useState([]);
     const [otros, setOtros] = useState([]);
 
 
     useEffect(() => {
         let frutasState = listItem.filter(item => item.cat === "fruta");
         let verdurasState = listItem.filter(item => item.cat === "verdura");
+        let verdesYAromaticasState = listItem.filter(item => item.cat === "verdesYAromaticas");
         let otrosState = listItem.filter(item => item.cat === "otro");
 
         frutasState = frutasState.sort((a, b) => (a.name > b.name) ? 1 : ((b.name > a.name) ? -1 : 0));
         verdurasState = verdurasState.sort((a, b) => (a.name > b.name) ? 1 : ((b.name > a.name) ? -1 : 0));
+        verdesYAromaticasState = verdesYAromaticasState.sort((a, b) => (a.name > b.name) ? 1 : ((b.name > a.name) ? -1 : 0));
         otrosState = otrosState.sort((a, b) => (a.name > b.name) ? 1 : ((b.name > a.name) ? -1 : 0));
 
         setFrutas(frutasState);
         setVerduras(verdurasState);
+        setVerdesYAromaticas(verdesYAromaticasState);
         setOtros(otrosState);
 
     }, [listItem]);
@@ -104,6 +108,12 @@ const MyTable = () => {
                     {verduras.length > 0 &&
                         <MyTable title={"Verduras"}>
                             <MyTableItems renderList={verduras} />
+                        </MyTable>
+                    }
+
+                    {verdesYAromaticas.length > 0 &&
+                        <MyTable title={"Verdes y Aromaticas"}>
+                            <MyTableItems renderList={verdesYAromaticas} />
                         </MyTable>
                     }
 
