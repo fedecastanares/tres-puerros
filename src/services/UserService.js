@@ -99,7 +99,7 @@ export default class Users {
 
     async addNewItem(newItem) {
         try {
-            var data = JSON.stringify({ "name": newItem.name, "price": newItem.price, "weight": newItem.weight, "cat": newItem.cat });
+            var data = JSON.stringify({ "name": newItem.name, "price": newItem.price, "package": newItem.package, "cat": newItem.cat });
             await axiosApiInstance.post(`/new-item`, data);
             return true;
         } catch (error) {

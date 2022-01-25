@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import AddIcon from '@material-ui/icons/Add';
-import { TextField, IconButton, Grid, TableCell, TableRow } from '@mui/material';
+import { TextField, IconButton, Grid, TableCell, TableRow, Typography } from '@mui/material';
 import { withStyles, makeStyles } from '@material-ui/core/styles';
 import useCart from '../hooks/useCart';
 
@@ -80,7 +80,10 @@ const TableItem = ({ item }) => {
         <>
             <StyledTableRow key={item.name}>
                 <StyledTableCell component="th" scope="row" className={classes.item}>
-                    {item.name} $ {item.price} <span className={classes.kgCell}>kg</span>
+                    {item.name}
+                </StyledTableCell>
+                <StyledTableCell component="th" scope="row" className={classes.item}>
+                    $ {item.price}
                 </StyledTableCell>
                 <StyledTableCell className={classes.smallCell} >
                     <TextField
@@ -100,9 +103,14 @@ const TableItem = ({ item }) => {
                         type='number'
                         name='kg'
                         className={classes.input}
-                        disabled={value.units > 0}
+                        disabled={value.units > 0 || item.package.toLowerCase() !== "kg"}
                         value={value.kg}
                         onChange={handleChange} />
+                </StyledTableCell>
+                <StyledTableCell>
+                    <Typography variant="body1" component="p" className={classes.title}>
+                        {item.package}
+                    </Typography>
                 </StyledTableCell>
                 <StyledTableCell >
                     <Grid container justifyContent="center" alignItems="center" >

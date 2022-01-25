@@ -30,10 +30,9 @@ const AddProductInBox = ({boxID}) => {
             boxID: boxID,
             item: {_id: select._id, kg: qty.kg, units: qty.units}
         }
-        console.log(order);
         const addItem = async order => {
             const response = await _userService.addItemInnerBox(order);
-            if (response.ok) {
+            if (response !== undefined && response.ok) {
                 setSelect('');
                 setFilter('');
                 setQty(qtyINIT);

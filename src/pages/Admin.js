@@ -95,7 +95,7 @@ const Admin = () => {
     const newItemINIT = {
         name: "",
         price: "",
-        weight: "",
+        package: "Kg",
         cat: ""
     }
     const newBoxINIT = {
@@ -118,8 +118,8 @@ const Admin = () => {
     const [open, setOpen] = useState(false);
     const handleOpen = (item) => {
         setOpen(true);
-        const { name, price, weight, _id } = item;
-        setModifyItem({ name, price, weight, _id })
+        const { name, price, _id } = item;
+        setModifyItem({ name, price, package: item.package, _id })
     }
     const handleClose = () => setOpen(false);
     // MODAL
@@ -237,7 +237,7 @@ const Admin = () => {
                 <Typography component="p" variant="body1">$ {item.price}</Typography>
             </Grid>
             <Grid item xs={2}>
-                <Typography component="p" variant="body1">{item.weight} grs</Typography>
+                <Typography component="p" variant="body1">{item.package}</Typography>
             </Grid>
             <Grid item xs={2}>
                 <IconButton className={classes.deleteIcon} size='medium' onClick={() => DeleteItem(item._id)}>
@@ -328,10 +328,10 @@ const Admin = () => {
                                 </Select>
                             </Grid>
                             <Grid item xs={3}>
-                                <TextField placeholder="Precio kg" type='number' name='price' className={classes.input} onChange={handleChangeNewItem} value={newItem.price} />
+                                <TextField placeholder="Precio" type='number' name='price' className={classes.input} onChange={handleChangeNewItem} value={newItem.price} />
                             </Grid>
                             <Grid item xs={3}>
-                                <TextField placeholder="Peso un (gr)" type='number' name='weight' className={classes.input} onChange={handleChangeNewItem} value={newItem.weight} />
+                                <TextField label="Presentacion" name='package' className={classes.input} onChange={handleChangeNewItem} value={newItem.package} />
                             </Grid>
                             <Grid item >
                                 <IconButton className={classes.primaryColor} size='medium' onClick={AddNewItem}>
@@ -412,7 +412,7 @@ const Admin = () => {
                         <TextField placeholder={modifyItem.price} type='number' name='price' className={classes.input} onChange={handleModifyItem} />
                         <br />
                         <br />
-                        <TextField placeholder={modifyItem.weight} type='number' name='weight' className={classes.input} onChange={handleModifyItem} />
+                        <TextField placeholder={modifyItem.package} name='package' className={classes.input} onChange={handleModifyItem} />
                         <br />
                         <br />
                         <Grid container spacing={2} justifyContent="space-between">
