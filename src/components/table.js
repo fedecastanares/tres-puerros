@@ -75,7 +75,7 @@ const MyTable = () => {
                         <StyledTableCell className={classes.smallCell}>$</StyledTableCell>
                         <StyledTableCell className={classes.smallCell} >Un</StyledTableCell>
                         <StyledTableCell className={classes.smallCell}>Kg</StyledTableCell>
-                        <StyledTableCell className={classes.smallCell}>Package</StyledTableCell>
+                        <StyledTableCell className={classes.smallCell}>Pack</StyledTableCell>
                         <StyledTableCell ></StyledTableCell>
                     </TableRow>
                 </TableHead>
