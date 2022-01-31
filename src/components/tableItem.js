@@ -118,7 +118,7 @@ const TableItem = ({ item }) => {
                     </Typography>
                 </StyledTableCell>
                 <StyledTableCell >
-                    <Grid container justifyContent="center" alignItems="center" >
+                    <Grid container alignItems="center" >
                         <IconButton color="primary" size='medium' onClick={handleClick} >
                             <AddIcon />
                         </IconButton>
