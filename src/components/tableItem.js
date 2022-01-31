@@ -19,6 +19,11 @@ const useStyles = makeStyles((theme) => ({
     },
     tableRoot: {
         margin: "1rem 0"
+    },
+    package: {
+        [theme.breakpoints.down('sm')]: {
+            fontSize: '0.6rem',
+        }
     }
 }));
 
@@ -82,7 +87,7 @@ const TableItem = ({ item }) => {
                 <StyledTableCell component="th" scope="row" className={classes.item}>
                     {item.name}
                 </StyledTableCell>
-                <StyledTableCell component="th" scope="row" className={classes.item}>
+                <StyledTableCell style={{whiteSpace: "nowrap"}} component="th" scope="row" className={classes.item}>
                     $ {item.price}
                 </StyledTableCell>
                 <StyledTableCell className={classes.smallCell} >
@@ -108,7 +113,7 @@ const TableItem = ({ item }) => {
                         onChange={handleChange} />
                 </StyledTableCell>
                 <StyledTableCell>
-                    <Typography variant="body1" component="p" className={classes.title}>
+                    <Typography style={{fontSize: "0.75rem"}} variant="body1" component="p" className={classes.package}>
                         {item.package}
                     </Typography>
                 </StyledTableCell>
