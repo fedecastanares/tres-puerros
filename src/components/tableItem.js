@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import AddIcon from '@material-ui/icons/Add';
-import { TextField, IconButton, Grid, TableCell, TableRow, Typography } from '@mui/material';
+import { TextField, IconButton, TableCell, TableRow, Typography } from '@mui/material';
 import { withStyles, makeStyles } from '@material-ui/core/styles';
 import useCart from '../hooks/useCart';
 
@@ -87,7 +87,7 @@ const TableItem = ({ item }) => {
                 <StyledTableCell component="th" scope="row" className={classes.item}>
                     {item.name}
                 </StyledTableCell>
-                <StyledTableCell style={{whiteSpace: "nowrap"}} component="th" scope="row" className={classes.item}>
+                <StyledTableCell style={{ whiteSpace: "nowrap" }} component="th" scope="row" className={classes.item}>
                     $ {item.price}
                 </StyledTableCell>
                 <StyledTableCell className={classes.smallCell} >
@@ -113,16 +113,14 @@ const TableItem = ({ item }) => {
                         onChange={handleChange} />
                 </StyledTableCell>
                 <StyledTableCell>
-                    <Typography style={{fontSize: "0.75rem"}} variant="body1" component="p" className={classes.package}>
+                    <Typography style={{ fontSize: "0.75rem" }} variant="body1" component="p" className={classes.package}>
                         {item.package}
                     </Typography>
                 </StyledTableCell>
                 <StyledTableCell >
-                    <Grid container alignItems="center" >
-                        <IconButton color="primary" size='medium' onClick={handleClick} >
-                            <AddIcon />
-                        </IconButton>
-                    </Grid>
+                    <IconButton color="primary" size='medium' onClick={handleClick} >
+                        <AddIcon />
+                    </IconButton>
                 </StyledTableCell>
             </StyledTableRow>
         </>
