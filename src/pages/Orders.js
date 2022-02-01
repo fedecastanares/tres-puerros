@@ -108,10 +108,14 @@ const Orders = () => {
 
                 const addValueItem = (item) => {
                     if (item.name === product.name) {
-                        if (item.kg !== undefined && parseInt(item.kg) > 0) {
+                        if (item.kg !== undefined && parseFloat(item.kg) > 0) {
                             addTotalValue(item, "kg")
-                        } else if (item.units !== undefined && parseInt(item.units) > 0) {
+                        } else if (item.units !== undefined && parseFloat(item.units) > 0) {
                             addTotalValue(item, "units")
+                        }
+
+                        if ( item.name === "Banana Ecuador") {
+                            //console.log(order)
                         }
                     }
                 }
@@ -121,6 +125,9 @@ const Orders = () => {
                     const getPreviousValue = (key) => {
                         if ({ ...totalValues[key] }.hasOwnProperty(item.name)) {
                             if ({ ...totalValues[key][item.name] }.hasOwnProperty(type)) {
+                                if (item.name === "Banana Ecuador" &&  key === "totalValuesB") {
+                                    console.log(`key: ${key} \nItem name: ${item.name} \ntype: ${type} \nvalue: ${totalValues[key][item.name][type]}`)
+                                }
                                 return totalValues[key][item.name][type]
                             }
                         }
@@ -132,11 +139,11 @@ const Orders = () => {
 
                         if ({ ...totalValues[key] }.hasOwnProperty(item.name)) {
                             if (!{ ...totalValues[key][item.name] }.hasOwnProperty(type)) {
-                                totalValues = { ...totalValues, [key]: { ...totalValues[key], [item.name]: { ...totalValues[key][item.name], [type]: getPreviousValue(key) + parseInt(item[type]) } } }
+                                totalValues = { ...totalValues, [key]: { ...totalValues[key], [item.name]: { ...totalValues[key][item.name], [type]: getPreviousValue(key) + parseFloat(item[type]) } } }
                                 return null;
                             }
                         }
-                        totalValues = { ...totalValues, [key]: { ...totalValues[key], [item.name]: { [type]: getPreviousValue(key) + parseInt(item[type]) } } };
+                        totalValues = { ...totalValues, [key]: { ...totalValues[key], [item.name]: { [type]: getPreviousValue(key) + parseFloat(item[type]) } } };
                     }
 
 
@@ -235,10 +242,10 @@ const Orders = () => {
 
                         const addValueItem = (item) => {
                             if (item.name === product.name) {
-                                if (item.kg !== undefined && parseInt(item.kg) > 0) {
-                                    kg = +parseInt(item.kg);
-                                } else if (item.units !== undefined && parseInt(item.units) > 0) {
-                                    units = +parseInt(item.units);
+                                if (item.kg !== undefined && parseFloat(item.kg) > 0) {
+                                    kg = +parseFloat(item.kg);
+                                } else if (item.units !== undefined && parseFloat(item.units) > 0) {
+                                    units = +parseFloat(item.units);
                                 }
                             }
                         }
