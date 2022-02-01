@@ -182,6 +182,7 @@ const Orders = () => {
                         <StyledTableCell >#</StyledTableCell>
                         <StyledTableCell >Direccion</StyledTableCell>
                         <StyledTableCell >Zona</StyledTableCell>
+                        <StyledTableCell >Dia</StyledTableCell>
                         {
                             priceList.map(item => (
                                 <StyledTableCell key={item.name}>{item.name}</StyledTableCell>
@@ -216,6 +217,7 @@ const Orders = () => {
                     <StyledTableCell component="th" scope="row" >{index}</StyledTableCell>
                     <StyledTableCell component="th" scope="row" >{order.personalData.location}</StyledTableCell>
                     <StyledTableCell component="th" scope="row" >{order.personalData.zone}</StyledTableCell>
+                    <StyledTableCell component="th" scope="row" >{order.personalData.day}</StyledTableCell>
                     <Products order={order} />
                 </StyledTableRow>
             </>
@@ -266,6 +268,7 @@ const Orders = () => {
             <>
                 <TableHead>
                     <TableRow>
+                        <StyledTableCell component="th" scope="row" ></StyledTableCell>
                         <StyledTableCell component="th" scope="row" ></StyledTableCell>
                         <StyledTableCell component="th" scope="row" ></StyledTableCell>
                         <StyledTableCell component="th" scope="row" ></StyledTableCell>
