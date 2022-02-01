@@ -187,6 +187,7 @@ const Orders = () => {
                     <TableRow>
                         <StyledTableCell >Cliente</StyledTableCell>
                         <StyledTableCell >#</StyledTableCell>
+                        <StyledTableCell >Celular</StyledTableCell>
                         <StyledTableCell >Direccion</StyledTableCell>
                         <StyledTableCell >Zona</StyledTableCell>
                         <StyledTableCell >Dia</StyledTableCell>
@@ -195,6 +196,7 @@ const Orders = () => {
                                 <StyledTableCell key={item.name}>{item.name}</StyledTableCell>
                             ))
                         }
+                        <StyledTableCell >Aclaraciones</StyledTableCell>
                     </TableRow>
                 </TableHead>
                 {children}
@@ -222,10 +224,12 @@ const Orders = () => {
                 <StyledTableRow >
                     <StyledTableCell component="th" scope="row" >{order.personalData.name}</StyledTableCell>
                     <StyledTableCell component="th" scope="row" >{index}</StyledTableCell>
+                    <StyledTableCell component="th" scope="row" >{order.personalData.phone}</StyledTableCell>
                     <StyledTableCell component="th" scope="row" >{order.personalData.location}</StyledTableCell>
                     <StyledTableCell component="th" scope="row" >{order.personalData.zone}</StyledTableCell>
                     <StyledTableCell component="th" scope="row" >{order.personalData.day}</StyledTableCell>
                     <Products order={order} />
+                    <StyledTableCell component="th" scope="row" >{order.personalData.aclaraciones}</StyledTableCell>
                 </StyledTableRow>
             </>
         )
@@ -279,6 +283,7 @@ const Orders = () => {
                         <StyledTableCell component="th" scope="row" ></StyledTableCell>
                         <StyledTableCell component="th" scope="row" ></StyledTableCell>
                         <StyledTableCell component="th" scope="row" ></StyledTableCell>
+                        <StyledTableCell component="th" scope="row" ></StyledTableCell>
                         <StyledTableCell component="th" scope="row" >Total: </StyledTableCell>
                         {
                             priceList.map((product) => {
@@ -292,6 +297,7 @@ const Orders = () => {
                                     </StyledTableCell>)
                             })
                         }
+                        <StyledTableCell component="th" scope="row" ></StyledTableCell>
                     </TableRow>
                 </TableHead>
             </>
