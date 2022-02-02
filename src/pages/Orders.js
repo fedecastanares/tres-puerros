@@ -4,7 +4,8 @@ import Users from "../services/UserService";
 import { withStyles, makeStyles } from '@material-ui/core/styles';
 import useListItem from "../hooks/useListItem";
 
-import { Grid, Card, Typography, Button, Box, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from '@material-ui/core'
+import { Grid, Card, Typography, Button, Box, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, IconButton } from '@material-ui/core'
+import VisibilityIcon from '@material-ui/icons/Visibility';
 
 const useStyles = makeStyles((theme) => ({
     input: {
@@ -113,10 +114,6 @@ const Orders = () => {
                         } else if (item.units !== undefined && parseFloat(item.units) > 0) {
                             addTotalValue(item, "units")
                         }
-
-                        if ( item.name === "Banana Ecuador") {
-                            //console.log(order)
-                        }
                     }
                 }
 
@@ -125,9 +122,21 @@ const Orders = () => {
                     const getPreviousValue = (key) => {
                         if ({ ...totalValues[key] }.hasOwnProperty(item.name)) {
                             if ({ ...totalValues[key][item.name] }.hasOwnProperty(type)) {
-                                if (item.name === "Banana Ecuador" &&  key === "totalValuesB") {
-                                    console.log(`key: ${key} \nItem name: ${item.name} \ntype: ${type} \nvalue: ${totalValues[key][item.name][type]}`)
-                                }
+                                
+                                                                // Chequeo de historial de Valores
+                                                                if (item.name === "Banana Brasil" &&  key === "totalValuesB") {
+                                                                    console.log(item)
+                                                                    console.log(
+                                                                        `
+                                                                        key: ${key} \n
+                                                                        Item name: ${item.name} \n
+                                                                        type: ${type} \n
+                                                                        value: ${totalValues[key][item.name][type]}
+                                                                        order ID: ${order._id}
+                                                                        `)
+                                                                }
+                                
+
                                 return totalValues[key][item.name][type]
                             }
                         }
@@ -167,6 +176,7 @@ const Orders = () => {
                     if (itemInCart.items.length === 0) {
                         addValueItem(itemInCart);
                     } else {
+                        // Iteracion en el carrito
                         itemInCart.items.map(itemInBox => itemInBox.active === true && addValueItem(itemInBox));
                         itemInCart.aggregates.map(itemInBox => addValueItem(itemInBox));
                     }
@@ -185,6 +195,7 @@ const Orders = () => {
             <Table aria-label="customized table">
                 <TableHead>
                     <TableRow>
+                        <StyledTableCell ></StyledTableCell>
                         <StyledTableCell >Cliente</StyledTableCell>
                         <StyledTableCell >#</StyledTableCell>
                         <StyledTableCell >Celular</StyledTableCell>
@@ -219,9 +230,19 @@ const Orders = () => {
     }
 
     const TableItem = ({ order, index }) => {
+        const handleClick = (order) => {
+            history.push(`/order/${order._id}`)
+        }
+
+
         return (
             <>
                 <StyledTableRow >
+                    <StyledTableCell component="th" scope="row" >
+                        <IconButton color="primary" size='medium' onClick={() => handleClick(order)} >
+                            <VisibilityIcon />
+                        </IconButton>
+                    </StyledTableCell>
                     <StyledTableCell component="th" scope="row" >{order.personalData.name}</StyledTableCell>
                     <StyledTableCell component="th" scope="row" >{index}</StyledTableCell>
                     <StyledTableCell component="th" scope="row" >{order.personalData.phone}</StyledTableCell>
@@ -259,6 +280,7 @@ const Orders = () => {
                             if (itemInCart.items.length === 0) {
                                 addValueItem(itemInCart);
                             } else {
+                                // ITERACCION EN EL CARRITO
                                 itemInCart.items.map(itemInBox => itemInBox.active === true && addValueItem(itemInBox));
                                 itemInCart.aggregates.map(itemInBox => addValueItem(itemInBox));
                             }

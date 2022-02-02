@@ -196,6 +196,15 @@ export default class Users {
         }
     }
 
+    async getOrderById(id) {
+        try {
+            const response = await axiosApiInstance.get("/order/" + id);
+            return response.data;
+        } catch (error) {
+            console.error(error);
+        }
+    }
+
 
     prueba() {
         console.log("prueba")

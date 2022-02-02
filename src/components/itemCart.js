@@ -34,7 +34,7 @@ const ItemCart = ({ item, index }) => {
 
     return (
         <>
-            {item.hasOwnProperty("items") ?
+            {item.hasOwnProperty("items") && item.items.length > 0 ?
                 <Grid container className={classes.product} alignItems="center" justifyContent="space-between">
                     <Grid item xs={10} style={{ border: "1px solid black", paddingLeft: '0.5rem', paddingRight: '0.5rem' }}>
                         <div style={{ borderBottom: "1px solid black", borderBottomWidth: 1 }}>
@@ -42,10 +42,10 @@ const ItemCart = ({ item, index }) => {
                         </div>
                         <div style={{ margin: "0.5rem 0" }}>
                             <Typography className={classes.subtitle} variant="h5" component="h5">Items:</Typography>
-                            {item.items.map(itemV => itemV.active && <Typography variant="body1" component="p">• {itemV.name}</Typography>)}
+                            {item.items.map(itemV => itemV.active && <Typography key={itemV._id} variant="body1" component="p">• {itemV.name}</Typography>)}
                             <br />
                             <Typography className={classes.subtitle} variant="h5" component="h5">Agregados:</Typography>
-                            {item.aggregates.map(itemV => <Typography className={classes.text} variant="body1" component="p">• {itemV.name}</Typography>)}
+                            {item.aggregates.map(itemV => <Typography key={itemV._id} className={classes.text} variant="body1" component="p">• {itemV.name}</Typography>)}
                         </div>
                     </Grid>
                     <IconButton color='secondary' size='medium' onClick={() => handleClick(index)}>

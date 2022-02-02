@@ -12,6 +12,7 @@ import Login from './pages/Login';
 import PrivateRoute from './components/privateRoute';
 import Admin from "./pages/Admin"
 import Orders from "./pages/Orders"
+import Order from "./pages/Order"
 
 
 function App() {
@@ -28,6 +29,7 @@ function App() {
                 <Route exact path='/login' component={Login} />
                 <PrivateRoute exact path="/admin" component={Admin} />
                 <PrivateRoute exact path="/orders" component={Orders} />
+                <PrivateRoute exact path="/order/:id" component={Order} />
               </Layout>
             </Switch>
         </Router>
