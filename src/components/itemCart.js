@@ -25,7 +25,7 @@ const useStyles = makeStyles((theme) => ({
 
 const ItemCart = ({ item, index }) => {
     const classes = useStyles();
-    const {cart, setCart} = useCart();
+    const { cart, setCart } = useCart();
     const handleClick = () => {
         const newCart = [...cart];
         newCart.splice(index, 1);
@@ -48,17 +48,21 @@ const ItemCart = ({ item, index }) => {
                             {item.aggregates.map(itemV => <Typography key={itemV._id} className={classes.text} variant="body1" component="p">• {itemV.name}</Typography>)}
                         </div>
                     </Grid>
-                    <IconButton color='secondary' size='medium' onClick={() => handleClick(index)}>
-                        <CloseIcon />
-                    </IconButton>
+                    {cart.length > 0 &&
+                        <IconButton color='secondary' size='medium' onClick={() => handleClick(index)}>
+                            <CloseIcon />
+                        </IconButton>
+                    }
                 </Grid>
                 :
                 <>
                     <Grid container className={classes.product} alignItems="center" justifyContent="space-between">
                         <Typography className={classes.text} variant="body1" component="p">• {`${item.name} $ ${item.price} - ${item.units > 0 ? item.units + " unidades" : ""}  ${item.kg > 0 ? item.kg + " kgs" : ""}`}</Typography>
-                        <IconButton color='secondary' size='medium' onClick={() => handleClick(index)}>
-                            <CloseIcon />
-                        </IconButton>
+                        {cart.length > 0 &&
+                            <IconButton color='secondary' size='medium' onClick={() => handleClick(index)}>
+                                <CloseIcon />
+                            </IconButton>
+                        }
                     </Grid>
                 </>}
         </>

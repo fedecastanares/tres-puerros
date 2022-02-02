@@ -5,19 +5,22 @@ import { Grid, Card, Typography, CardContent, IconButton } from '@material-ui/co
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import ItemCart from "../components/itemCart";
 import { useHistory } from "react-router-dom";
+import useCart from '../hooks/useCart'
 
 const Order = ({ match }) => {
     const history = useHistory();
-    const [order, setOrder] = useState(null)
+    const [order, setOrder] = useState(null);
+    const { setCart } = useCart();
 
     useEffect(() => {
         const _usersService = new Users();
+        setCart([])
         const getOrder = async () => {
             const response = await _usersService.getOrderById(match.params.id)
             setOrder(response.order)
         }
         getOrder()
-    }, [match.params.id])
+    }, [match.params.id, setCart])
 
     console.log(order)
     return (

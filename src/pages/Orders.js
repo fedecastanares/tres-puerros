@@ -306,6 +306,7 @@ const Orders = () => {
                         <StyledTableCell component="th" scope="row" ></StyledTableCell>
                         <StyledTableCell component="th" scope="row" ></StyledTableCell>
                         <StyledTableCell component="th" scope="row" ></StyledTableCell>
+                        <StyledTableCell component="th" scope="row" ></StyledTableCell>
                         <StyledTableCell component="th" scope="row" >Total: </StyledTableCell>
                         {
                             priceList.map((product) => {
