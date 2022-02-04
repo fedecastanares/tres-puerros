@@ -14,6 +14,9 @@ const Palette = ({ children }) => {
       secondary: {
         main: '#ec1d25',
       },
+      warning: {
+        main: "#ff9a04"
+      },
       orange: "#ff9a04"
     },
   });
@@ -26,6 +29,9 @@ const Palette = ({ children }) => {
       },
       secondary: {
         main: '#ec1d25',
+      },
+      warning: {
+        main: "#ff9a04"
       },
       orange: "#ff9a04"
     },

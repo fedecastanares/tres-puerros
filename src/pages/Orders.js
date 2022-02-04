@@ -77,17 +77,14 @@ const Orders = () => {
             let zonaCState = [];
             let zonaLState = [];
             orders.map(order => {
-                if (order.personalData.zone === "A") {
+                if (order.personalData.day === "Martes") {
                     zonaAState.push(order)
                 }
-                if (order.personalData.zone === "B") {
+                if (order.personalData.day === "Miercoles") {
                     zonaBState.push(order)
                 }
-                if (order.personalData.zone === "C") {
+                if (order.personalData.day === "Jueves") {
                     zonaCState.push(order)
-                }
-                if (order.personalData.zone === "L") {
-                    zonaLState.push(order)
                 }
                 return null;
             })
@@ -106,6 +103,9 @@ const Orders = () => {
         let totalValues = {};
         orders.map(order => {
             priceList.map((product) => {
+                if (order.personalData.name === "Julie MacGilivray" && product.name === "Banana Brasil"){
+                    debugger
+                }
 
                 const addValueItem = (item) => {
                     if (item.name === product.name) {
@@ -118,26 +118,35 @@ const Orders = () => {
                 }
 
                 const addTotalValue = (item, type) => {
-
+                    if (order.personalData.name === "Julie MacGilivray" && product.name === "Banana Brasil"){
+                        debugger
+                    }
                     const getPreviousValue = (key) => {
                         if ({ ...totalValues[key] }.hasOwnProperty(item.name)) {
                             if ({ ...totalValues[key][item.name] }.hasOwnProperty(type)) {
-                                
-                                                                // Chequeo de historial de Valores
-                                                                if (item.name === "Banana Brasil" &&  key === "totalValuesB") {
-                                                                    console.log(item)
-                                                                    console.log(
-                                                                        `
-                                                                        key: ${key} \n
-                                                                        Item name: ${item.name} \n
-                                                                        type: ${type} \n
-                                                                        value: ${totalValues[key][item.name][type]}
-                                                                        order ID: ${order._id}
-                                                                        `)
-                                                                }
-                                
 
-                                return totalValues[key][item.name][type]
+                                // Chequeo de historial de Valores
+                                if (item.name === "Banana Brasil" && key === "totalValuesB") {
+                                    
+                                    console.log(`
+**** Previus ****
+cliente: ${order.personalData.name}\n
+key: ${key} 
+Item name: ${item.name} 
+type: ${type}
+value observado: ${totalValues[key][item.name][type]}\n
+order ID: ${order._id}
+value KG: ${totalValues[key][item.name].kg}
+value unidad: ${totalValues[key][item.name].units}
+**** Previus ****
+                        `)
+
+                                    return totalValues[key][item.name][type]
+                                }
+                            }
+                            if (item.name === "Banana Brasil" && key === "totalValuesB") {
+                            console.log(`diferente de: ${type}`)
+                            console.log(totalValues[key][item.name])
                             }
                         }
                         return 0;
@@ -148,7 +157,26 @@ const Orders = () => {
 
                         if ({ ...totalValues[key] }.hasOwnProperty(item.name)) {
                             if (!{ ...totalValues[key][item.name] }.hasOwnProperty(type)) {
-                                totalValues = { ...totalValues, [key]: { ...totalValues[key], [item.name]: { ...totalValues[key][item.name], [type]: getPreviousValue(key) + parseFloat(item[type]) } } }
+                                if (item.name === "Banana Brasil" && key === "totalValuesB") {
+                                    
+                                    console.log(totalValues[key][item.name])
+                                    console.log(order)
+                                }
+                                totalValues[key][item.name][type] = getPreviousValue(key) + parseFloat(item[type])
+                                if (item.name === "Banana Brasil" && key === "totalValuesB") {
+                                    console.log(`
+**** UPDATE ****
+cliente: ${order.personalData.name}\n
+key: ${key} 
+Item name: ${item.name} 
+type: ${type} 
+value observado: ${totalValues[key][item.name][type]}\n
+order ID: ${order._id}
+value KG: ${totalValues[key][item.name].kg}
+value unidad: ${totalValues[key][item.name].units}
+**** UPDATE ****
+                                        `)
+                                }
                                 return null;
                             }
                         }
@@ -346,7 +374,7 @@ const Orders = () => {
                     {zoneA.orders.length > 0 &&
                         <>
                             <Box sx={textStyle} >
-                                <Typography variant="h5" component="h3" style={{ padding: "0 0.5rem" }}>Zona A</Typography>
+                                <Typography variant="h5" component="h3" style={{ padding: "0 0.5rem" }}>Martes</Typography>
                             </Box>
                             <Card >
                                 <MyTable>
@@ -358,7 +386,7 @@ const Orders = () => {
                     {zoneB.orders.length > 0 &&
                         <>
                             <Box sx={textStyle} >
-                                <Typography variant="h5" component="h3" style={{ padding: "0 0.5rem" }}>Zona B</Typography>
+                                <Typography variant="h5" component="h3" style={{ padding: "0 0.5rem" }}>Miercoles</Typography>
                             </Box>
                             <Card >
                                 <MyTable>
@@ -370,23 +398,11 @@ const Orders = () => {
                     {zoneC.orders.length > 0 &&
                         <>
                             <Box sx={textStyle} >
-                                <Typography variant="h5" component="h3" style={{ padding: "0 0.5rem" }}>Zona C</Typography>
+                                <Typography variant="h5" component="h3" style={{ padding: "0 0.5rem" }}>Jueves</Typography>
                             </Box>
                             <Card >
                                 <MyTable>
                                     <MyTableItems zone={zoneC} />
-                                </MyTable>
-                            </Card>
-                        </>
-                    }
-                    {zoneL.orders.length > 0 &&
-                        <>
-                            <Box sx={textStyle} >
-                                <Typography variant="h5" component="h3" style={{ padding: "0 0.5rem" }}>Local</Typography>
-                            </Box>
-                            <Card >
-                                <MyTable>
-                                    <MyTableItems zone={zoneL} />
                                 </MyTable>
                             </Card>
                         </>
