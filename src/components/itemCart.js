@@ -32,6 +32,8 @@ const ItemCart = ({ item, index }) => {
         setCart(newCart);
     }
 
+    console.log(item)
+
     return (
         <>
             {item.hasOwnProperty("items") && item.items.length > 0 ?
@@ -42,10 +44,32 @@ const ItemCart = ({ item, index }) => {
                         </div>
                         <div style={{ margin: "0.5rem 0" }}>
                             <Typography className={classes.subtitle} variant="h5" component="h5">Items:</Typography>
-                            {item.items.map(itemV => itemV.active && <Typography key={itemV._id} variant="body1" component="p">• {itemV.name}</Typography>)}
+                            {item.items.map(itemV => itemV.active &&
+                                <Grid container justifyContent={"space-between"}>
+                                    <Typography key={itemV._id} variant="body1" component="p">• {itemV.name}</Typography>
+                                    <Typography key={itemV._id} variant="body1" component="p">{itemV.hasOwnProperty("units") && itemV.units !== "" ? `${itemV.units} unidades` : `${itemV.kg} Kg`}</Typography>
+                                </Grid>
+                            )}
                             <br />
-                            <Typography className={classes.subtitle} variant="h5" component="h5">Agregados:</Typography>
-                            {item.aggregates.map(itemV => <Typography key={itemV._id} className={classes.text} variant="body1" component="p">• {itemV.name}</Typography>)}
+                            {item.aggregates.length > 0 &&
+                                <Typography className={classes.subtitle} variant="h5" component="h5">Agregados:</Typography>
+                            }
+                            {item.aggregates.map(itemV =>
+                                <Grid container justifyContent={"space-between"}>
+                                    <Typography key={itemV._id} className={classes.text} variant="body1" component="p">• {itemV.name}</Typography>
+                                    <Typography key={itemV._id} variant="body1" component="p">{itemV.hasOwnProperty("units") && itemV.units !== "" ? `${itemV.units} unidades` : `${itemV.kg} Kg`}</Typography>
+                                </Grid>
+                            )}
+                            {item.aggregates.length > 0 &&
+                                <Typography className={classes.subtitle} variant="h5" component="h5">Cambiados:</Typography>
+                            }
+                            {item.items.map(itemV => !itemV.active &&
+                                <Grid container justifyContent={"space-between"}>
+                                    <Typography key={itemV._id} variant="body1" component="p" style={{ textDecoration: "line-through" }}>• {itemV.name}</Typography>
+                                    <Typography key={itemV._id} variant="body1" component="p" style={{ textDecoration: "line-through" }}
+                                    >{itemV.hasOwnProperty("units") && itemV.units !== "" ? `${itemV.units} unidades` : `${itemV.kg} Kg`}</Typography>
+                                </Grid>
+                            )}
                         </div>
                     </Grid>
                     {cart.length > 0 &&
@@ -57,12 +81,25 @@ const ItemCart = ({ item, index }) => {
                 :
                 <>
                     <Grid container className={classes.product} alignItems="center" justifyContent="space-between">
-                        <Typography className={classes.text} variant="body1" component="p">• {`${item.name} $ ${item.price} - ${item.units > 0 ? item.units + " unidades" : ""}  ${item.kg > 0 ? item.kg + " kgs" : ""}`}</Typography>
-                        {cart.length > 0 &&
-                            <IconButton color='secondary' size='medium' onClick={() => handleClick(index)}>
-                                <CloseIcon />
-                            </IconButton>
-                        }
+                        <Grid item xs={11}>
+                            {
+                                !!item.package && item.package.toLowerCase() === 'kg' ?
+                                    <>
+                                        <Typography className={classes.text} variant="body1" component="p">• {`${item.kg} Kg de ${item.name} a $ ${item.price} el Kg `}</Typography>
+                                    </>
+                                    :
+                                    <>
+                                        <Typography className={classes.text} variant="body1" component="p">• {`${item.units} unidades de ${item.name} vendido por ${item.package} a $ ${item.price} c/u`}</Typography>
+                                    </>
+                            }
+                        </Grid>
+                        <Grid item xs={1}>
+                            {cart.length > 0 &&
+                                <IconButton color='secondary' size='medium' onClick={() => handleClick(index)}>
+                                    <CloseIcon />
+                                </IconButton>
+                            }
+                        </Grid>
                     </Grid>
                 </>}
         </>

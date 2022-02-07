@@ -205,6 +205,16 @@ export default class Users {
         }
     }
 
+    async cleanOrders(orders) {
+        try {
+            var data = JSON.stringify(orders);
+            const response = await axiosApiInstance.post("/clean-orders", data);
+            return response.data;
+        } catch (error) {
+            console.error(error);
+        }
+    }
+
 
     prueba() {
         console.log("prueba")

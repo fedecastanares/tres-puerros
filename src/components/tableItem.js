@@ -55,7 +55,8 @@ const TableItem = ({ item }) => {
 
     const [value, setValue] = useState({
         name: item.name,
-        price: item.price
+        price: item.price,
+        package: item.package
     })
 
     const canBeInCart = () => {

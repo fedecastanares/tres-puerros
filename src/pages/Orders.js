@@ -1,29 +1,13 @@
 import { useEffect, useState } from "react"
 import { useHistory } from "react-router-dom";
 import Users from "../services/UserService";
-import { withStyles, makeStyles } from '@material-ui/core/styles';
+import { withStyles } from '@material-ui/core/styles';
 import useListItem from "../hooks/useListItem";
 
-import { Grid, Card, Typography, Button, Box, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, IconButton } from '@material-ui/core'
-import VisibilityIcon from '@material-ui/icons/Visibility';
+import { Grid, Card, Typography, Button, Box, TableCell, TableHead, TableRow, } from '@material-ui/core'
+import MyTableOrders from '../components/MyTableOrders'
+import Swal from 'sweetalert2'
 
-const useStyles = makeStyles((theme) => ({
-    input: {
-        maxWidth: "6rem"
-    },
-    button: {
-        margin: "0.5rem 0",
-        color: theme.palette.common.white
-    },
-    kgCell: {
-        [theme.breakpoints.down('sm')]: {
-            fontSize: "0.8rem"
-        }
-    },
-    tableRoot: {
-        margin: "0 0"
-    }
-}));
 
 const StyledTableCell = withStyles((theme) => ({
     head: {
@@ -38,28 +22,13 @@ const StyledTableCell = withStyles((theme) => ({
 }))(TableCell);
 
 
-const StyledTableRow = withStyles((theme) => ({
-    root: {
-        '&:nth-of-type(odd)': {
-            backgroundColor: theme.palette.action.hover,
-        },
-    },
-}))(TableRow);
-
 const Orders = () => {
     const history = useHistory();
     const { priceList } = useListItem()
     const [orders, setOrders] = useState([])
-    const zoneInit = {
-        orders: [],
-        totalValues: []
-    }
-
-    const [zoneA, setZoneA] = useState(zoneInit)
-    const [zoneB, setZoneB] = useState(zoneInit)
-    const [zoneC, setZoneC] = useState(zoneInit)
-    const [zoneL, setZoneL] = useState(zoneInit)
-    const classes = useStyles();
+    const [martes, setMartes] = useState([])
+    const [miercoles, setMiercoles] = useState([])
+    const [jueves, setJueves] = useState([])
 
     useEffect(() => {
         const _usersService = new Users();
@@ -72,38 +41,40 @@ const Orders = () => {
 
     useEffect(() => {
         if (orders.length > 0) {
-            let zonaAState = [];
-            let zonaBState = [];
-            let zonaCState = [];
-            let zonaLState = [];
+            let martes = [];
+            let miercoles = [];
+            let Jueves = [];
             orders.map(order => {
                 if (order.personalData.day === "Martes") {
-                    zonaAState.push(order)
+                    martes.push(order)
                 }
                 if (order.personalData.day === "Miercoles") {
-                    zonaBState.push(order)
+                    miercoles.push(order)
                 }
                 if (order.personalData.day === "Jueves") {
-                    zonaCState.push(order)
+                    Jueves.push(order)
                 }
                 return null;
             })
 
-            let zoneTotalValues = getTotalValues();
-
-            setZoneA({ ...zoneA, orders: zonaAState, totalValues: zoneTotalValues.totalValuesA })
-            setZoneB({ ...zoneB, orders: zonaBState, totalValues: zoneTotalValues.totalValuesB })
-            setZoneC({ ...zoneC, orders: zonaCState, totalValues: zoneTotalValues.totalValuesC })
-            setZoneL({ ...zoneL, orders: zonaLState, totalValues: zoneTotalValues.totalValuesL })
+            // let zoneTotalValues = getTotalValues();
+            setMartes(martes);
+            setMiercoles(miercoles);
+            setJueves(jueves);
+        } else {
+            setMartes([]);
+            setMiercoles([]);
+            setJueves([]);
         }
         // eslint-disable-next-line
     }, [orders])
 
+    /*
     const getTotalValues = () => {
         let totalValues = {};
         orders.map(order => {
             priceList.map((product) => {
-                if (order.personalData.name === "Julie MacGilivray" && product.name === "Banana Brasil"){
+                if (order.personalData.name === "Julie MacGilivray" && product.name === "Banana Brasil") {
                     debugger
                 }
 
@@ -118,7 +89,7 @@ const Orders = () => {
                 }
 
                 const addTotalValue = (item, type) => {
-                    if (order.personalData.name === "Julie MacGilivray" && product.name === "Banana Brasil"){
+                    if (order.personalData.name === "Julie MacGilivray" && product.name === "Banana Brasil") {
                         debugger
                     }
                     const getPreviousValue = (key) => {
@@ -127,7 +98,7 @@ const Orders = () => {
 
                                 // Chequeo de historial de Valores
                                 if (item.name === "Banana Brasil" && key === "totalValuesB") {
-                                    
+
                                     console.log(`
 **** Previus ****
 cliente: ${order.personalData.name}\n
@@ -145,8 +116,8 @@ value unidad: ${totalValues[key][item.name].units}
                                 }
                             }
                             if (item.name === "Banana Brasil" && key === "totalValuesB") {
-                            console.log(`diferente de: ${type}`)
-                            console.log(totalValues[key][item.name])
+                                console.log(`diferente de: ${type}`)
+                                console.log(totalValues[key][item.name])
                             }
                         }
                         return 0;
@@ -158,7 +129,7 @@ value unidad: ${totalValues[key][item.name].units}
                         if ({ ...totalValues[key] }.hasOwnProperty(item.name)) {
                             if (!{ ...totalValues[key][item.name] }.hasOwnProperty(type)) {
                                 if (item.name === "Banana Brasil" && key === "totalValuesB") {
-                                    
+
                                     console.log(totalValues[key][item.name])
                                     console.log(order)
                                 }
@@ -216,112 +187,8 @@ value unidad: ${totalValues[key][item.name].units}
         })
         return totalValues;
     }
+*/
 
-
-    const MyTable = ({ children }) => (
-        <TableContainer className={classes.tableRoot} component={Paper}>
-            <Table aria-label="customized table">
-                <TableHead>
-                    <TableRow>
-                        <StyledTableCell ></StyledTableCell>
-                        <StyledTableCell >Cliente</StyledTableCell>
-                        <StyledTableCell >#</StyledTableCell>
-                        <StyledTableCell >Celular</StyledTableCell>
-                        <StyledTableCell >Direccion</StyledTableCell>
-                        <StyledTableCell >Zona</StyledTableCell>
-                        <StyledTableCell >Dia</StyledTableCell>
-                        {
-                            priceList.map(item => (
-                                <StyledTableCell key={item.name}>{item.name}</StyledTableCell>
-                            ))
-                        }
-                        <StyledTableCell >Aclaraciones</StyledTableCell>
-                    </TableRow>
-                </TableHead>
-                {children}
-            </Table>
-        </TableContainer>
-    );
-
-
-    const MyTableItems = ({ zone }) => {
-        return (
-            <>
-                <TableBody>
-                    {zone.orders.map((order, index) => (
-                        <TableItem key={index} order={order} index={index} />
-                    ))}
-                </TableBody>
-                <ZoneTotals totalValues={zone.totalValues} />
-            </>
-        )
-    }
-
-    const TableItem = ({ order, index }) => {
-        const handleClick = (order) => {
-            history.push(`/order/${order._id}`)
-        }
-
-
-        return (
-            <>
-                <StyledTableRow >
-                    <StyledTableCell component="th" scope="row" >
-                        <IconButton color="primary" size='medium' onClick={() => handleClick(order)} >
-                            <VisibilityIcon />
-                        </IconButton>
-                    </StyledTableCell>
-                    <StyledTableCell component="th" scope="row" >{order.personalData.name}</StyledTableCell>
-                    <StyledTableCell component="th" scope="row" >{index}</StyledTableCell>
-                    <StyledTableCell component="th" scope="row" >{order.personalData.phone}</StyledTableCell>
-                    <StyledTableCell component="th" scope="row" >{order.personalData.location}</StyledTableCell>
-                    <StyledTableCell component="th" scope="row" >{order.personalData.zone}</StyledTableCell>
-                    <StyledTableCell component="th" scope="row" >{order.personalData.day}</StyledTableCell>
-                    <Products order={order} />
-                    <StyledTableCell component="th" scope="row" >{order.personalData.aclaraciones}</StyledTableCell>
-                </StyledTableRow>
-            </>
-        )
-    }
-
-    const Products = ({ order }) => {
-
-        return (
-            <>
-                {
-                    priceList.map((product) => {
-                        let kg = 0;
-                        let units = 0;
-
-                        const addValueItem = (item) => {
-                            if (item.name === product.name) {
-                                if (item.kg !== undefined && parseFloat(item.kg) > 0) {
-                                    kg = +parseFloat(item.kg);
-                                } else if (item.units !== undefined && parseFloat(item.units) > 0) {
-                                    units = +parseFloat(item.units);
-                                }
-                            }
-                        }
-
-                        order.cart.map(itemInCart => {
-                            // ES UN ITEM NORMAL
-                            if (itemInCart.items.length === 0) {
-                                addValueItem(itemInCart);
-                            } else {
-                                // ITERACCION EN EL CARRITO
-                                itemInCart.items.map(itemInBox => itemInBox.active === true && addValueItem(itemInBox));
-                                itemInCart.aggregates.map(itemInBox => addValueItem(itemInBox));
-                            }
-                            return null;
-                        })
-                        return (
-                            <StyledTableCell key={product.name} component="th" scope="row" >{kg > 0 ? `${kg} kg` : ""} {kg > 0 && units > 0 && " y "} {units > 0 ? `${units} un` : ""}{kg === 0 && units === 0 && 0}</StyledTableCell>
-                        )
-                    })
-                }
-            </>
-        )
-    }
 
     const ZoneTotals = ({ totalValues }) => {
 
@@ -363,47 +230,78 @@ value unidad: ${totalValues[key][item.name].units}
         borderRadius: "0.25rem"
     }
 
+    const cleanOrders = () => {
+        Swal.fire({
+            title: 'Estas seguro?',
+            text: "Vas a cambiar el estado de todas las ordenes a entregado",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Si, confirmar'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                const doClean = async () => {
+                    const _usersService = new Users();
+                    const { response } = await _usersService.cleanOrders(orders);
+                    if (response) {
+                        setOrders([])
+                        Swal.fire(
+                            'Entregadas!',
+                            'Las ordenes fueron marcadas como entregadas.',
+                            'success'
+                        )
+                    }
+                }
+                doClean();
+            }
+        })
+    }
+
 
     return (
         <>
             <Grid container justifyContent='center' style={{ minHeight: "90vh", marginBottom: "5rem" }}>
                 <Grid item xs={11} sm={11} md={11} >
-                    <Button variant="contained" color="primary" size='medium' fullWidth style={{ color: "#fff", margin: "1rem 0" }} onClick={() => history.goBack()} >
-                        Atras
-                    </Button>
-                    {zoneA.orders.length > 0 &&
+                    <Grid container justifyContent="space-between">
+                        <Grid item xs={5} >
+                            <Button variant="contained" color="primary" size='medium' fullWidth style={{ color: "#fff", margin: "1rem 0" }} onClick={() => history.goBack()} >
+                                Atras
+                            </Button>
+                        </Grid>
+                        <Grid item xs={5} >
+                            <Button variant="contained" color="secondary" size='medium' fullWidth style={{ color: "#fff", margin: "1rem 0" }} onClick={cleanOrders} >
+                                Limpiar
+                            </Button>
+                        </Grid>
+                    </Grid>
+                    {martes.length > 0 &&
                         <>
                             <Box sx={textStyle} >
                                 <Typography variant="h5" component="h3" style={{ padding: "0 0.5rem" }}>Martes</Typography>
                             </Box>
                             <Card >
-                                <MyTable>
-                                    <MyTableItems zone={zoneA} />
-                                </MyTable>
+                                <MyTableOrders renderList={martes} />
                             </Card>
                         </>
                     }
-                    {zoneB.orders.length > 0 &&
+                    {miercoles.length > 0 &&
                         <>
                             <Box sx={textStyle} >
                                 <Typography variant="h5" component="h3" style={{ padding: "0 0.5rem" }}>Miercoles</Typography>
                             </Box>
                             <Card >
-                                <MyTable>
-                                    <MyTableItems zone={zoneB} />
-                                </MyTable>
+                                <MyTableOrders renderList={miercoles} />
                             </Card>
                         </>
                     }
-                    {zoneC.orders.length > 0 &&
+                    {jueves.length > 0 &&
                         <>
                             <Box sx={textStyle} >
                                 <Typography variant="h5" component="h3" style={{ padding: "0 0.5rem" }}>Jueves</Typography>
                             </Box>
                             <Card >
-                                <MyTable>
-                                    <MyTableItems zone={zoneC} />
-                                </MyTable>
+                                <MyTableOrders renderList={jueves} />
                             </Card>
                         </>
                     }
