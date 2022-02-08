@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import useListItem from "../hooks/useListItem";
 
@@ -51,13 +51,22 @@ const MyTableOrders = ({ renderList }) => {
     const classes = useStyles();
     const history = useHistory();
     const { priceList } = useListItem();
-    const [ totals, setTotals ] = useState([])
+
+
+    useEffect(() => {
+        console.log(totals)
+        setTotals(totals)
+        // eslint-disable-next-line
+    }, [])
+
+    const [totalsState, setTotals] = useState({})
+    let totals = {};
 
     const MyTable = ({ renderList }) => (
         <TableContainer className={classes.tableRoot} component={Paper}>
             <Table aria-label="customized table">
-                {/* <ZoneTotals totalValues={zone.totalValues} /> */}
                 <TableHead>
+                    <ZoneTotals totalValues={totalsState} />
                     <TableRow>
                         <StyledTableCell ></StyledTableCell>
                         <StyledTableCell >Cliente</StyledTableCell>
@@ -118,6 +127,36 @@ const MyTableOrders = ({ renderList }) => {
         )
     }
 
+    const ZoneTotals = ({ totalValues }) => {
+
+        return (
+            <>
+                    <TableRow>
+                        <StyledTableCell component="th" scope="row" ></StyledTableCell>
+                        <StyledTableCell component="th" scope="row" ></StyledTableCell>
+                        <StyledTableCell component="th" scope="row" ></StyledTableCell>
+                        <StyledTableCell component="th" scope="row" ></StyledTableCell>
+                        <StyledTableCell component="th" scope="row" ></StyledTableCell>
+                        <StyledTableCell component="th" scope="row" ></StyledTableCell>
+                        <StyledTableCell component="th" scope="row" >Total: </StyledTableCell>
+                        {
+                            priceList.map((product) => {
+                                if (totalValues[product.name] === undefined) {
+                                    return (<StyledTableCell key={product.name} component="th" scope="row" >0</StyledTableCell>)
+                                }
+                                return (
+                                    <StyledTableCell key={product.name} component="th" scope="row" >
+                                        {totalValues[product.name].kg !== undefined ? `${parseFloat(totalValues[product.name].kg) / 2} kgs` : ""}{' '}
+                                        {totalValues[product.name].units !== undefined ? `${parseFloat(totalValues[product.name].units) / 2} un` : ""}
+                                    </StyledTableCell>)
+                            })
+                        }
+                        <StyledTableCell component="th" scope="row" ></StyledTableCell>
+                    </TableRow>
+            </>
+        )
+    }
+
     const Products = ({ order }) => {
 
         return (
@@ -127,12 +166,35 @@ const MyTableOrders = ({ renderList }) => {
                         let kg = 0;
                         let units = 0;
 
+                        const addProductToTal = (product, key) => {
+                            if (totals.hasOwnProperty(product.name)) {
+                                if (product.name === "12 Huevos") {
+                                    debugger
+                                    console.log(order.personalData.name)
+                                }
+                                if (totals[product.name].hasOwnProperty(key)) {
+                                    totals[product.name][key] = parseFloat(totals[product.name][key]) + parseFloat(product[key])
+                                } else {
+                                    totals[product.name][key] = parseFloat(product[key])
+                                }
+                            } else {
+                                totals[product.name] = {
+                                    kg: 0,
+                                    units: 0
+                                }
+                                totals[product.name][key] = parseFloat(product[key])
+                            }
+                        }
+
+
                         const addValueItem = (item) => {
                             if (item.name === product.name) {
                                 if (item.kg !== undefined && parseFloat(item.kg) > 0) {
                                     kg = +parseFloat(item.kg);
+                                    addProductToTal(item, "kg")
                                 } else if (item.units !== undefined && parseFloat(item.units) > 0) {
                                     units = +parseFloat(item.units);
+                                    addProductToTal(item, "units")
                                 }
                             }
                         }
@@ -148,6 +210,10 @@ const MyTableOrders = ({ renderList }) => {
                             }
                             return null;
                         })
+
+
+
+
                         return (
                             <StyledTableCell key={product.name} component="th" scope="row" >{kg > 0 ? `${kg} kg` : ""} {kg > 0 && units > 0 && " y "} {units > 0 ? `${units} un` : ""}{kg === 0 && units === 0 && 0}</StyledTableCell>
                         )

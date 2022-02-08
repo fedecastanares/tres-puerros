@@ -83,7 +83,7 @@ const ItemCart = ({ item, index }) => {
                     <Grid container className={classes.product} alignItems="center" justifyContent="space-between">
                         <Grid item xs={11}>
                             {
-                                !!item.package && item.package.toLowerCase() === 'kg' ?
+                                item.hasOwnProperty("kg") && item.kg > 0 ?
                                     <>
                                         <Typography className={classes.text} variant="body1" component="p">• {`${item.kg} Kg de ${item.name} a $ ${item.price} el Kg `}</Typography>
                                     </>
