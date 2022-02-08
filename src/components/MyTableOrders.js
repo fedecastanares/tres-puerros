@@ -146,8 +146,8 @@ const MyTableOrders = ({ renderList }) => {
                                 }
                                 return (
                                     <StyledTableCell key={product.name} component="th" scope="row" >
-                                        {totalValues[product.name].kg !== undefined ? `${parseFloat(totalValues[product.name].kg) / 2} kgs` : ""}{' '}
-                                        {totalValues[product.name].units !== undefined ? `${parseFloat(totalValues[product.name].units) / 2} un` : ""}
+                                        {totalValues[product.name].kg !== undefined ? `${parseFloat(totalValues[product.name].kg)} kgs` : ""}{' '}
+                                        {totalValues[product.name].units !== undefined ? `${parseFloat(totalValues[product.name].units)} un` : ""}
                                     </StyledTableCell>)
                             })
                         }
@@ -168,10 +168,6 @@ const MyTableOrders = ({ renderList }) => {
 
                         const addProductToTal = (product, key) => {
                             if (totals.hasOwnProperty(product.name)) {
-                                if (product.name === "12 Huevos") {
-                                    debugger
-                                    console.log(order.personalData.name)
-                                }
                                 if (totals[product.name].hasOwnProperty(key)) {
                                     totals[product.name][key] = parseFloat(totals[product.name][key]) + parseFloat(product[key])
                                 } else {
