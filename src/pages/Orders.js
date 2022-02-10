@@ -13,6 +13,7 @@ const Orders = () => {
     const [martes, setMartes] = useState([])
     const [miercoles, setMiercoles] = useState([])
     const [jueves, setJueves] = useState([])
+    const [otras, setOtras] = useState([])
 
     useEffect(() => {
         const _usersService = new Users();
@@ -27,16 +28,17 @@ const Orders = () => {
         if (orders.length > 0) {
             let martes = [];
             let miercoles = [];
-            let Jueves = [];
+            let jueves = [];
+            let Otras = [];
             orders.map(order => {
                 if (order.personalData.day === "Martes") {
                     martes.push(order)
-                }
-                if (order.personalData.day === "Miercoles") {
+                }else if (order.personalData.day === "Miercoles") {
                     miercoles.push(order)
-                }
-                if (order.personalData.day === "Jueves") {
-                    Jueves.push(order)
+                } else if (order.personalData.day === "Jueves") {
+                    jueves.push(order)
+                } else {
+                    Otras.push(order)
                 }
                 return null;
             })
@@ -45,10 +47,12 @@ const Orders = () => {
             setMartes(martes);
             setMiercoles(miercoles);
             setJueves(jueves);
+            setOtras(Otras)
         } else {
             setMartes([]);
             setMiercoles([]);
             setJueves([]);
+            setOtras([])
         }
         // eslint-disable-next-line
     }, [orders])
@@ -128,6 +132,16 @@ const Orders = () => {
                         </>
                     }
                     {jueves.length > 0 &&
+                        <>
+                            <Box sx={textStyle} >
+                                <Typography variant="h5" component="h3" style={{ padding: "0 0.5rem" }}>Jueves</Typography>
+                            </Box>
+                            <Card >
+                                <MyTableOrders renderList={jueves} />
+                            </Card>
+                        </>
+                    }
+                    {otras.length > 0 &&
                         <>
                             <Box sx={textStyle} >
                                 <Typography variant="h5" component="h3" style={{ padding: "0 0.5rem" }}>Jueves</Typography>

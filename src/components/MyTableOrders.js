@@ -54,7 +54,6 @@ const MyTableOrders = ({ renderList }) => {
 
 
     useEffect(() => {
-        console.log(totals)
         setTotals(totals)
         // eslint-disable-next-line
     }, [])
