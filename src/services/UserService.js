@@ -179,9 +179,9 @@ export default class Users {
     async submitOrder(order) {
         try {
             var data = JSON.stringify(order);
-            const response = await axios.post(`${process.env.REACT_APP_PROTOCOL}://${process.env.REACT_APP_BASE_URL}/add-order`, data,
+            await axios.post(`${process.env.REACT_APP_PROTOCOL}://${process.env.REACT_APP_BASE_URL}/add-order`, data,
                 { headers: { 'Content-Type': 'application/json' } });
-            return response.data;
+            return true;
         } catch (error) {
             console.error(error);
         }

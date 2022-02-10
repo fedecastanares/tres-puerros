@@ -38,43 +38,45 @@ const Cart = () => {
     const history = useHistory();
     const _userService = new Users();
 
-    const hasValidData = () => {return data.name === "" && data.phone === "" && data.location === ""};
+    const hasValidData = () => { return data.name === "" && data.phone === "" && data.location === "" };
 
     const onSubmit = () => {
         const submitOrder = async () => {
-            const order = { personalData: data, cart};
-            await _userService.submitOrder(order);
-            setCart([]);
-            history.push("/thankyou");
+            const order = { personalData: data, cart };
+            const response = await _userService.submitOrder(order);
+            if (response) {
+                setCart([]);
+                history.push("/thankyou");
+            }
         }
         submitOrder();
     }
 
     return (
         <>
-            <Grid container justifyContent='center' alignItems='center' style={{minHeight: "90vh"}}>
+            <Grid container justifyContent='center' alignItems='center' style={{ minHeight: "90vh" }}>
                 <Grid item xs={11} sm={9} md={7} >
                     <Card className={classes.root}>
                         <>
-                        {cart.length > 0 ?
-                            <>
-                                <CardContent>
-                                    <Form /><br/>
-                                    <Typography variant="h5" component="h5">Productos:</Typography>
-                                    {cart.map((item, index) => <ItemCart key={item._id} item={item} index={index} />)}
-                                </CardContent>
-                                <CardActions>
-                                    <Button disabled={hasValidData()} fullWidth variant="contained" color="primary" onClick={onSubmit} style={{color:'white'}}>{hasValidData() ? "Faltan datos personales" : "Confirmar"}</Button>
-                                </CardActions>
-                            </>
-                            :
-                            <div style={{margin: "1rem 0"}}>
-                                <div style={{display: "flex", justifyContent: "center"}}>
-                                    <img className={classes.img} src={emptyCart} alt='carrito vacio' />
+                            {cart.length > 0 ?
+                                <>
+                                    <CardContent>
+                                        <Form /><br />
+                                        <Typography variant="h5" component="h5">Productos:</Typography>
+                                        {cart.map((item, index) => <ItemCart key={item._id} item={item} index={index} />)}
+                                    </CardContent>
+                                    <CardActions>
+                                        <Button disabled={hasValidData()} fullWidth variant="contained" color="primary" onClick={onSubmit} style={{ color: 'white' }}>{hasValidData() ? "Faltan datos personales" : "Confirmar"}</Button>
+                                    </CardActions>
+                                </>
+                                :
+                                <div style={{ margin: "1rem 0" }}>
+                                    <div style={{ display: "flex", justifyContent: "center" }}>
+                                        <img className={classes.img} src={emptyCart} alt='carrito vacio' />
+                                    </div>
+                                    <Typography align="center">Carrito vacio</Typography>
                                 </div>
-                                <Typography align="center">Carrito vacio</Typography>
-                            </div>
-                        }
+                            }
                         </>
                     </Card>
                 </Grid>
