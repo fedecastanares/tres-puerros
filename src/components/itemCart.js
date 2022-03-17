@@ -54,7 +54,7 @@ const ItemCart = ({ item, index }) => {
                             {item.aggregates.length > 0 &&
                                 <Typography className={classes.subtitle} variant="h5" component="h5">Agregados:</Typography>
                             }
-                            {item.aggregates.map(itemV =>
+                            {item.aggregates.map(itemV => itemV !== null && 
                                 <Grid container justifyContent={"space-between"}>
                                     <Typography key={itemV._id} className={classes.text} variant="body1" component="p">• {itemV.name}</Typography>
                                     <Typography key={itemV._id} variant="body1" component="p">{itemV.hasOwnProperty("units") && itemV.units !== "" ? `${itemV.units} unidades` : `${itemV.kg} Kg`}</Typography>
