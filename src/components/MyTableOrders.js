@@ -183,7 +183,7 @@ const MyTableOrders = ({ renderList }) => {
 
 
                         const addValueItem = (item) => {
-                            if (item.name === product.name) {
+                            if (item !== null && item.name === product.name) {
                                 if (item.kg !== undefined && parseFloat(item.kg) > 0) {
                                     kg = +parseFloat(item.kg);
                                     addProductToTal(item, "kg")
