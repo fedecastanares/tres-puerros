@@ -1,70 +1,92 @@
-# Getting Started with Create React App
+# Tres Puerros
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Overview
 
-## Available Scripts
+### Context
 
-In the project directory, you can run:
+Previously, the client sent the price list by whatsapp and they replied in text what they needed.
+Then with these orders he created an excel with each item to later have the totals and make the purchases in the market.
+The orders could be products (choosing by quantity or weight) or a set of these proposed by the seller, of which up to 3 products of this set could be changed. 
+Later separate the orders and deliver them to his clients.
+The client needed to automate these processes to save time creating these excel.
 
-### `npm start`
+### The solution
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+### Client-Side
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+#### Box (set of products)
 
-### `npm test`
+View of the box
+<img width="1429" alt="image" src="https://user-images.githubusercontent.com/48631262/158892648-0acea1b2-29bf-4c02-a757-5de34fd33ab0.png">
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+Making changes in the box
+<img width="1425" alt="image" src="https://user-images.githubusercontent.com/48631262/158892739-97028c41-5441-4769-a2ec-bc5be5d536e7.png">
 
-### `npm run build`
+Adding a product
+<img width="1427" alt="image" src="https://user-images.githubusercontent.com/48631262/158892934-09fc531e-2033-4647-933d-1f174c90727d.png">
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+#### Cart
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+Shipping information
+<img width="1426" alt="image" src="https://user-images.githubusercontent.com/48631262/158893106-00d10774-b1b0-4e26-8405-8eb3b3b1b944.png">
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+Resume of products
+<img width="1429" alt="image" src="https://user-images.githubusercontent.com/48631262/158893206-dc0942bb-f25b-405f-8d39-1eb6b375de88.png">
 
-### `npm run eject`
+#### Confirmation
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+<img width="1429" alt="image" src="https://user-images.githubusercontent.com/48631262/158893434-9d97f9d9-73e5-4d78-8f43-6edb78302143.png">
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+### Backoffice
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+#### Products
 
-## Learn More
+List of Products
+<img width="1426" alt="image" src="https://user-images.githubusercontent.com/48631262/158893874-34f00b1e-41d0-40d3-b501-1633918946a3.png">
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+Adding a new product
+<img width="1428" alt="image" src="https://user-images.githubusercontent.com/48631262/158893677-d936d5d8-47f2-4e02-9de2-81c6d5e09b46.png">
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+Edit a product
+<img width="1428" alt="image" src="https://user-images.githubusercontent.com/48631262/158893831-3c5b42b6-dece-471c-a363-df8f57265fd2.png">
 
-### Code Splitting
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
 
-### Analyzing the Bundle Size
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+#### Boxes
 
-### Making a Progressive Web App
+Adding a new box
+<img width="1424" alt="image" src="https://user-images.githubusercontent.com/48631262/158894034-d7027985-7139-4e8d-8fef-ef11518783ef.png">
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+Adding a product inside a box
+<img width="1429" alt="image" src="https://user-images.githubusercontent.com/48631262/158894193-25b974f1-44bb-4d7e-b103-914806c24954.png">
 
-### Advanced Configuration
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+#### Orders
 
-### Deployment
+List of orders with totals at the top for each product
+<img width="1426" alt="Captura de Pantalla 2022-03-17 a la(s) 18 02 13" src="https://user-images.githubusercontent.com/48631262/158894903-0fa72e78-06f5-4bba-babc-0767ae591723.png">
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+View of the order
+<img width="1429" alt="image" src="https://user-images.githubusercontent.com/48631262/158894965-8081dae6-c181-4ecb-85a3-82463f7ebd49.png">
+View of the order with products and box
+<img width="1427" alt="image" src="https://user-images.githubusercontent.com/48631262/158895399-34cadccf-8d45-4b1f-8048-63679bf59148.png">
 
-### `npm run build` fails to minify
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+Printing order
+<img width="1425" alt="image" src="https://user-images.githubusercontent.com/48631262/158895043-346d160a-3233-4e4d-8a5b-d6f4b90b9702.png">
+
+Marking all orders as delivered
+<img width="1428" alt="image" src="https://user-images.githubusercontent.com/48631262/158895161-8e9d5316-8c95-44eb-83a3-1ee42101f879.png">
+
+
+
+## For Developers
+
+### .env file
+
+  
+REACT_APP_PROTOCOL
+REACT_APP_BASE_URL
+  
