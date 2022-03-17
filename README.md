@@ -2,7 +2,7 @@
 
 ## Overview
 
-### Context
+### Context
 
 Previously, the client sent the price list by whatsapp and they replied in text what they needed.
 Then with these orders he created an excel with each item to later have the totals and make the purchases in the market.
