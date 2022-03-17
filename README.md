@@ -1,5 +1,15 @@
 # Tres Puerros
 
+
+## For Developers
+
+### .env file
+
+  
+REACT_APP_PROTOCOL  
+REACT_APP_BASE_URL
+    
+
 ## Overview
 
 ### Context
@@ -79,14 +89,3 @@ Printing order
 
 Marking all orders as delivered
 <img width="1428" alt="image" src="https://user-images.githubusercontent.com/48631262/158895161-8e9d5316-8c95-44eb-83a3-1ee42101f879.png">
-
-
-
-## For Developers
-
-### .env file
-
-  
-REACT_APP_PROTOCOL
-REACT_APP_BASE_URL
-  
