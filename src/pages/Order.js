@@ -6,6 +6,10 @@ import { Grid, Card, Typography, CardContent, IconButton } from '@material-ui/co
 import { makeStyles } from '@material-ui/core/styles';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import PrintIcon from '@material-ui/icons/Print';
+import LocalShippingIcon from '@material-ui/icons/LocalShipping';
+
+import Swal from 'sweetalert2'
+
 import ItemCart from "../components/itemCart";
 import { useHistory } from "react-router-dom";
 import useCart from '../hooks/useCart'
@@ -47,6 +51,34 @@ const Order = ({ match }) => {
         content: () => printRef.current,
     });
 
+    const cleanOrder = (orderID) => {
+        Swal.fire({
+            title: 'Estas seguro?',
+            text: "Vas a cambiar el estado de la orden a entregado",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Si, confirmar'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                const doClean = async () => {
+                    const _usersService = new Users();
+                    const { response } = await _usersService.cleanOrder(orderID);
+                    if (response) {
+                        Swal.fire(
+                            'Entregada',
+                            'La orden fue marcada como entregada.',
+                            'success'
+                        )
+                        history.goBack()
+                    }
+                }
+                doClean();
+            }
+        })
+    }
+
 
     return (
         <>
@@ -56,6 +88,9 @@ const Order = ({ match }) => {
                         <Grid container justifyContent="space-between">
                             <IconButton color="primary" size='medium' onClick={() => history.goBack()} >
                                 <ArrowBackIcon />
+                            </IconButton>
+                            <IconButton color="inherit" size='medium' onClick={() => cleanOrder(match.params.id)} >
+                                <LocalShippingIcon />
                             </IconButton>
                             <IconButton color="inherit" size='medium' onClick={() => printRef !== null && handlePrint()} >
                                 <PrintIcon />

@@ -32,8 +32,6 @@ const ItemCart = ({ item, index }) => {
         setCart(newCart);
     }
 
-    console.log(item)
-
     return (
         <>
             {item.hasOwnProperty("items") && item.items.length > 0 ?

@@ -214,6 +214,15 @@ export default class Users {
             console.error(error);
         }
     }
+    
+    async cleanOrder(orderID) {
+        try {
+            const response = await axiosApiInstance.post("/delete-order/" + orderID );
+            return response.data;
+        } catch (error) {
+            console.error(error);
+        }
+    }
 
 
     prueba() {
