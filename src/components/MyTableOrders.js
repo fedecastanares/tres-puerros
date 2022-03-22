@@ -114,7 +114,7 @@ const MyTableOrders = ({ renderList }) => {
                         </IconButton>
                     </StyledTableCell>
                     <StyledTableCell component="th" scope="row" >{order.personalData.name}</StyledTableCell>
-                    <StyledTableCell component="th" scope="row" >{() => index + 1}</StyledTableCell>
+                    <StyledTableCell component="th" scope="row" >{index + 1}</StyledTableCell>
                     <StyledTableCell component="th" scope="row" >{order.personalData.phone}</StyledTableCell>
                     <StyledTableCell component="th" scope="row" >{order.personalData.location}</StyledTableCell>
                     <StyledTableCell component="th" scope="row" >{order.personalData.zone}</StyledTableCell>
