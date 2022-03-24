@@ -33,7 +33,7 @@ const Form = () => {
     const { data, setData } = usePersonalData();
 
     useEffect(() => {
-        data.zone === "A" || data.zone === "B" || data.zone === "L" ? setData({...data, day: "Martes"}) : setData({...data, day: "Jueves"}) ;
+        setData({...data, day: ""});
     // eslint-disable-next-line
     }, [data.zone])
 
@@ -51,7 +51,7 @@ const Form = () => {
                     <TextField name="name" fullWidth label="Nombre" variant="standard" value={data.name} onChange={handleChange} />
                 </Grid>
                 <Grid item className={classes.mb} xs={12}>
-                    <TextField name="phone" fullWidth label="Telefono" variant="standard" value={data.phone} onChange={handleChange} />
+                    <TextField name="phone" fullWidth label="Telefono" variant="standard" type="tel" pattern="[0-9]{9}" value={data.phone} onChange={handleChange} />
                 </Grid>
                 <Grid item className={classes.mb} xs={12}>
                     <TextField name="location" fullWidth label="Direccion" variant="standard" value={data.location} onChange={handleChange} />
@@ -81,7 +81,7 @@ const Form = () => {
                         <Grid item xs={6}>
                             <RadioGroup
                                 aria-label="day"
-                                defaultValue={"Martes"}
+                                defaultValue={""}
                                 name="day-radio-buttons-group"
                                 style={{ flexDirection: "row", marginLeft: "1rem", marginTop: "0.8rem" }}
                                 value={data.day}

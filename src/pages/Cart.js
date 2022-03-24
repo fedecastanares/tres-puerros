@@ -38,7 +38,7 @@ const Cart = () => {
     const history = useHistory();
     const _userService = new Users();
 
-    const hasValidData = () => { return data.name === "" && data.phone === "" && data.location === "" };
+    const hasValidData = () => { return data.name === "" || data.phone === "" || data.location === "" || data.day === ""};
 
     const onSubmit = () => {
         const submitOrder = async () => {
