@@ -109,7 +109,6 @@ const Form = () => {
                                     <>
                                         <FormControlLabel value="Martes" control={<Radio color="primary" />} label="Martes" />
                                         <FormControlLabel value="Miercoles" control={<Radio color="primary" />} label="Miercoles" />
-                                        <FormControlLabel value="Jueves" control={<Radio color="primary" />} label="Jueves" />
                                         <FormControlLabel value="Viernes" control={<Radio color="primary" />} label="Viernes" />
                                     </>
                                 }
