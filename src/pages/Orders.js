@@ -12,7 +12,7 @@ const Orders = () => {
     const [orders, setOrders] = useState([])
     const [martes, setMartes] = useState([])
     const [miercoles, setMiercoles] = useState([])
-    const [jueves, setJueves] = useState([])
+    const [viernes, setViernes] = useState([])
     const [otras, setOtras] = useState([])
 
     useEffect(() => {
@@ -28,15 +28,15 @@ const Orders = () => {
         if (orders.length > 0) {
             let martes = [];
             let miercoles = [];
-            let jueves = [];
+            let viernes = [];
             let Otras = [];
             orders.map(order => {
                 if (order.personalData.day === "Martes") {
                     martes.push(order)
                 }else if (order.personalData.day === "Miercoles") {
                     miercoles.push(order)
-                } else if (order.personalData.day === "Jueves") {
-                    jueves.push(order)
+                } else if (order.personalData.day === "Viernes") {
+                    viernes.push(order)
                 } else {
                     Otras.push(order)
                 }
@@ -46,12 +46,12 @@ const Orders = () => {
             // let zoneTotalValues = getTotalValues();
             setMartes(martes);
             setMiercoles(miercoles);
-            setJueves(jueves);
+            setViernes(viernes);
             setOtras(Otras)
         } else {
             setMartes([]);
             setMiercoles([]);
-            setJueves([]);
+            setViernes([]);
             setOtras([])
         }
         // eslint-disable-next-line
@@ -131,23 +131,23 @@ const Orders = () => {
                             </Card>
                         </>
                     }
-                    {jueves.length > 0 &&
+                    {viernes.length > 0 &&
                         <>
                             <Box sx={textStyle} >
-                                <Typography variant="h5" component="h3" style={{ padding: "0 0.5rem" }}>Jueves</Typography>
+                                <Typography variant="h5" component="h3" style={{ padding: "0 0.5rem" }}>Viernes</Typography>
                             </Box>
                             <Card >
-                                <MyTableOrders renderList={jueves} />
+                                <MyTableOrders renderList={viernes} />
                             </Card>
                         </>
                     }
                     {otras.length > 0 &&
                         <>
                             <Box sx={textStyle} >
-                                <Typography variant="h5" component="h3" style={{ padding: "0 0.5rem" }}>Jueves</Typography>
+                                <Typography variant="h5" component="h3" style={{ padding: "0 0.5rem" }}>Otras</Typography>
                             </Box>
                             <Card >
-                                <MyTableOrders renderList={jueves} />
+                                <MyTableOrders renderList={otras} />
                             </Card>
                         </>
                     }

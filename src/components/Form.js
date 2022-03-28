@@ -74,7 +74,7 @@ const Form = () => {
                             >
                                 <MenuItem value={"A"}>La Blanqueada - Malvin - <br />Carrasco - Parque Miramar</MenuItem>
                                 <MenuItem value={"B"}>Punta Carretas - Pocitos - <br />Villa Dolores - Buceo </MenuItem>
-                                <MenuItem value={"C"}>Parque Rodó - Cordon - Centro - <br />Ciudad Vieja</MenuItem>
+                                {/* <MenuItem value={"C"}>Parque Rodó - Cordon - Centro - <br />Ciudad Vieja</MenuItem>*/}
                                 <MenuItem value={"L"}>Local (take away)</MenuItem>
                             </Select>
                         </Grid>
@@ -90,25 +90,27 @@ const Form = () => {
                                 {data.zone === "A" &&
                                     <>
                                         <FormControlLabel value="Martes" control={<Radio color="primary" />} label="Martes" />
+                                        <FormControlLabel value="Viernes" control={<Radio color="primary" />} label="Viernes" />
                                     </>
                                 }
                                 {data.zone === "B" &&
                                     <>
                                         <FormControlLabel value="Martes" control={<Radio color="primary" />} label="Martes" />
                                         <FormControlLabel value="Miercoles" control={<Radio color="primary" />} label="Miercoles" />
-                                        <FormControlLabel value="Jueves" control={<Radio color="primary" />} label="Jueves" />
+                                        <FormControlLabel value="Viernes" control={<Radio color="primary" />} label="Viernes" />
                                     </>
                                 }
-                                {data.zone === "C" &&
+                                {/*data.zone === "C" &&
                                     <>
                                         <FormControlLabel value="Jueves" control={<Radio color="primary" />} label="Jueves" />
                                     </>
-                                }
+                                */}
                                 {data.zone === "L" &&
                                     <>
                                         <FormControlLabel value="Martes" control={<Radio color="primary" />} label="Martes" />
                                         <FormControlLabel value="Miercoles" control={<Radio color="primary" />} label="Miercoles" />
                                         <FormControlLabel value="Jueves" control={<Radio color="primary" />} label="Jueves" />
+                                        <FormControlLabel value="Viernes" control={<Radio color="primary" />} label="Viernes" />
                                     </>
                                 }
                             </RadioGroup>

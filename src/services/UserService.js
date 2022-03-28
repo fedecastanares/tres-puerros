@@ -19,6 +19,8 @@ export default class Users {
             var data = JSON.stringify({ "email": email, "password": password });
             const response = await axios.post(`${process.env.REACT_APP_PROTOCOL}://${process.env.REACT_APP_BASE_URL}/login`, data,
                 { headers: { 'Content-Type': 'application/json' } })
+
+            console.log(response)
             authenticateUser(response.data.user.token);
             dataUser(response.data.user.name, response.data.user.name);
             if (response.data.user.role !== undefined && response.data.user.role === "ADMIN") {
