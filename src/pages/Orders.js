@@ -1,160 +1,242 @@
-import { useEffect, useState } from "react"
-import { useHistory } from "react-router-dom";
-import Users from "../services/UserService";
+import { useEffect, useState } from 'react';
+import { useHistory } from 'react-router-dom';
+import Users from '../services/UserService';
 
-import { Grid, Card, Typography, Button, Box, } from '@material-ui/core'
-import MyTableOrders from '../components/MyTableOrders'
-import Swal from 'sweetalert2'
-
+import { Grid, Card, Typography, Button, Box } from '@material-ui/core';
+import MyTableOrders from '../components/MyTableOrders';
+import Swal from 'sweetalert2';
 
 const Orders = () => {
-    const history = useHistory();
-    const [orders, setOrders] = useState([])
-    const [martes, setMartes] = useState([])
-    const [miercoles, setMiercoles] = useState([])
-    const [viernes, setViernes] = useState([])
-    const [otras, setOtras] = useState([])
+  const history = useHistory();
+  const [orders, setOrders] = useState([]);
+  const [lunes, setLunes] = useState([]);
+  const [martes, setMartes] = useState([]);
+  const [miercoles, setMiercoles] = useState([]);
+  const [jueves, setJueves] = useState([]);
+  const [viernes, setViernes] = useState([]);
+  const [otras, setOtras] = useState([]);
 
-    useEffect(() => {
-        const _usersService = new Users();
-        const getOrders = async () => {
-            const response = await _usersService.getOrders();
-            setOrders(response.orders)
-        }
-        getOrders();
-    }, [])
+  useEffect(() => {
+    const _usersService = new Users();
+    const getOrders = async () => {
+      const response = await _usersService.getOrders();
+      setOrders(response.orders);
+    };
+    getOrders();
+  }, []);
 
-    useEffect(() => {
-        if (orders.length > 0) {
-            let martes = [];
-            let miercoles = [];
-            let viernes = [];
-            let Otras = [];
-            orders.map(order => {
-                if (order.personalData.day === "Martes") {
-                    martes.push(order)
-                }else if (order.personalData.day === "Miercoles") {
-                    miercoles.push(order)
-                } else if (order.personalData.day === "Viernes") {
-                    viernes.push(order)
-                } else {
-                    Otras.push(order)
-                }
-                return null;
-            })
-
-            // let zoneTotalValues = getTotalValues();
-            setMartes(martes);
-            setMiercoles(miercoles);
-            setViernes(viernes);
-            setOtras(Otras)
+  useEffect(() => {
+    if (orders.length > 0) {
+      let lunes = [];
+      let martes = [];
+      let miercoles = [];
+      let jueves = [];
+      let viernes = [];
+      let Otras = [];
+      orders.map((order) => {
+        if (order.personalData.day === 'Lunes') {
+          lunes.push(order);
+        } else if (order.personalData.day === 'Martes') {
+          martes.push(order);
+        } else if (order.personalData.day === 'Miercoles') {
+          miercoles.push(order);
+        } else if (order.personalData.day === 'Jueves') {
+          jueves.push(order);
+        } else if (order.personalData.day === 'Viernes') {
+          viernes.push(order);
         } else {
-            setMartes([]);
-            setMiercoles([]);
-            setViernes([]);
-            setOtras([])
+          Otras.push(order);
         }
-        // eslint-disable-next-line
-    }, [orders])
+        return null;
+      });
 
-
-
-    const textStyle = {
-        color: "#fff",
-        backgroundColor: "#ff9a04",
-        margin: "0.5rem 0",
-        borderRadius: "0.25rem"
+      // let zoneTotalValues = getTotalValues();
+      setLunes(lunes);
+      setMartes(martes);
+      setMiercoles(miercoles);
+      setJueves(jueves);
+      setViernes(viernes);
+      setOtras(Otras);
+    } else {
+      setLunes([]);
+      setMartes([]);
+      setMiercoles([]);
+      setJueves([]);
+      setViernes([]);
+      setOtras([]);
     }
+    // eslint-disable-next-line
+  }, [orders]);
 
-    const cleanOrders = () => {
-        Swal.fire({
-            title: 'Estas seguro?',
-            text: "Vas a cambiar el estado de todas las ordenes a entregado",
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            confirmButtonText: 'Si, confirmar'
-        }).then((result) => {
-            if (result.isConfirmed) {
-                const doClean = async () => {
-                    const _usersService = new Users();
-                    const { response } = await _usersService.cleanOrders(orders);
-                    if (response) {
-                        setOrders([])
-                        Swal.fire(
-                            'Entregadas!',
-                            'Las ordenes fueron marcadas como entregadas.',
-                            'success'
-                        )
-                    }
-                }
-                doClean();
-            }
-        })
-    }
+  const textStyle = {
+    color: '#fff',
+    backgroundColor: '#ff9a04',
+    margin: '0.5rem 0',
+    borderRadius: '0.25rem',
+  };
 
+  const cleanOrders = () => {
+    Swal.fire({
+      title: 'Estas seguro?',
+      text: 'Vas a cambiar el estado de todas las ordenes a entregado',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Si, confirmar',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        const doClean = async () => {
+          const _usersService = new Users();
+          const { response } = await _usersService.cleanOrders(orders);
+          if (response) {
+            setOrders([]);
+            Swal.fire(
+              'Entregadas!',
+              'Las ordenes fueron marcadas como entregadas.',
+              'success'
+            );
+          }
+        };
+        doClean();
+      }
+    });
+  };
 
-    return (
-        <>
-            <Grid container justifyContent='center' style={{ minHeight: "90vh", marginBottom: "5rem" }}>
-                <Grid item xs={11} sm={11} md={11} >
-                    <Grid container justifyContent="space-between">
-                        <Grid item xs={5} >
-                            <Button variant="contained" color="primary" size='medium' fullWidth style={{ color: "#fff", margin: "1rem 0" }} onClick={() => history.goBack()} >
-                                Atras
-                            </Button>
-                        </Grid>
-                        <Grid item xs={5} >
-                            <Button variant="contained" color="secondary" size='medium' fullWidth style={{ color: "#fff", margin: "1rem 0" }} onClick={cleanOrders} >
-                                Limpiar
-                            </Button>
-                        </Grid>
-                    </Grid>
-                    {martes.length > 0 &&
-                        <>
-                            <Box sx={textStyle} >
-                                <Typography variant="h5" component="h3" style={{ padding: "0 0.5rem" }}>Martes</Typography>
-                            </Box>
-                            <Card >
-                                <MyTableOrders renderList={martes} />
-                            </Card>
-                        </>
-                    }
-                    {miercoles.length > 0 &&
-                        <>
-                            <Box sx={textStyle} >
-                                <Typography variant="h5" component="h3" style={{ padding: "0 0.5rem" }}>Miercoles</Typography>
-                            </Box>
-                            <Card >
-                                <MyTableOrders renderList={miercoles} />
-                            </Card>
-                        </>
-                    }
-                    {viernes.length > 0 &&
-                        <>
-                            <Box sx={textStyle} >
-                                <Typography variant="h5" component="h3" style={{ padding: "0 0.5rem" }}>Viernes</Typography>
-                            </Box>
-                            <Card >
-                                <MyTableOrders renderList={viernes} />
-                            </Card>
-                        </>
-                    }
-                    {otras.length > 0 &&
-                        <>
-                            <Box sx={textStyle} >
-                                <Typography variant="h5" component="h3" style={{ padding: "0 0.5rem" }}>Otras</Typography>
-                            </Box>
-                            <Card >
-                                <MyTableOrders renderList={otras} />
-                            </Card>
-                        </>
-                    }
-                </Grid>
+  return (
+    <>
+      <Grid
+        container
+        justifyContent='center'
+        style={{ minHeight: '90vh', marginBottom: '5rem' }}
+      >
+        <Grid item xs={11} sm={11} md={11}>
+          <Grid container justifyContent='space-between'>
+            <Grid item xs={5}>
+              <Button
+                variant='contained'
+                color='primary'
+                size='medium'
+                fullWidth
+                style={{ color: '#fff', margin: '1rem 0' }}
+                onClick={() => history.goBack()}
+              >
+                Atras
+              </Button>
             </Grid>
-        </>
-    );
-}
+            <Grid item xs={5}>
+              <Button
+                variant='contained'
+                color='secondary'
+                size='medium'
+                fullWidth
+                style={{ color: '#fff', margin: '1rem 0' }}
+                onClick={cleanOrders}
+              >
+                Limpiar
+              </Button>
+            </Grid>
+          </Grid>
+          {lunes.length > 0 && (
+            <>
+              <Box sx={textStyle}>
+                <Typography
+                  variant='h5'
+                  component='h3'
+                  style={{ padding: '0 0.5rem' }}
+                >
+                  Lunes
+                </Typography>
+              </Box>
+              <Card>
+                <MyTableOrders renderList={lunes} />
+              </Card>
+            </>
+          )}
+          {martes.length > 0 && (
+            <>
+              <Box sx={textStyle}>
+                <Typography
+                  variant='h5'
+                  component='h3'
+                  style={{ padding: '0 0.5rem' }}
+                >
+                  Martes
+                </Typography>
+              </Box>
+              <Card>
+                <MyTableOrders renderList={martes} />
+              </Card>
+            </>
+          )}
+          {miercoles.length > 0 && (
+            <>
+              <Box sx={textStyle}>
+                <Typography
+                  variant='h5'
+                  component='h3'
+                  style={{ padding: '0 0.5rem' }}
+                >
+                  Miercoles
+                </Typography>
+              </Box>
+              <Card>
+                <MyTableOrders renderList={miercoles} />
+              </Card>
+            </>
+          )}
+          {jueves.length > 0 && (
+            <>
+              <Box sx={textStyle}>
+                <Typography
+                  variant='h5'
+                  component='h3'
+                  style={{ padding: '0 0.5rem' }}
+                >
+                  Jueves
+                </Typography>
+              </Box>
+              <Card>
+                <MyTableOrders renderList={jueves} />
+              </Card>
+            </>
+          )}
+          {viernes.length > 0 && (
+            <>
+              <Box sx={textStyle}>
+                <Typography
+                  variant='h5'
+                  component='h3'
+                  style={{ padding: '0 0.5rem' }}
+                >
+                  Viernes
+                </Typography>
+              </Box>
+              <Card>
+                <MyTableOrders renderList={viernes} />
+              </Card>
+            </>
+          )}
+          {otras.length > 0 && (
+            <>
+              <Box sx={textStyle}>
+                <Typography
+                  variant='h5'
+                  component='h3'
+                  style={{ padding: '0 0.5rem' }}
+                >
+                  Otras
+                </Typography>
+              </Box>
+              <Card>
+                <MyTableOrders renderList={otras} />
+              </Card>
+            </>
+          )}
+        </Grid>
+      </Grid>
+    </>
+  );
+};
 
 export default Orders;
